@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Box, Container as MatContainer } from "@material-ui/core";
+import styled from 'styled-components';
+import { Box, Container as MatContainer } from '@material-ui/core';
 
 export const Wrapper = styled(Box)`
   width: 100vw;
@@ -26,8 +26,8 @@ export const Container = styled(MatContainer)`
 `;
 
 export const LogoBox = styled(Box)`
-  border-right: 1px solid #DEE1E7;
-  border-bottom: 1px solid #DEE1E7;
+  border-right: 1px solid #dee1e7;
+  border-bottom: 1px solid #dee1e7;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,15 +38,15 @@ export const Logo = styled.img`
 `;
 
 export const HeaderBox = styled(Box)`
-  border-bottom: 1px solid #DEE1E7;
+  border-bottom: 1px solid #dee1e7;
   padding: 16px;
   display: flex;
   align-items: center;
 `;
 
 export const MenuBox = styled(Box)`
-  border-right: 1px solid #DEE1E7;
-  border-bottom: 1px solid #DEE1E7;
+  border-right: 1px solid #dee1e7;
+  border-bottom: 1px solid #dee1e7;
   padding: 10px;
 
   display: flex;
@@ -58,7 +58,7 @@ export const MenuItem = styled(Box)`
   margin-top: 2vh;
   width: 3vw;
   height: 3vw;
-  background-color: #F1619B;
+  background-color: #f1619b;
   cursor: pointer;
 
   display: flex;
@@ -70,12 +70,7 @@ export const MenuIcon = styled.i`
   font-size: 1.3vw;
 `;
 
-
 export const ContentBox = styled(Box)`
-  border-bottom: 1px solid #DEE1E7;
+  padding: 20px;
+  border-bottom: 1px solid #dee1e7;
 `;
-
-
-
-
-

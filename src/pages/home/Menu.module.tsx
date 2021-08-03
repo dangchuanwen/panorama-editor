@@ -1,32 +1,50 @@
-import React from "react";
-import { MenuItem, MenuIcon } from "./components";
-export interface MenuItem {
-  activated: boolean;
+import React from 'react';
+import { useLocation } from 'react-router';
+import { MenuItem, MenuIcon } from './components';
+
+interface MenuItem {
   iconClass: string;
+  pathname: string;
 }
 
 interface Props {
-  menuConfig: MenuItem[];
-  onClickMenuItem: (index: number) => void;
+  /** callback function when user click a menu */
+  onClickMenuItem: (index: string) => void;
 }
-
-const Menu: React.FC<Props> = ({menuConfig, onClickMenuItem}: Props) => {
-  const handleClickMenuItem = (index: number) => {
-    onClickMenuItem(index);
-  }
+const menuConfig: MenuItem[] = [
+  {
+    pathname: '/dashboard/studio',
+    iconClass: 'icon-kaifataojian',
+  },
+  {
+    pathname: '/dashboard/exhibition',
+    iconClass: 'icon-VR',
+  },
+  {
+    pathname: '/dashboard/friends',
+    iconClass: 'icon-haoyou1',
+  },
+];
+const Menu: React.FC<Props> = ({ onClickMenuItem }: Props) => {
+  const { pathname } = useLocation();
+  const handleClickMenuItem = (path: string) => {
+    onClickMenuItem(path);
+  };
   const renderMenu: () => React.ReactNode[] = () => {
-    return menuConfig.map((item, index) => {
-      return <MenuItem
-        key={item.iconClass}
-        style={{backgroundColor: item.activated ? '#F1619B' : 'transparent'}}
-        onClick={() => handleClickMenuItem(index)}>
-        <MenuIcon 
-         className={`iconfont ${item.iconClass}`}
-         style={{color: item.activated ? 'white' : 'gray'}}></MenuIcon>
-      </MenuItem>
-    }); 
-  }
-  return <>{renderMenu()}</>
-}
+    return menuConfig.map((item) => {
+      const activated = item.pathname === pathname;
+      return (
+        <MenuItem
+          key={item.iconClass}
+          style={{ backgroundColor: activated ? '#F1619B' : 'transparent' }}
+          onClick={() => handleClickMenuItem(item.pathname)}
+        >
+          <MenuIcon className={`iconfont ${item.iconClass}`} style={{ color: activated ? 'white' : 'gray' }}></MenuIcon>
+        </MenuItem>
+      );
+    });
+  };
+  return <>{renderMenu()}</>;
+};
 
 export default Menu;

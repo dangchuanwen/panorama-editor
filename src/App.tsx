@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import SignUp from './pages/signup/SignUp';
 import SignIn from './pages/signin/SignIn';
 import Home from './pages/home/Home';
@@ -10,7 +10,10 @@ function App(): JSX.Element {
     <Router>
       <div className="App">
         <Switch>
-          <ProtectedRoute exact path="/">
+          <Route exact path="/">
+            <Redirect to="/dashboard"/>
+          </Route>
+          <ProtectedRoute path="/dashboard">
             <Home />
           </ProtectedRoute>
           <PublicRoute path="/signin">

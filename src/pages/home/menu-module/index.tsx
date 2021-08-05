@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router';
-import { MenuItem, MenuIcon } from './components';
+import { MenuItem, MenuIcon } from 'pages/home/menu-module/styled';
 
 interface MenuItem {
   iconClass: string;
@@ -13,7 +13,7 @@ interface Props {
 }
 const menuConfig: MenuItem[] = [
   {
-    pathname: '/dashboard/studio',
+    pathname: '/dashboard/works',
     iconClass: 'icon-kaifataojian',
   },
   {

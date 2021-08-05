@@ -1,9 +1,10 @@
 import React from 'react';
-import { Route, Switch, useRouteMatch, useHistory, Redirect } from 'react-router-dom';
-import VR from '../../assets/VR.png';
+import { useRouteMatch, useHistory } from 'react-router-dom';
+import VR from 'assets/VR.png';
 
-import { Wrapper, Container, LogoBox, Logo, HeaderBox, MenuBox, ContentBox } from './components';
-import Menu from './Menu.module';
+import { Wrapper, Container, LogoBox, Logo, HeaderBox, MenuBox, ContentBox } from 'layouts';
+import Menu from 'pages/home/menu-module/index';
+import { renderRoutes } from 'routes/index';
 
 const Home: React.FC = () => {
   const history = useHistory();
@@ -23,16 +24,7 @@ const Home: React.FC = () => {
         <MenuBox>
           <Menu onClickMenuItem={handleClickMenuItem} />
         </MenuBox>
-        <ContentBox>
-          <Switch>
-            <Route exact path={path}>
-              <Redirect to={`${path}/studio`} />
-            </Route>
-            <Route path={`${path}/studio`}>Studio</Route>
-            <Route path={`${path}/exhibition`}>Exhibition</Route>
-            <Route path={`${path}/friends`}>Friends</Route>
-          </Switch>
-        </ContentBox>
+        <ContentBox>{renderRoutes(path)}</ContentBox>
       </Container>
     </Wrapper>
   );

@@ -5,7 +5,7 @@ import styles from '../signin/style.module.css';
 import { Container, Grid, Button, TextField } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-import Logo from '../../assets/logo.png';
+import Logo from 'assets/logo.png';
 
 const SignUp: React.FC = () => {
   return (

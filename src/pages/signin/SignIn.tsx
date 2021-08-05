@@ -5,8 +5,8 @@ import { Link, useHistory } from 'react-router-dom';
 
 import { Container, Grid, Button, TextField } from '@material-ui/core';
 
-import Logo from '../../assets/logo.png';
-import auth from '../../auth';
+import Logo from 'assets/logo.png';
+import auth from 'auth/auth';
 
 const SignIn: React.FC = () => {
   const history = useHistory();

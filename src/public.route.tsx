@@ -1,13 +1,13 @@
-import React from "react";
-import { RouteProps, Route, Redirect } from "react-router";
-import auth from "./auth";
+import { Route, Redirect } from 'react-router';
+import { IHOCRoute } from 'interface';
+import auth from './auth/auth';
 
-const PublicRoute: React.FC<RouteProps> = ({...rest}) => {
+const PublicRoute: IHOCRoute = ({ ...rest }) => {
   if (auth.isAuthenticated()) {
-    return <Redirect to="/"/> 
+    return <Redirect to="/" />;
   } else {
-    return <Route {...rest}></Route>
+    return <Route {...rest}></Route>;
   }
-}
+};
 
 export default PublicRoute;

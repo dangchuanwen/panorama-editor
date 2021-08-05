@@ -1,8 +1,8 @@
-import React from 'react';
-import { Route, Redirect, RouteProps } from 'react-router-dom';
-import auth from './auth';
+import { Route, Redirect } from 'react-router-dom';
+import { IHOCRoute } from 'interface';
+import auth from './auth/auth';
 
-const ProtectedRoute: React.FC<RouteProps> = ({ ...rest }) => {
+const ProtectedRoute: IHOCRoute = ({ ...rest }) => {
   if (auth.isAuthenticated()) {
     return <Route {...rest}></Route>;
   } else {

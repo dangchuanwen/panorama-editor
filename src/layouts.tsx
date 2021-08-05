@@ -53,22 +53,6 @@ export const MenuBox = styled(Box)`
   flex-direction: column;
   align-items: center;
 `;
-export const MenuItem = styled(Box)`
-  border-radius: 15%;
-  margin-top: 2vh;
-  width: 3vw;
-  height: 3vw;
-  background-color: #f1619b;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-export const MenuIcon = styled.i`
-  color: white;
-  font-size: 1.3vw;
-`;
 
 export const ContentBox = styled(Box)`
   padding: 20px;

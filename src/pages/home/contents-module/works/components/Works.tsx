@@ -14,7 +14,9 @@ const Works: React.FC = () => {
             我的第一个全景漫游作品
           </Box>
           <Box display="flex" flexDirection="column">
-            <IconFont style={{ color: '#1296db' }} className="iconfont icon-bianji"></IconFont>
+            <a href="/studio" target="_blank">
+              <IconFont style={{ color: '#1296db' }} className="iconfont icon-bianji"></IconFont>
+            </a>
             <IconFont style={{ color: '#d4237a' }} className="iconfont icon-yulan"></IconFont>
           </Box>
         </WorkItem>

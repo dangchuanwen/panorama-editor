@@ -1,20 +1,43 @@
+import { ToolNames } from 'interface';
+import React from 'react';
+
 type Pitch = number;
 type Yaw = number;
+
+export type ICreateTooltipArgs = {
+  id: string;
+  text: string;
+  toolName: ToolNames;
+};
+export type IClickHandlerArgs = {
+  id: string;
+  text: string;
+  toolName: ToolNames;
+};
+export type ICreateTooltipFunc = (hotSpotDiv: HTMLDivElement, createTooltipArgs: ICreateTooltipArgs) => void;
+export type IClickHandlerFunc = (e: React.MouseEvent<HTMLDivElement>, clickHandlerArgs: IClickHandlerArgs) => void;
+
 interface IDefaultConfig {
   firstScene: string;
   sceneFadeDuration: number;
 }
-interface IHotSpot {
+export interface IHotSpot {
+  id?: string;
   pitch: Pitch;
   yaw: Yaw;
-  type: 'scene' | 'info';
+  type?: 'scene' | 'info';
   sceneId?: string;
-  text: string;
+  text?: string;
+  clickHandlerFunc?: IClickHandlerFunc;
+  clickHandlerArgs?: IClickHandlerArgs;
+  createTooltipFunc?: ICreateTooltipFunc;
+  createTooltipArgs: ICreateTooltipArgs;
 }
 interface IScene {
   type: 'equirectangular' | 'cubemap' | 'multires';
   panorama: string;
   hotSpots?: IHotSpot[];
+  autoLoad: boolean;
 }
 interface IConfig {
   default: IDefaultConfig;
@@ -22,9 +45,9 @@ interface IConfig {
     [key: string]: IScene;
   };
 }
-interface IPannellum {
+export interface IPannellum {
   viewer: (name: string, config: IConfig) => IPannellum;
-  mouseEventToCoords: (e: Event) => [Pitch, Yaw];
+  mouseEventToCoords: (e: React.DragEvent) => [Pitch, Yaw];
   addHotSpot: (hotSpot: IHotSpot) => void;
+  removeHotSpot: (hotSpotId: string, sceneId?: string) => void;
 }
-export default IPannellum;

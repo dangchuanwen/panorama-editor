@@ -12,9 +12,7 @@ const Studio: React.FC = () => {
   const handleChooseFile = (files: FileList | null) => {
     console.log(files);
   };
-  const handleCanvasMouseup = (p: unknown, e: Event) => {
-    console.log(p, e);
-  };
+
   return (
     <Wrapper>
       <Container maxWidth={false} className={classes.container}>
@@ -32,7 +30,7 @@ const Studio: React.FC = () => {
             <Tools />
           </Box>
           <Box gridArea="canvas">
-            <Canvas onMouseup={handleCanvasMouseup} />
+            <Canvas />
           </Box>
           <Box gridArea="properties">
             <Properties />

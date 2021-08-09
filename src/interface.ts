@@ -5,3 +5,7 @@ export enum HOCRouteTypes {
   public,
   protected,
 }
+export enum ToolNames {
+  Link = 'Link',
+  Tip = 'Tip',
+}

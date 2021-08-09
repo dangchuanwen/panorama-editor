@@ -1,0 +1,48 @@
+.hotSpot {
+  box-sizing: content-box;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  background-image: none;
+}
+.hotSpot > img {
+  width: 100%;
+}
+.hotSpot:hover > span {
+  visibility: visible;
+}
+.hotSpot > span {
+  position: absolute;
+  bottom: 55px;
+  left: 0;
+
+  border-radius: 6px;
+  padding: 5px 10px;
+  min-height: 30px;
+  min-width: 100px;
+  max-width: 200px;
+  height: auto;
+
+  word-wrap: break-word;
+  background-color: white;
+  visibility: hidden;
+}
+.hotSpot > span::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-width: 10px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
+  bottom: -18px;
+  left: 10px;
+}
+
+.activatedHotSpot {
+  border-radius: 50%;
+  outline: 5px solid orangered;
+}
+.activatedHotSpot > span {
+  visibility: visible;
+}

@@ -4,38 +4,57 @@ import { IClickHandlerArgs, IClickHandlerFunc, IPannellum } from 'types/pannellu
 import { ToolNames } from 'interface';
 import { createTooltip } from 'pages/studio/components/HotSpot';
 import { IPubSubEvents, Publish, PubSubEvents, Subscribe } from 'pages/studio/pub-sub';
-import { renderHotSpotToCanvas, outStandClickedHotSpot, updateHotSpotText } from 'pages/studio/state/hotSpots';
+import {
+  addHotSpot,
+  removeHotSpot,
+  renderHotSpotToCanvas,
+  outStandClickedHotSpot,
+  updateHotSpotText,
+  getHotSpotById,
+} from 'pages/studio/state/hotSpots';
 
 const generateUniqueId: () => string = () => String(Math.ceil(Date.now() * Math.random()));
 
 const Canvas: React.FC = () => {
-  const handleClickHotSpot: IClickHandlerFunc = (e: React.MouseEvent<HTMLDivElement>, args: IClickHandlerArgs) => {
-    /* publish 'ClickHotSpot' event, subscriber in property-bar module*/
-    Publish<IPubSubEvents['ClickHotSpot']>(PubSubEvents.ClickHotSpot, e, args);
-    // outstand clicked hotspot
-    outStandClickedHotSpot(args.id);
-  };
   const [panoramaCanvas, setPanoramaCanvas] = React.useState<IPannellum | null>(null);
+
+  const handleClickHotSpot: IClickHandlerFunc = (
+    _e: React.MouseEvent<HTMLDivElement>,
+    hotSpotInfo: IClickHandlerArgs,
+  ) => {
+    const clickedHotSpot = getHotSpotById(hotSpotInfo.id);
+    const oldText = (clickedHotSpot && clickedHotSpot.text) || '';
+    hotSpotInfo.text = oldText;
+    /* publish 'ClickHotSpot' event, subscriber in property-bar module*/
+    Publish<IPubSubEvents['ClickHotSpot']>(PubSubEvents.ClickHotSpot, hotSpotInfo);
+    // outstand clicked hotspot
+    outStandClickedHotSpot(hotSpotInfo.id);
+  };
+
   const handleMouseDrop = (p: IPannellum | null, e: React.DragEvent, toolName: ToolNames) => {
     if (p) {
       const [pitch, yaw] = p.mouseEventToCoords(e);
       const hotSpotID = generateUniqueId();
+      const hotSpotInfo: IClickHandlerArgs = {
+        id: hotSpotID,
+        text: '',
+        toolName,
+      };
       // render hot spot in canvas
       renderHotSpotToCanvas(panoramaCanvas, {
         id: hotSpotID,
         pitch,
         yaw,
-        createTooltipFunc: createTooltip(toolName, hotSpotID),
-        createTooltipArgs: {
-          id: hotSpotID,
-          text: '',
-          toolName,
-        },
-        clickHandlerArgs: {
-          id: hotSpotID,
-          toolName,
-          text: '',
-        },
+        createTooltipFunc: createTooltip(toolName, (hotSpotDiv: HTMLDivElement) => {
+          // store new hot spot
+          addHotSpot({ div: hotSpotDiv, id: hotSpotInfo.id, text: '' });
+          /* publish 'ClickHotSpot' event, subscriber in property-bar module*/
+          Publish<IPubSubEvents['ClickHotSpot']>(PubSubEvents.ClickHotSpot, hotSpotInfo);
+          // outstand clicked hotspot
+          outStandClickedHotSpot(hotSpotInfo.id);
+        }),
+        createTooltipArgs: hotSpotInfo,
+        clickHandlerArgs: hotSpotInfo,
         clickHandlerFunc: handleClickHotSpot,
       });
     }
@@ -44,6 +63,10 @@ const Canvas: React.FC = () => {
     /** subscribe 'InputTipText' event, publisher in property-bar module */
     Subscribe<IPubSubEvents['InputTipText']>(PubSubEvents.InputTipText, (tipText: string, hotSpotID: string) => {
       updateHotSpotText(tipText, hotSpotID);
+    });
+    /** subscribe 'RemoveHotSpot' event, publisher in property-bar module */
+    Subscribe<IPubSubEvents['RemoveHotSpot']>(PubSubEvents.RemouveHotSpot, (hotSpotID: string) => {
+      removeHotSpot(hotSpotID);
     });
     const p = window.pannellum.viewer('panorama', {
       default: {

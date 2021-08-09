@@ -1,4 +1,4 @@
-import { IClickHandlerArgs, IClickHandlerFunc } from 'types/pannellum/interface';
+import { IClickHandlerArgs } from 'types/pannellum/interface';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SubFunction = (...args: any[]) => any;
@@ -10,6 +10,7 @@ const registry: Map<string, SubFunction[]> = new Map();
 export enum PubSubEvents {
   ClickHotSpot = 'click-hot-spot',
   InputTipText = 'input-tip-text',
+  RemouveHotSpot = 'remove-hot-spot',
 }
 
 export interface IPubSubEvent {
@@ -20,11 +21,15 @@ export interface IPubSubEvent {
 /** all pub sub event  */
 export interface IPubSubEvents {
   ClickHotSpot: {
-    subFn: IClickHandlerFunc;
-    pubArgs: [React.MouseEvent<HTMLDivElement>, IClickHandlerArgs];
+    subFn: (hotSpotInfo: IClickHandlerArgs) => void;
+    pubArgs: [IClickHandlerArgs];
   };
   InputTipText: {
     subFn: (tipText: string, hotSpotID: string) => void;
+    pubArgs: [string];
+  };
+  RemoveHotSpot: {
+    subFn: (hotSpotID: string) => void;
     pubArgs: [string];
   };
 }

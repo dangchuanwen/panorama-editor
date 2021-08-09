@@ -19,10 +19,8 @@
   border-radius: 6px;
   padding: 5px 10px;
   min-height: 30px;
-  min-width: 100px;
-  max-width: 200px;
-  height: auto;
-
+  min-width: 200px;
+  max-width: 400px;
   word-wrap: break-word;
   background-color: white;
   visibility: hidden;

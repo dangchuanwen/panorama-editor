@@ -3,14 +3,13 @@ import classes from './classes.module.css';
 import LinkIcon from 'assets/link.png';
 import TipIcon from 'assets/tip.png';
 import { ToolNames } from 'interface';
-import { addHotSpot } from '../state/hotSpots';
 
 const ToolIcons: Map<ToolNames, string> = new Map();
 ToolIcons.set(ToolNames.Link, LinkIcon);
 ToolIcons.set(ToolNames.Tip, TipIcon);
-export const createTooltip: (toolName: ToolNames, hotSpotID: string) => ICreateTooltipFunc = (
+export const createTooltip: (toolName: ToolNames, cb?: (div: HTMLDivElement) => void) => ICreateTooltipFunc = (
   toolName: ToolNames,
-  hotSpotID: string,
+  cb?: (div: HTMLDivElement) => void,
 ) => {
   return (hotSpotDiv: HTMLDivElement, args: ICreateTooltipArgs) => {
     const iconImage: HTMLImageElement = document.createElement('img');
@@ -29,7 +28,7 @@ export const createTooltip: (toolName: ToolNames, hotSpotID: string) => ICreateT
     hotSpotDiv.appendChild(iconImage);
     hotSpotDiv.appendChild(tipSpan);
 
-    // store new hot spot
-    addHotSpot({ div: hotSpotDiv, id: hotSpotID });
+    // run callback function
+    cb && cb(hotSpotDiv);
   };
 };

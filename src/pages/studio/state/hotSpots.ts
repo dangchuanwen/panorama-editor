@@ -3,14 +3,17 @@ import classes from 'pages/studio/components/classes.module.css';
 type HotSpot = {
   id: string;
   div: HTMLDivElement;
+  text: string;
 };
 
+let canvas: IPannellum | null;
 const hotSpots: HotSpot[] = [];
 
 export const renderHotSpotToCanvas: (p: IPannellum | null, hotSpot: IHotSpot) => void = (
   p: IPannellum | null,
   hotSpot: IHotSpot,
 ) => {
+  canvas = p;
   p?.addHotSpot(hotSpot);
 };
 
@@ -37,5 +40,17 @@ export const updateHotSpotText: (text: string, id: string) => void = (text: stri
     const { div } = hotSpot;
     const tipSpan: HTMLSpanElement | null = div.querySelector('span');
     tipSpan && (tipSpan.innerHTML = text);
+    hotSpot.text = text;
   }
+};
+
+export const removeHotSpot: (id: string) => void = (id: string) => {
+  if (canvas) {
+    canvas.removeHotSpot(id);
+  }
+};
+
+export const getHotSpotById: (id: string) => HotSpot | undefined = (id: string) => {
+  const hotSpot: HotSpot | undefined = hotSpots.find((item) => item.id === id);
+  return hotSpot;
 };

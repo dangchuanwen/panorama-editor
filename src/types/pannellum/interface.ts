@@ -50,4 +50,5 @@ export interface IPannellum {
   mouseEventToCoords: (e: React.DragEvent) => [Pitch, Yaw];
   addHotSpot: (hotSpot: IHotSpot) => void;
   removeHotSpot: (hotSpotId: string, sceneId?: string) => void;
+  on: (eventName: 'mouseup', listener: () => void) => void;
 }

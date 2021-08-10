@@ -11,9 +11,9 @@ import {
   outStandClickedHotSpot,
   updateHotSpotText,
   getHotSpotById,
+  unOutStandAllHotSpots,
 } from 'pages/studio/state/hotSpots';
-
-const generateUniqueId: () => string = () => String(Math.ceil(Date.now() * Math.random()));
+import { generateUniqueId } from 'utils';
 
 const Canvas: React.FC = () => {
   const [panoramaCanvas, setPanoramaCanvas] = React.useState<IPannellum | null>(null);
@@ -33,6 +33,7 @@ const Canvas: React.FC = () => {
 
   const handleMouseDrop = (p: IPannellum | null, e: React.DragEvent, toolName: ToolNames) => {
     if (p) {
+      if (!toolName) return;
       const [pitch, yaw] = p.mouseEventToCoords(e);
       const hotSpotID = generateUniqueId();
       const hotSpotInfo: IClickHandlerArgs = {
@@ -81,6 +82,11 @@ const Canvas: React.FC = () => {
         },
       },
     }) as IPannellum;
+    p.on('mouseup', () => {
+      /* publish 'ClickHotSpot' event, subscriber in property-bar module*/
+      Publish<IPubSubEvents['ClickHotSpot']>(PubSubEvents.ClickHotSpot, { id: '', text: '', toolName: ToolNames.Tip });
+      unOutStandAllHotSpots();
+    });
     setPanoramaCanvas(p);
   }, []);
 

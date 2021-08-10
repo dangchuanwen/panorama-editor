@@ -34,6 +34,13 @@ export const outStandClickedHotSpot: (hotSpotID: string) => void = (hotSpotID: s
   }
 };
 
+export const unOutStandAllHotSpots: () => void = () => {
+  for (const hotSpot of hotSpots) {
+    const { div } = hotSpot;
+    div.classList.remove(classes.activatedHotSpot);
+  }
+};
+
 export const updateHotSpotText: (text: string, id: string) => void = (text: string, id: string) => {
   const hotSpot: HotSpot | undefined = hotSpots.find((item) => item.id === id);
   if (hotSpot) {

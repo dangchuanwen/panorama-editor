@@ -9,3 +9,7 @@ export enum ToolNames {
   Link = 'Link',
   Tip = 'Tip',
 }
+export type QiniuCompeleteRes = {
+  key: string;
+  hash: string;
+};

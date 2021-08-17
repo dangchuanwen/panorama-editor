@@ -1,16 +1,18 @@
 import React from 'react';
 import UploadButton from 'components/UploadButton';
-import ImageList, { IImage } from './components/ImageList';
+import ImageList from './components/ImageList';
 import * as qiniu from 'qiniu-js';
 import { QiniuCompeleteRes } from 'interface';
-import { generateUniqueId } from 'utils';
 import { Wrapper } from './styled';
 import { Button, CircularProgress, Backdrop } from '@material-ui/core';
 import { Delete as DeleteIcon } from '@material-ui/icons';
 import classes from './classes.module.css';
+import { StudioContext } from 'pages/studio/state/context';
+import { IPanoramaImage } from 'pages/studio/state/state';
+
 const ImagesBar: React.FC = () => {
+  const { panoramaImages, removeImage, switchImage, addImage } = React.useContext(StudioContext);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [images, setImages] = React.useState<IImage[]>([]);
   const [token, setToken] = React.useState<string>('');
   const uploadFile = async (file: File) => {
     return new Promise<QiniuCompeleteRes>((resolve, reject) => {
@@ -27,17 +29,14 @@ const ImagesBar: React.FC = () => {
     });
   };
 
-  const handleClickDelete: () => void = () => {
-    const newImages = images.filter((item) => !item.activated);
-    setImages(newImages);
+  const handleClickDelete = (activatedImage: IPanoramaImage | undefined) => {
+    if (activatedImage) {
+      removeImage(activatedImage.id);
+    }
   };
 
-  const handleClickImage: (name: string) => void = (name: string) => {
-    const newImages = images.map((item) => {
-      item.activated = item.name === name;
-      return item;
-    });
-    setImages(newImages);
+  const handleClickImage: (image: IPanoramaImage) => void = (image: IPanoramaImage) => {
+    switchImage(image.id);
   };
 
   const handleChooseFile = async (files: FileList | null) => {
@@ -45,14 +44,8 @@ const ImagesBar: React.FC = () => {
       try {
         setLoading(true);
         const res: QiniuCompeleteRes = await uploadFile(files[0]);
-        setImages(
-          images.concat({
-            name: generateUniqueId(),
-            url: process.env.REACT_APP_IMAGE_PREFIX + '/' + res.hash,
-            isEntry: images.length === 0,
-            activated: images.length === 0,
-          }),
-        );
+        const url = process.env.REACT_APP_IMAGE_PREFIX + '/' + res.hash;
+        addImage(url);
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -72,8 +65,14 @@ const ImagesBar: React.FC = () => {
     <>
       <Wrapper>
         <UploadButton text="导入图片" onChooseImage={handleChooseFile} />
-        <ImageList onClickImage={handleClickImage} images={images} />
-        <Button onClick={handleClickDelete} variant="contained" fullWidth color="secondary" startIcon={<DeleteIcon />}>
+        <ImageList onClickImage={handleClickImage} images={panoramaImages} />
+        <Button
+          onClick={() => handleClickDelete(panoramaImages.find((item) => item.activated))}
+          variant="contained"
+          fullWidth
+          color="secondary"
+          startIcon={<DeleteIcon />}
+        >
           删除
         </Button>
       </Wrapper>

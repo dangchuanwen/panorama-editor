@@ -2,112 +2,91 @@ import React from 'react';
 import { Box, TextField, Button, Select, MenuItem } from '@material-ui/core';
 import { Title } from './styled';
 import { Delete as DeleteIcon } from '@material-ui/icons';
+
+import { StudioContext } from 'pages/studio/state/context';
+import { HotSpot, IPanoramaImage } from 'pages/studio/state/state';
 import { ToolNames } from 'interface';
-import { IClickHandlerArgs } from 'types/pannellum/interface';
-import { IPubSubEvents, Publish, PubSubEvents, Subscribe } from 'pages/studio/pub-sub';
-import RemoveConfirm from 'components/Confirm';
 
 const PropertyBar: React.FC = () => {
-  let inputTimer: ReturnType<typeof setTimeout> | null = null;
-  const [toolName, setToolName] = React.useState<ToolNames>(ToolNames.Tip);
-  const [targetPanoramaImage, setTargetPanoramaImage] = React.useState<string>('');
-  const [tipText, setTipText] = React.useState<string>('');
-  const [hotSpotID, setHotSpotID] = React.useState<string>('');
-  const [open, setOpen] = React.useState<boolean>(false);
-
-  const handleInputTip = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTipText(e.target.value);
-    clearTimeout(inputTimer as ReturnType<typeof setTimeout>);
-    inputTimer = setTimeout(() => {
-      /** publish 'input-tip-text' event, subscriber in canvas module */
-      if (hotSpotID) {
-        Publish(PubSubEvents.InputTipText, e.target.value, hotSpotID);
-      }
-    }, 100);
+  const { panoramaImages, updateActivatedHotSpot, removeActivatedHotSpot } = React.useContext(StudioContext);
+  const activatedImage: IPanoramaImage | undefined = panoramaImages.find((item) => item.activated);
+  const hotSpotsOfActivatedImage = (activatedImage && activatedImage.hotSpots) || [];
+  const activatedHotSpot = hotSpotsOfActivatedImage.find((item) => item.activated);
+  const handleInputTip: (activatedHotSpot: HotSpot, newText: string) => void = (
+    activatedHotSpot: HotSpot,
+    newText: string,
+  ) => {
+    activatedHotSpot.text = newText;
+    updateActivatedHotSpot(activatedHotSpot);
   };
 
-  const handleCancelRemove = () => {
-    setOpen(false);
-  };
-  const handleConfirmRemove = () => {
-    Publish(PubSubEvents.RemouveHotSpot, hotSpotID);
-    setHotSpotID('');
-    setOpen(false);
-  };
   const handleClickDeleteBtn = () => {
-    setOpen(true);
+    if (activatedHotSpot) {
+      removeActivatedHotSpot(activatedHotSpot.id);
+    }
   };
 
-  const handleSelectTargetPanoramaImage = (e: React.ChangeEvent<{ value: unknown }>) => {
-    setTargetPanoramaImage(e.target.value as string);
+  const handleSelectTargetPanoramaImage: (activatedHotSpot: HotSpot, nextSceneID: string) => void = (
+    activatedHotSpot: HotSpot,
+    nextSceneID: string,
+  ) => {
+    activatedHotSpot.targetID = nextSceneID;
+    updateActivatedHotSpot(activatedHotSpot);
   };
-
-  React.useEffect(() => {
-    /** subscribe click-hot-spot event, publisher in canvas module */
-    Subscribe<IPubSubEvents['ClickHotSpot']>(PubSubEvents.ClickHotSpot, (hotSpotInfo: IClickHandlerArgs) => {
-      if (hotSpotInfo) {
-        // sub function
-        setToolName(hotSpotInfo.toolName);
-        setTipText(hotSpotInfo.text);
-        setHotSpotID(hotSpotInfo.id);
-      }
-    });
-  }, []);
-
   return (
-    <Box height="100%">
-      {hotSpotID && (
-        <Box>
-          <Title>标签内容</Title>
-          <TextField
-            value={tipText}
-            onInput={handleInputTip}
-            fullWidth
-            id="outlined-multiline-static"
-            label="修改标签文字"
-            multiline
-            rows={4}
-            variant="outlined"
-          />
+    <>
+      {activatedHotSpot && (
+        <Box height="100%">
+          <Box>
+            <Title>标签内容</Title>
+            <TextField
+              value={activatedHotSpot.text}
+              onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                handleInputTip(activatedHotSpot, e.target.value);
+              }}
+              fullWidth
+              id="outlined-multiline-static"
+              label="修改标签文字"
+              multiline
+              rows={4}
+              variant="outlined"
+            />
+          </Box>
+          {activatedHotSpot.toolName === ToolNames.Link && (
+            <Box marginTop="20px" maxWidth="70%">
+              <Title>目标图片</Title>
+              <Select
+                value={activatedHotSpot.targetID || ''}
+                onChange={(e: React.ChangeEvent<{ value: unknown }>) => {
+                  handleSelectTargetPanoramaImage(activatedHotSpot, e.target.value as string);
+                }}
+                fullWidth
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+              >
+                {panoramaImages.reduce<JSX.Element[]>((prev, next, index) => {
+                  if (!next.activated) {
+                    prev.push(<MenuItem value={next.id}>第 {index + 1} 张</MenuItem>);
+                  }
+                  return prev;
+                }, [])}
+              </Select>
+            </Box>
+          )}
+          <Box marginTop="50px">
+            <Button
+              onClick={() => handleClickDeleteBtn()}
+              variant="contained"
+              fullWidth
+              color="secondary"
+              startIcon={<DeleteIcon />}
+            >
+              删除
+            </Button>
+          </Box>
         </Box>
       )}
-      {hotSpotID && toolName === ToolNames.Link && (
-        <Box marginTop="20px" maxWidth="70%">
-          <Title>目标图片</Title>
-          <Select
-            value={targetPanoramaImage}
-            onChange={handleSelectTargetPanoramaImage}
-            fullWidth
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </Box>
-      )}
-      {hotSpotID && (
-        <Box marginTop="50px">
-          <Button
-            onClick={() => handleClickDeleteBtn()}
-            variant="contained"
-            fullWidth
-            color="secondary"
-            startIcon={<DeleteIcon />}
-          >
-            删除
-          </Button>
-        </Box>
-      )}
-      <RemoveConfirm
-        open={open}
-        onCancel={handleCancelRemove}
-        onConfirm={handleConfirmRemove}
-        title="提示"
-        text="确定删除？"
-      />
-    </Box>
+    </>
   );
 };
 

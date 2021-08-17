@@ -1,16 +1,31 @@
-import { IClickHandlerArgs } from 'types/pannellum/interface';
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SubFunction = (...args: any[]) => any;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type PubArgs = any[];
 
-const registry: Map<string, SubFunction[]> = new Map();
+let registry: Map<string, SubFunction[]> = new Map();
 
-export enum PubSubEvents {
-  ClickHotSpot = 'click-hot-spot',
-  InputTipText = 'input-tip-text',
-  RemouveHotSpot = 'remove-hot-spot',
+export enum PubSubEventNames {
+  /** Image  */
+  // ImageBar module to state
+  ChooseImage = 'ChooseImage',
+  ClickImage = 'ClickImage',
+  RemoveImage = 'RemoveImage',
+  // State to Canvas module
+  UpdateImage = 'UpdateImage',
+
+  /** HotSpot  */
+  // Canvas module to state
+  AddHotSpot = 'AddHotSpot',
+  ClickHotSpot = 'ClickHotSpot',
+  ClickCanvas = 'ClickCanvas',
+  // State to Property module
+  RenderHotSpotOnProperty = 'RenderHotSpotOnProperty',
+  // Property module to State
+  UpdateHotSpot = 'UpdateHotSpot',
+  RemoveHotSpot = 'RemoveHotSpot',
+  // State to Canvas module
+  RenderHotSpotOnCanvas = 'RenderHotSpotOnCanvas',
 }
 
 export interface IPubSubEvent {
@@ -18,25 +33,24 @@ export interface IPubSubEvent {
   pubArgs: PubArgs;
 }
 
+export const clearRegistry: () => void = () => {
+  registry = new Map();
+};
+
 /** all pub sub event  */
-export interface IPubSubEvents {
-  ClickHotSpot: {
-    subFn: (hotSpotInfo: IClickHandlerArgs) => void;
-    pubArgs: [IClickHandlerArgs];
-  };
-  InputTipText: {
-    subFn: (tipText: string, hotSpotID: string) => void;
-    pubArgs: [string];
-  };
-  RemoveHotSpot: {
-    subFn: (hotSpotID: string) => void;
-    pubArgs: [string];
+export interface PubSubEvents {
+  [PubSubEventNames.ChooseImage]: {
+    subFn: () => void;
+    pubArgs: [];
   };
 }
+
 /**------------------------------------- */
 
-export const Subscribe: <T extends IPubSubEvent>(e: string, fn: T['subFn']) => void = <T extends IPubSubEvent>(
-  eventName: string,
+export const Subscribe: <T extends IPubSubEvent>(e: PubSubEventNames, fn: T['subFn']) => void = <
+  T extends IPubSubEvent,
+>(
+  eventName: PubSubEventNames,
   fn: T['subFn'],
 ) => {
   if (!registry.has(eventName)) {
@@ -44,9 +58,10 @@ export const Subscribe: <T extends IPubSubEvent>(e: string, fn: T['subFn']) => v
   }
   registry.get(eventName)?.push(fn);
 };
-
-export const Publish: <T extends IPubSubEvent>(e: string, ...args: T['pubArgs']) => void = <T extends IPubSubEvent>(
-  eventName: string,
+export const Publish: <T extends IPubSubEvent>(e: PubSubEventNames, ...args: T['pubArgs']) => void = <
+  T extends IPubSubEvent,
+>(
+  eventName: PubSubEventNames,
   ...args: T['pubArgs']
 ) => {
   const subFunctions: SubFunction[] = registry.get(eventName) || [];

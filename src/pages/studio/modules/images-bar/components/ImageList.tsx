@@ -3,15 +3,11 @@ import React from 'react';
 import { Wrapper, Image, ImageBox, SliderBox } from './styled';
 
 import classes from './classes.module.css';
-export interface IImage {
-  name: string;
-  url: string;
-  isEntry: boolean;
-  activated: boolean;
-}
+import { IPanoramaImage } from 'pages/studio/state/state';
+
 interface Props {
-  images: IImage[];
-  onClickImage: (name: string) => void;
+  images: IPanoramaImage[];
+  onClickImage: (image: IPanoramaImage) => void;
 }
 
 const ImageList: React.FC<Props> = ({ images, onClickImage }: Props) => {
@@ -19,12 +15,12 @@ const ImageList: React.FC<Props> = ({ images, onClickImage }: Props) => {
     return images.map((image) => {
       return (
         <ImageBox
-          onClick={() => onClickImage(image.name)}
-          key={image.name}
+          onClick={() => onClickImage(image)}
+          key={image.id}
           className={image.activated ? classes.activated : ''}
         >
           <SliderBox>
-            <Image src={image.url} alt={image.name} />
+            <Image src={image.url} alt={image.url} />
           </SliderBox>
         </ImageBox>
       );

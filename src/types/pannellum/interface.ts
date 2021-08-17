@@ -1,4 +1,5 @@
 import { ToolNames } from 'interface';
+import { HotSpot } from 'pages/studio/state/state';
 import React from 'react';
 
 type Pitch = number;
@@ -6,32 +7,29 @@ type Yaw = number;
 
 export type ICreateTooltipArgs = {
   id: string;
-  text: string;
-  toolName: ToolNames;
 };
 export type IClickHandlerArgs = {
   id: string;
-  text: string;
-  toolName: ToolNames;
 };
 export type ICreateTooltipFunc = (hotSpotDiv: HTMLDivElement, createTooltipArgs: ICreateTooltipArgs) => void;
-export type IClickHandlerFunc = (e: React.MouseEvent<HTMLDivElement>, clickHandlerArgs: IClickHandlerArgs) => void;
+export type IClickHandlerFunc = (e: React.MouseEvent<HTMLDivElement>, clickHandlerArgs: HotSpot) => void;
 
 interface IDefaultConfig {
   firstScene: string;
   sceneFadeDuration: number;
 }
 export interface IHotSpot {
-  id?: string;
+  id: string;
   pitch: Pitch;
   yaw: Yaw;
-  type?: 'scene' | 'info';
-  sceneId?: string;
+  type: 'scene' | 'info';
+  toolName: ToolNames;
+  targetID?: string;
   text?: string;
   clickHandlerFunc?: IClickHandlerFunc;
-  clickHandlerArgs?: IClickHandlerArgs;
+  clickHandlerArgs?: HotSpot;
   createTooltipFunc?: ICreateTooltipFunc;
-  createTooltipArgs: ICreateTooltipArgs;
+  createTooltipArgs?: ICreateTooltipArgs;
 }
 interface IScene {
   type: 'equirectangular' | 'cubemap' | 'multires';
@@ -51,4 +49,5 @@ export interface IPannellum {
   addHotSpot: (hotSpot: IHotSpot) => void;
   removeHotSpot: (hotSpotId: string, sceneId?: string) => void;
   on: (eventName: 'mouseup', listener: () => void) => void;
+  destroy: () => void;
 }

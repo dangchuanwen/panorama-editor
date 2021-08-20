@@ -20,7 +20,7 @@ type Scene = {
   type: string;
 };
 
-type PanoramaTourConfig = {
+export type PanoramaTourConfig = {
   default: {
     firstScene: string;
   };
@@ -29,17 +29,21 @@ type PanoramaTourConfig = {
   };
 };
 
+export type WorkDocument = Work & Document;
+
 @Schema()
 export class Work {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: User;
 
   @Prop()
   workName: string;
 
-  @Prop()
-  panoramaTourConfig: PanoramaTourConfig;
+  @Prop({ type: mongoose.Schema.Types.Mixed, default: null })
+  panoramaTourConfig: PanoramaTourConfig | null;
 
-  @Prop()
+  @Prop({ default: Date.now })
   createdTime: Date;
 }
+
+export const WorksSchema = SchemaFactory.createForClass(Work);

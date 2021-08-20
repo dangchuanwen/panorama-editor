@@ -13,7 +13,7 @@ export class UsersService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {}
 
-  async findUserByUserName(userName: string): Promise<User> {
+  async findUserByUserName(userName: string): Promise<UserDocument> {
     return this.userModel.findOne({ userName });
   }
 

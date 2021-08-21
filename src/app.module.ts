@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/user.module';
 import { AuthModule } from './auth/auth.module';
 import { WorksModule } from './works/works.module';
+import { QiniuModule } from './qiniu/qiniu.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { WorksModule } from './works/works.module';
     AuthModule,
     UsersModule,
     WorksModule,
+    QiniuModule,
   ],
   controllers: [],
   providers: [],

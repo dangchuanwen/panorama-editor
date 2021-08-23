@@ -8,7 +8,21 @@ import { HotSpot } from '../state/state';
 const ToolIcons: Map<ToolNames, string> = new Map();
 ToolIcons.set(ToolNames.Link, LinkIcon);
 ToolIcons.set(ToolNames.Tip, TipIcon);
-export const createTooltip: (
+export const createTooltipInProd = (toolName: ToolNames, text: string) => {
+  return (hotSpotDiv: HTMLDivElement): void => {
+    const iconImage: HTMLImageElement = document.createElement('img');
+    const tipSpan: HTMLSpanElement = document.createElement('span');
+    const ToolIcon = ToolIcons.get(toolName);
+    tipSpan.innerHTML = text || '';
+    hotSpotDiv.draggable = false;
+    hotSpotDiv.classList.add(classes.hotSpot);
+    iconImage.src = ToolIcon as string;
+    iconImage.draggable = false;
+    hotSpotDiv.appendChild(iconImage);
+    hotSpotDiv.appendChild(tipSpan);
+  };
+};
+export const createTooltipInDev: (
   toolName: ToolNames,
   hotSpot: HotSpot,
   cb?: (div: HTMLDivElement) => void,

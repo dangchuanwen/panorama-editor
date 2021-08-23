@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import styles from './style.module.css';
 import { Link, useHistory } from 'react-router-dom';
@@ -6,14 +6,24 @@ import { Link, useHistory } from 'react-router-dom';
 import { Container, Grid, Button, TextField } from '@material-ui/core';
 
 import Logo from 'assets/logo.png';
-import auth from 'auth/auth';
+import { showHttpError } from 'requests/requests';
+import { message } from 'antd';
+import { useAuth } from 'auth/auth';
 
 const SignIn: React.FC = () => {
+  const { authContext } = useAuth();
+  const { login } = useContext(authContext);
+  const [userName, setUserName] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const history = useHistory();
-  const handleClickLogin = () => {
-    auth.login(() => {
+  const handleClickLogin = async () => {
+    try {
+      await login(userName, password);
+      message.success('登录成功！');
       history.replace('/');
-    });
+    } catch (err) {
+      showHttpError(err);
+    }
   };
   return (
     <div className={styles.wrapper}>
@@ -21,6 +31,10 @@ const SignIn: React.FC = () => {
         <Grid container>
           <Grid item xs={5}>
             <div className={styles.posterWrapper}>
+              <img
+                src="https://images.pexels.com/photos/4145356/pexels-photo-4145356.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                alt=""
+              />
               <p>
                 <img src={Logo} alt="" />
                 <span>360°</span>
@@ -39,25 +53,27 @@ const SignIn: React.FC = () => {
                 <h1>欢迎回来</h1>
                 <p>登录你的账号</p>
               </div>
-              <div>
+              <div className={styles.inputLine}>
                 <p>
                   <strong>用户名</strong>
                 </p>
                 <TextField
-                  style={{ marginTop: '15px' }}
                   variant="outlined"
+                  value={userName}
+                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
                   label="你的账号"
                   fullWidth
                   size="small"
                 ></TextField>
               </div>
-              <div>
+              <div className={styles.inputLine}>
                 <p>
                   <strong>密码</strong>
                 </p>
                 <TextField
-                  style={{ marginTop: '15px' }}
                   variant="outlined"
+                  value={password}
+                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                   label="你的密码"
                   fullWidth
                   type="password"

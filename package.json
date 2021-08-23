@@ -2,7 +2,7 @@
   "name": "panorma-editor",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:4040",
+  "proxy": "http://localhost:4000",
   "dependencies": {
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.11.2",
@@ -15,6 +15,8 @@
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
+    "antd": "^4.16.12",
+    "axios": "^0.21.1",
     "pannellum": "^2.5.6",
     "qiniu-js": "^3.3.3",
     "react": "^17.0.2",

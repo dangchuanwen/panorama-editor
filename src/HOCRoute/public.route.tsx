@@ -1,9 +1,12 @@
 import { Route, Redirect } from 'react-router';
 import { IHOCRoute } from 'interface';
-import auth from './auth/auth';
+import { useAuth } from 'auth/auth';
+import { useContext } from 'react';
 
 const PublicRoute: IHOCRoute = ({ ...rest }) => {
-  if (auth.isAuthenticated()) {
+  const { authContext } = useAuth();
+  const { authenticated } = useContext(authContext);
+  if (authenticated) {
     return <Redirect to="/" />;
   } else {
     return <Route {...rest}></Route>;

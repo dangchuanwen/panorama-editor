@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { updateWork } from 'requests/requests';
 import { IHotSpot } from 'types/pannellum/interface';
-import { generateUniqueId } from 'utils';
+import { exportPanoramaTourConfig, generateUniqueId } from 'utils';
+import { createTooltipInDev } from '../components/HotSpot';
 export interface HotSpot extends IHotSpot {
   activated?: boolean;
 }
@@ -14,6 +17,9 @@ export interface IPanoramaImage {
 
 interface IAddImage {
   (url: string): void;
+}
+interface IInitPanoramaImages {
+  (panoramaImages: IPanoramaImage[]): void;
 }
 interface ISwitchImage {
   (imageID: string): void;
@@ -48,6 +54,7 @@ export interface IStudioState {
   deSelectAllHotSpots: IDeSelectAllHotSpots;
   updateActivatedHotSpot: IUpdateActivatedHotSpot;
   removeActivatedHotSpot: IRemoveActivatedHotSpot;
+  initPanoramaImages: IInitPanoramaImages;
 }
 
 let images: IPanoramaImage[] = [];
@@ -55,6 +62,32 @@ let images: IPanoramaImage[] = [];
 export const useStudioState: () => IStudioState = () => {
   const [panoramaImages, setPanoramaImages] = useState<IPanoramaImage[]>([]);
   const [renderCanvasFlag, setRenderCanvasFlag] = useState<number>(0);
+  const { pathname } = useLocation();
+  const workID: string = pathname.split('/')[2];
+  const uploadPanoramaTourConfig = () => {
+    setTimeout(async () => {
+      await updateWork(workID, exportPanoramaTourConfig(images));
+      uploadPanoramaTourConfig();
+    }, Math.ceil(15 + Math.random() * 20) * 1000);
+  };
+  useEffect(() => {
+    uploadPanoramaTourConfig();
+  }, []);
+
+  const initPanoramaImages: IInitPanoramaImages = (panoramaImages: IPanoramaImage[]) => {
+    for (const image of panoramaImages) {
+      for (const hotSpot of image.hotSpots) {
+        hotSpot.clickHandlerFunc = (_e: React.MouseEvent<HTMLDivElement>, hotSpot: HotSpot) => {
+          switchHotSpot(hotSpot.id);
+        };
+        hotSpot.clickHandlerArgs = hotSpot;
+        hotSpot.createTooltipFunc = createTooltipInDev(hotSpot.toolName, hotSpot);
+      }
+    }
+    images = panoramaImages;
+    setPanoramaImages(images);
+    console.log(images);
+  };
 
   const addImage: IAddImage = (url: string) => {
     const newImages = [...images];
@@ -159,5 +192,6 @@ export const useStudioState: () => IStudioState = () => {
     addHotSpot,
     updateActivatedHotSpot,
     removeActivatedHotSpot,
+    initPanoramaImages,
   };
 };

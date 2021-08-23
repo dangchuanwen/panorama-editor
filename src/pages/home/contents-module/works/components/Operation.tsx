@@ -9,16 +9,25 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 import { OperationWrapper } from '../styled';
+import { message } from 'antd';
 interface Props {
-  onConfirm: () => void;
+  onConfirm: (workName: string) => void;
 }
 const Operation: React.FC<Props> = ({ onConfirm }: Props) => {
   const [showDialog, setShowDialog] = React.useState<boolean>(false);
+  const [workName, setWorkName] = React.useState<string>('');
   const handleClickCreate = () => {
     setShowDialog(true);
   };
+  React.useEffect(() => {
+    setWorkName('');
+  }, [showDialog]);
   const handleClickConfirm = () => {
-    onConfirm();
+    if (!workName.trim()) {
+      message.warn('请输入一个作品名');
+      return;
+    }
+    onConfirm(workName);
     setShowDialog(false);
   };
   const handleClickCancel = () => {
@@ -33,7 +42,11 @@ const Operation: React.FC<Props> = ({ onConfirm }: Props) => {
         <DialogTitle>创建作品</DialogTitle>
         <DialogContent>
           <DialogContentText>请为该作品起个名字</DialogContentText>
-          <TextField type="text" />
+          <TextField
+            type="text"
+            value={workName}
+            onInput={(e: React.ChangeEvent<HTMLInputElement>) => setWorkName(e.target.value)}
+          />
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={handleClickCancel}>

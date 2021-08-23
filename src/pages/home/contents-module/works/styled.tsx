@@ -42,12 +42,14 @@ export const WorkItem = styled.li`
   display: grid;
   grid-template-columns: 5vw 10vw 3vw;
   grid-template-rows: 100%;
-  gap: 2vw;
+  gap: 1vw;
   &:hover ${IconFont} {
     display: inline;
   }
 `;
 
 export const WorkThumbnail = styled.img`
+  border-radius: 5px;
   width: 100%;
+  height: 100%;
 `;

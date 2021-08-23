@@ -9,6 +9,7 @@ import { Delete as DeleteIcon } from '@material-ui/icons';
 import classes from './classes.module.css';
 import { StudioContext } from 'pages/studio/state/context';
 import { IPanoramaImage } from 'pages/studio/state/state';
+import { getQiniuToken } from 'requests/requests';
 
 const ImagesBar: React.FC = () => {
   const { panoramaImages, removeImage, switchImage, addImage } = React.useContext(StudioContext);
@@ -55,9 +56,10 @@ const ImagesBar: React.FC = () => {
 
   React.useEffect(() => {
     const fetchToken = async () => {
-      const res = await fetch('/token');
-      const data = await res.json();
-      setToken(data.token);
+      try {
+        const res = await getQiniuToken();
+        setToken(res.data);
+      } catch (err) {}
     };
     fetchToken();
   }, []);

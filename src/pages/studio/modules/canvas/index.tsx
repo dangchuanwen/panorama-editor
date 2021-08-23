@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 import { IClickHandlerFunc, IPannellum } from 'types/pannellum/interface';
 import { ToolNames } from 'interface';
-import { createTooltip } from 'pages/studio/components/HotSpot';
+import { createTooltipInDev } from 'pages/studio/components/HotSpot';
 
 import { generateUniqueId } from 'utils';
 import { StudioContext } from 'pages/studio/state/context';
@@ -50,7 +50,7 @@ const Canvas: React.FC = () => {
       text: '',
     };
     newHotSpot.clickHandlerArgs = newHotSpot;
-    newHotSpot.createTooltipFunc = createTooltip(toolName, newHotSpot);
+    newHotSpot.createTooltipFunc = createTooltipInDev(toolName, newHotSpot);
     addHotSpot(newHotSpot);
   };
 

@@ -1,8 +1,8 @@
 import { Redirect, Route, RouteProps, Switch } from 'react-router-dom';
 
 import { IHOCRoute, HOCRouteTypes } from 'interface';
-import PublicRoute from 'public.route';
-import ProtectedRoute from 'protected.route';
+import PublicRoute from 'HOCRoute/public.route';
+import ProtectedRoute from 'HOCRoute/protected.route';
 
 import { routes } from 'routes/config';
 

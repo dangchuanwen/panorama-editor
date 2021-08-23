@@ -5,11 +5,19 @@ import VR from 'assets/VR.png';
 import { Wrapper, Container, LogoBox, Logo, HeaderBox, MenuBox, ContentBox } from 'layouts';
 import Menu from 'pages/home/menu-module/index';
 import { renderRoutes } from 'routes/index';
+import { Box, Button } from '@material-ui/core';
+import { useAuth } from 'auth/auth';
 
 const Home: React.FC = () => {
+  const { authContext } = useAuth();
+  const { logout } = React.useContext(authContext);
   const history = useHistory();
   const handleClickMenuItem = (path: string) => {
     history.push(path);
+  };
+  const handleClickLogOut: () => void = () => {
+    logout();
+    history.replace('/');
   };
   const { path } = useRouteMatch();
   return (
@@ -20,6 +28,10 @@ const Home: React.FC = () => {
         </LogoBox>
         <HeaderBox>
           <h2>欢迎来到全景漫游世界</h2>
+          <Box>
+            <span style={{ fontWeight: 'bolder', fontSize: '1vw', marginRight: '1vw' }}>党传文</span>
+            <Button onClick={handleClickLogOut}>退出</Button>
+          </Box>
         </HeaderBox>
         <MenuBox>
           <Menu onClickMenuItem={handleClickMenuItem} />

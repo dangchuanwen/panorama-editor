@@ -14,5 +14,6 @@ import { WorksService } from './works.service';
   ],
   controllers: [WorksController],
   providers: [WorksService],
+  exports: [WorksService],
 })
 export class WorksModule {}

@@ -12,12 +12,18 @@ import { JwtDto } from 'src/auth/dto/jwt.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateWorkDto } from './dto/create-work.dto';
 import { UpdateWorkDto } from './dto/update-work.dto';
-import { Work } from './schemas/work.schema';
+import { Work, WorkTheme } from './schemas/work.schema';
 import { WorksService } from './works.service';
 
 @Controller('works')
 export class WorksController {
   constructor(private readonly worksService: WorksService) {}
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/theme-list')
+  async getWorkThemeList(): Promise<WorkTheme[]> {
+    return Object.values(WorkTheme);
+  }
 
   @UseGuards(JwtAuthGuard)
   @Get()
@@ -26,12 +32,12 @@ export class WorksController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/:workName')
+  @Get('/:workID')
   async getWork(
     @Request() req: { user: JwtDto },
-    @Param('workName') workName: string,
+    @Param('workID') workID: string,
   ): Promise<Work> {
-    return this.worksService.getUserWork(req.user.userName, workName);
+    return this.worksService.getUserWorkByID(req.user.userName, workID);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -40,7 +46,11 @@ export class WorksController {
     @Request() req: { user: JwtDto },
     @Body() body: CreateWorkDto,
   ): Promise<Work> {
-    return this.worksService.createWork(body.workName, req.user.userName);
+    return this.worksService.createWork(
+      body.workName,
+      body.workTheme,
+      req.user.userName,
+    );
   }
 
   @UseGuards(JwtAuthGuard)
@@ -50,7 +60,7 @@ export class WorksController {
     @Body() body: UpdateWorkDto,
   ): Promise<Work> {
     return this.worksService.updateWork(
-      body.workName,
+      body.workID,
       req.user.userName,
       body.panoramaTourConfig,
     );

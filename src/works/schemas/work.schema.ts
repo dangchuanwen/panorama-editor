@@ -29,7 +29,11 @@ export type PanoramaTourConfig = {
   };
 };
 
-export type WorkDocument = Work & Document;
+export type WorkDocument = Work & mongoose.Document;
+export enum WorkTheme {
+  Food = 'Food',
+  Festival = 'Festival',
+}
 
 @Schema()
 export class Work {
@@ -41,6 +45,9 @@ export class Work {
 
   @Prop({ type: mongoose.Schema.Types.Mixed, default: null })
   panoramaTourConfig: PanoramaTourConfig | null;
+
+  @Prop({ type: mongoose.Schema.Types.String, enum: WorkTheme })
+  workTheme: WorkTheme;
 
   @Prop({ default: Date.now })
   createdTime: Date;

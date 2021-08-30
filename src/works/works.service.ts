@@ -1,10 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { PanoramaTourConfig, Work, WorkDocument } from './schemas/work.schema';
+import {
+  PanoramaTourConfig,
+  Work,
+  WorkDocument,
+  WorkTheme,
+} from './schemas/work.schema';
 import { WorkAlreadyExistException } from './exceptions/work-already-exist.exception';
 import { UsersService } from 'src/users/user.service';
 import { User } from 'src/users/schemas/user.schema';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class WorksService {
@@ -17,9 +23,12 @@ export class WorksService {
     return this.worksModel.findOne({ workName, user });
   }
 
-  async getUserWork(userName: string, workName: string) {
+  async getUserWorkByID(userName: string, workID: string) {
     const user = await this.usersService.findUserByUserName(userName);
-    const work = await this.worksModel.findOne({ user, workName });
+    const work = await this.worksModel.findOne({
+      user,
+      _id: mongoose.Types.ObjectId(workID),
+    });
     return work;
   }
 
@@ -29,23 +38,23 @@ export class WorksService {
     return works;
   }
 
-  async createWork(workName: string, userName: string) {
+  async createWork(workName: string, workTheme: WorkTheme, userName: string) {
     const user = await this.usersService.findUserByUserName(userName);
     const oldWork: Work = await this.findWork(workName, user);
     if (oldWork) {
       throw new WorkAlreadyExistException();
     }
-    return this.worksModel.create({ workName, user });
+    return this.worksModel.create({ workName, user, workTheme });
   }
 
   async updateWork(
-    workName: string,
+    workID: string,
     userName: string,
     panoramaTourConfig: PanoramaTourConfig,
   ) {
     const user = await this.usersService.findUserByUserName(userName);
     return this.worksModel.findOneAndUpdate(
-      { workName, user },
+      { _id: mongoose.Types.ObjectId(workID), user },
       { panoramaTourConfig },
       { new: true, useFindAndModify: false },
     );

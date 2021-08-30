@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { updateWork } from 'requests/requests';
+import { useRouteMatch } from 'react-router-dom';
+import { updateWork, Work } from 'requests/requests';
 import { IHotSpot } from 'types/pannellum/interface';
 import { exportPanoramaTourConfig, generateUniqueId } from 'utils';
 import { createTooltipInDev } from '../components/HotSpot';
+import { AxiosPromise } from 'axios';
+import { StudioPageParams } from 'routes/config';
 export interface HotSpot extends IHotSpot {
   activated?: boolean;
 }
@@ -42,6 +44,9 @@ interface IUpdateActivatedHotSpot {
 interface IRemoveActivatedHotSpot {
   (hotSpotID: string): void;
 }
+interface IUpdatePanoramaTourConfig {
+  (): AxiosPromise<Work>;
+}
 
 export interface IStudioState {
   panoramaImages: IPanoramaImage[];
@@ -55,6 +60,7 @@ export interface IStudioState {
   updateActivatedHotSpot: IUpdateActivatedHotSpot;
   removeActivatedHotSpot: IRemoveActivatedHotSpot;
   initPanoramaImages: IInitPanoramaImages;
+  uploadPanoramaTourConfig: IUpdatePanoramaTourConfig;
 }
 
 let images: IPanoramaImage[] = [];
@@ -62,16 +68,19 @@ let images: IPanoramaImage[] = [];
 export const useStudioState: () => IStudioState = () => {
   const [panoramaImages, setPanoramaImages] = useState<IPanoramaImage[]>([]);
   const [renderCanvasFlag, setRenderCanvasFlag] = useState<number>(0);
-  const { pathname } = useLocation();
-  const workID: string = pathname.split('/')[2];
-  const uploadPanoramaTourConfig = () => {
-    setTimeout(async () => {
-      await updateWork(workID, exportPanoramaTourConfig(images));
+  const currentRoute = useRouteMatch<StudioPageParams>();
+  const workID: string = currentRoute.params.workID;
+  const uploadPanoramaTourConfig = async () => {
+    return updateWork(workID, exportPanoramaTourConfig(images));
+  };
+  const startTimedUpload = () => {
+    setTimeout(() => {
       uploadPanoramaTourConfig();
-    }, Math.ceil(15 + Math.random() * 20) * 1000);
+      startTimedUpload();
+    }, Math.ceil(15 + Math.random() * 15) * 1000);
   };
   useEffect(() => {
-    uploadPanoramaTourConfig();
+    startTimedUpload();
   }, []);
 
   const initPanoramaImages: IInitPanoramaImages = (panoramaImages: IPanoramaImage[]) => {
@@ -193,5 +202,6 @@ export const useStudioState: () => IStudioState = () => {
     updateActivatedHotSpot,
     removeActivatedHotSpot,
     initPanoramaImages,
+    uploadPanoramaTourConfig,
   };
 };

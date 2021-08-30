@@ -2,8 +2,11 @@ import React from 'react';
 import { Box, Tooltip, makeStyles } from '@material-ui/core';
 import Iconfont from 'components/Iconfont';
 import { ToolNames } from 'interface';
+import { useRouteMatch } from 'react-router';
 import { StudioContext } from 'pages/studio/state/context';
-import { exportPanoramaTourConfig } from 'utils';
+import { message } from 'antd';
+import { StudioPageParams } from 'routes/config';
+
 const useStylesBootstrap = makeStyles(() => ({
   tooltip: {
     padding: '10px 15px',
@@ -12,10 +15,19 @@ const useStylesBootstrap = makeStyles(() => ({
 }));
 
 const ToolBar: React.FC = () => {
-  const { panoramaImages } = React.useContext(StudioContext);
+  const { uploadPanoramaTourConfig } = React.useContext(StudioContext);
+  const currentRoute = useRouteMatch<StudioPageParams>();
   const classes = useStylesBootstrap();
+  const handleClickSave = async () => {
+    try {
+      await uploadPanoramaTourConfig();
+      message.success('保存成功！');
+    } catch (err) {
+      message.warn(err.response.message);
+    }
+  };
   const handleClickPlay = () => {
-    console.log(exportPanoramaTourConfig(panoramaImages));
+    open(`/play/${currentRoute.params.workID}`);
   };
   const handleDragStart = (e: React.DragEvent, toolName: ToolNames) => {
     e.dataTransfer.setData('toolName', toolName);
@@ -32,9 +44,16 @@ const ToolBar: React.FC = () => {
           <Iconfont name="icon-xiangshangjiantouquan" color="#1AFA29" fontSize="1.7vw" />
         </Box>
       </Tooltip>
-      <Box marginLeft="20px" onClick={handleClickPlay}>
-        <Iconfont name="icon-play-01" color="#bd8cbb" fontSize="1.6vw" />
-      </Box>
+      <Tooltip title="预览" classes={classes} placement="top" arrow={true}>
+        <Box marginLeft="20px" onClick={handleClickPlay}>
+          <Iconfont name="icon-play-01" color="#bd8cbb" fontSize="1.6vw" />
+        </Box>
+      </Tooltip>
+      <Tooltip title="保存并上传" classes={classes} placement="top" arrow={true}>
+        <Box marginLeft="80px" onClick={() => handleClickSave()}>
+          <Iconfont name="icon-shangchuan" color="#00A99D" fontSize="1.6vw" />
+        </Box>
+      </Tooltip>
     </Box>
   );
 };

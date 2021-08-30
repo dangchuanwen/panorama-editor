@@ -7,4 +7,5 @@ export const Wrapper = styled(Box)`
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: 6% 80% 5%;
+  gap: 3%;
 `;

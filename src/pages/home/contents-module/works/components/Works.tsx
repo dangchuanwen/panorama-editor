@@ -25,7 +25,9 @@ const Works: React.FC<Props> = ({ works }: Props) => {
               <IconFont style={{ color: '#1296db' }} className="iconfont icon-bianji"></IconFont>
             </a>
             {work.panoramaTourConfig && (
-              <IconFont style={{ color: '#d4237a' }} className="iconfont icon-yulan"></IconFont>
+              <a href={`/play/${work._id}`} target="_blank">
+                <IconFont style={{ color: '#d4237a' }} className="iconfont icon-yulan"></IconFont>
+              </a>
             )}
           </Box>
         </WorkItem>

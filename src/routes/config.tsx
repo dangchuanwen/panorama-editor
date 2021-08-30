@@ -8,6 +8,10 @@ import Play from 'pages/play';
 import { IRoute } from 'routes/index';
 import { HOCRouteTypes } from 'interface';
 
+export interface StudioPageParams {
+  workID: string;
+}
+
 export const routes: IRoute[] = [
   {
     path: '/',
@@ -23,11 +27,11 @@ export const routes: IRoute[] = [
     children: HomePageRoutes,
   },
   {
-    path: '/studio',
+    path: '/studio/:workID',
     component: Studio,
   },
   {
-    path: '/play',
+    path: '/play/:workID',
     component: Play,
   },
   {

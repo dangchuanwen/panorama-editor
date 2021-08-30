@@ -64,12 +64,15 @@ export const exportPanoramaTourConfig = (panoramaImages: IPanoramaImage[]): Pano
       newHotSpot.type = hotSpot.toolName === ToolNames.Link ? 'scene' : 'info';
       newHotSpot.text = hotSpot.text;
       if (hotSpot.toolName === ToolNames.Link) {
-        newHotSpot.sceneId = hotSpot.targetID;
+        if (panoramaImages.findIndex((image) => image.id === hotSpot.targetID) !== -1) {
+          newHotSpot.sceneId = hotSpot.targetID;
+        }
       }
       hotSpotsOfItem.push(newHotSpot);
     }
 
     scenes[item.id] = {
+      autoLoad: true,
       type: 'equirectangular',
       panorama: item.url,
       hotSpots: hotSpotsOfItem,

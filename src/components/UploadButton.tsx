@@ -13,7 +13,7 @@ const UploadButton: React.FC<Props> = ({ text, onChooseImage }: Props) => {
     onChooseImage(e.target.files);
   };
   return (
-    <Box>
+    <Box display="flex" justifyContent="center">
       <FileInput onInput={handleChooseImage} accept="image/*" id="contained-button-file" type="file" />
       <label htmlFor="contained-button-file">
         <Button variant="contained" color="primary" component="span" startIcon={<CloudUploadIcon />}>

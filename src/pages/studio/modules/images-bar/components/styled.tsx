@@ -10,7 +10,7 @@ export const Wrapper = styled(Box)`
 `;
 
 export const Image = styled.img`
-  width: 5.5vw;
+  width: 100%;
   height: 80px;
 `;
 
@@ -26,7 +26,7 @@ export const SliderBox = styled(Box)`
 export const ImageBox = styled(Box)`
   position: relative;
   margin-top: 10px;
-  width: 5.5vw;
+  width: 80%;
   height: 80px;
   overflow: hidden;
   cursor: pointer;

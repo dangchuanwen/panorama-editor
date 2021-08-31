@@ -1,11 +1,13 @@
 import React from 'react';
-import { Box, Tooltip, makeStyles } from '@material-ui/core';
+import { Box, Tooltip, makeStyles, TextField } from '@material-ui/core';
 import Iconfont from 'components/Iconfont';
 import { ToolNames } from 'interface';
 import { useRouteMatch } from 'react-router';
 import { StudioContext } from 'pages/studio/state/context';
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 import { StudioPageParams } from 'routes/config';
+import { useState } from 'react';
+import { getUserPublishedWorkByWorkID, publishWork } from 'requests/requests';
 
 const useStylesBootstrap = makeStyles(() => ({
   tooltip: {
@@ -15,9 +17,45 @@ const useStylesBootstrap = makeStyles(() => ({
 }));
 
 const ToolBar: React.FC = () => {
+  const [showPublishDialog, setShowPublishDialog] = useState(false);
+  const [introduction, setIntroduction] = useState('');
+  const {
+    params: { workID },
+  } = useRouteMatch<StudioPageParams>();
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getUserPublishedWorkByWorkID(workID);
+        if (res && res.data) {
+          setIntroduction(res.data.introduction);
+        }
+      } catch (err) {
+        message.error(err.response.message);
+      }
+    };
+    fetchData();
+  }, [workID]);
+
   const { uploadPanoramaTourConfig } = React.useContext(StudioContext);
   const currentRoute = useRouteMatch<StudioPageParams>();
   const classes = useStylesBootstrap();
+  const handleClickPublish = async () => {
+    setShowPublishDialog(true);
+  };
+  const handleConfirmPublish = async () => {
+    if (!introduction) {
+      message.warn('请输入作品介绍！');
+      return;
+    }
+    try {
+      await publishWork(workID, introduction);
+      message.success('发布成功！');
+    } catch (err) {
+      message.error(err.response.message);
+    } finally {
+      setShowPublishDialog(false);
+    }
+  };
   const handleClickSave = async () => {
     try {
       await uploadPanoramaTourConfig();
@@ -32,6 +70,7 @@ const ToolBar: React.FC = () => {
   const handleDragStart = (e: React.DragEvent, toolName: ToolNames) => {
     e.dataTransfer.setData('toolName', toolName);
   };
+
   return (
     <Box width="100%" height="100%" display="flex" alignItems="center">
       <Tooltip title="标签" classes={classes} placement="top" arrow={true}>
@@ -54,6 +93,30 @@ const ToolBar: React.FC = () => {
           <Iconfont name="icon-shangchuan" color="#00A99D" fontSize="1.6vw" />
         </Box>
       </Tooltip>
+      <Tooltip title="发布" classes={classes} placement="top" arrow={true}>
+        <Box marginLeft="20px" onClick={() => handleClickPublish()}>
+          <Iconfont name="icon-fabu" color="#37daf6" fontSize="1.6vw" />
+        </Box>
+      </Tooltip>
+      <Modal
+        title="发布全景漫游"
+        keyboard
+        centered
+        visible={showPublishDialog}
+        onOk={() => handleConfirmPublish()}
+        onCancel={() => setShowPublishDialog(false)}
+      >
+        <TextField
+          value={introduction}
+          onInput={(e: React.ChangeEvent<HTMLInputElement>) => setIntroduction(e.target.value)}
+          label="为你的作品添加一些介绍文字"
+          fullWidth
+          helperText="添加详细的文字可以使得其他人观看体验更佳"
+          variant="outlined"
+          minRows={4}
+          multiline
+        />
+      </Modal>
     </Box>
   );
 };

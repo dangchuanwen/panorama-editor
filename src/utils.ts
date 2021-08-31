@@ -15,7 +15,6 @@ export const generateUniqueId: () => string = () => {
 export const importPanoramaTourConfig: (panoramaTourConfig: PanoramaTourConfig | null) => IPanoramaImage[] = (
   panoramaTourConfig: PanoramaTourConfig | null,
 ) => {
-  console.log(panoramaTourConfig);
   if (panoramaTourConfig === null) {
     return [];
   }

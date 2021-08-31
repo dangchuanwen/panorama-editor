@@ -95,7 +95,6 @@ export const useStudioState: () => IStudioState = () => {
     }
     images = panoramaImages;
     setPanoramaImages(images);
-    console.log(images);
   };
 
   const addImage: IAddImage = (url: string) => {

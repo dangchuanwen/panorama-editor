@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { getAccessTokenFromLocalStorage } from 'auth/auth';
 import axios, { AxiosInstance, AxiosError, AxiosPromise, AxiosRequestConfig } from 'axios';
-import { ToolNames } from 'interface';
+import { Country, Gender, ToolNames } from 'interface';
 
 type HotSpot = {
   pitch: number;
@@ -26,19 +26,33 @@ export type PanoramaTourConfig = {
     [key: string]: Scene;
   };
 };
+export type User = {
+  userName: string;
+  gender: Gender;
+  country: Country;
+};
 export type Work = {
   _id: string;
   workName: string;
   panoramaTourConfig: PanoramaTourConfig;
 };
+export type PublishedWork = {
+  createdTime: Date;
+  introduction: string;
+  work: Work;
+  user: User;
+};
 
-type Register = (userName: string, password: string) => AxiosPromise;
+type Register = (userName: string, password: string, gender: Gender, country: Country) => AxiosPromise;
 type Login = (userName: string, password: string) => AxiosPromise<LoginResult>;
 type GetUserWorks = () => AxiosPromise<Work[]>;
 type CreateWork = (workName: string) => AxiosPromise;
 type GetQiniuToken = () => AxiosPromise<string>;
 type GetWorkData = (workID: string) => AxiosPromise<Work>;
 type UpdateWork = (workName: string, panoramaTourConfig: PanoramaTourConfig | null) => AxiosPromise<Work>;
+type PublishWork = (workID: string, introduction: string) => AxiosPromise;
+type GetUserPublishedWorkByWorkID = (workID: string) => AxiosPromise<PublishedWork>;
+type GetPublishedWorksBeforeArchorDate = (archorDate: Date) => AxiosPromise<PublishedWork[]>;
 
 const request: AxiosInstance = axios.create();
 request.interceptors.request.use(
@@ -62,8 +76,8 @@ export const showHttpError: (err: AxiosError, prefix?: string) => void = (err: A
   }
 };
 
-export const register: Register = async (userName: string, password: string) => {
-  return request.post('/users', { userName, password });
+export const register: Register = async (userName: string, password: string, gender: Gender, country: Country) => {
+  return request.post('/users', { userName, password, gender, country });
 };
 
 export const login: Login = async (userName: string, password: string) => {
@@ -91,4 +105,16 @@ export const updateWork: UpdateWork = async (workID: string, panoramaTourConfig:
     workID,
     panoramaTourConfig: panoramaTourConfig || null,
   });
+};
+
+export const publishWork: PublishWork = async (workID: string, introduction: string) => {
+  return request.post('/published-works', { workID, introduction });
+};
+
+export const getUserPublishedWorkByWorkID: GetUserPublishedWorkByWorkID = async (workID: string) => {
+  return request.get(`/published-works/${workID}`);
+};
+
+export const getPublishedWorksBeforeArchorDate: GetPublishedWorksBeforeArchorDate = (archorDate: Date) => {
+  return request.get<PublishedWork[]>(`/published-works/before/${new Date(archorDate).getTime()}/count/5`);
 };

@@ -1,10 +1,11 @@
 import { AxiosPromise } from 'axios';
+import { Country, Gender } from 'interface';
 import React, { createContext, useEffect, useState } from 'react';
 import * as requests from '../requests/requests';
 
 interface Auth {
   authenticated: boolean;
-  register: (userName: string, password: string) => AxiosPromise;
+  register: (userName: string, password: string, gender: Gender, country: Country) => AxiosPromise;
   login: (userName: string, password: string) => AxiosPromise<requests.LoginResult>;
   logout: () => Promise<void>;
 }
@@ -34,8 +35,8 @@ const createAuth: () => Auth = () => {
     }
   }, []);
 
-  const register = async (userName: string, password: string) => {
-    return requests.register(userName, password);
+  const register: Auth['register'] = async (userName: string, password: string, gender: Gender, country: Country) => {
+    return requests.register(userName, password, gender, country);
   };
   const login = async (userName: string, password: string) => {
     try {

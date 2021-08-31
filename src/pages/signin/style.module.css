@@ -2,8 +2,8 @@
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template-columns: 45vw;
-  grid-template-rows: 55vh;
+  grid-template-columns: 50vw;
+  grid-template-rows: 60vh;
   justify-content: center;
   align-content: center;
   background: url(https://cdn.pixabay.com/photo/2015/10/29/14/38/web-1012467_960_720.jpg);
@@ -22,7 +22,7 @@
 }
 .posterWrapper > img {
   width: 100%;
-  height: 55vh;
+  height: 60vh;
 }
 .posterWrapper > p {
   left: 0;
@@ -46,7 +46,7 @@
   box-sizing: border-box;
   padding: 1.5vw;
   width: 100%;
-  height: 55vh;
+  height: 60vh;
   background-color: white;
 
   display: flex;

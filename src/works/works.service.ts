@@ -23,6 +23,10 @@ export class WorksService {
     return this.worksModel.findOne({ workName, user });
   }
 
+  async findWorkByID(workID: string) {
+    return this.worksModel.findById(workID);
+  }
+
   async getUserWorkByID(userName: string, workID: string) {
     const user = await this.usersService.findUserByUserName(userName);
     const work = await this.worksModel.findOne({

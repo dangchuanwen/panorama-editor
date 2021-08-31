@@ -30,6 +30,8 @@ export class UsersService {
     const user = await this.userModel.create({
       userName: createUserRequestDto.userName,
       password: hash,
+      gender: createUserRequestDto.gender,
+      country: createUserRequestDto.country,
     });
     return user;
   }

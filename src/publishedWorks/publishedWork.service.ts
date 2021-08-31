@@ -21,6 +21,24 @@ export class PublishedWorkService {
     return this.publishedWorksModel.find({});
   }
 
+  async findUserPublishedWorkByWorkID(userName: string, workID: string) {
+    const user = await this.usersService.findUserByUserName(userName);
+    const work = await this.worksService.findWorkByID(workID);
+    return this.publishedWorksModel.findOne({ user, work });
+  }
+
+  async findPublishedWorksBeforeAnchorDate(
+    anchorDate: Date,
+    dataCount: number,
+  ) {
+    return this.publishedWorksModel
+      .find({ createdTime: { $lt: anchorDate } })
+      .populate('user')
+      .populate('work')
+      .sort({ createdTime: -1 })
+      .limit(dataCount);
+  }
+
   async savePublishedWork(
     userName: string,
     workID: string,

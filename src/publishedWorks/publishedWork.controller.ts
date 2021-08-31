@@ -5,9 +5,12 @@ import {
   UseGuards,
   Request,
   Get,
+  Param,
 } from '@nestjs/common';
 import { JwtDto } from 'src/auth/dto/jwt.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { GetPublishedWorkByIDDto } from './dto/getPublishedWorkByID.dto';
+import { GetPublishedWorksBeforeAnchorDate } from './dto/getPublishedWorksBeforeAnchorDate.dto';
 import { PublishWorkDto } from './dto/publishWork.dto';
 import { PublishedWorkService } from './publishedWork.service';
 
@@ -15,10 +18,35 @@ import { PublishedWorkService } from './publishedWork.service';
 export class PublishedWorkController {
   constructor(private readonly publishedWorkService: PublishedWorkService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @Get('before/:anchorDate/count/:dataCount')
+  async getPublishedWorksBeforeAnchorDate(
+    @Param() params: GetPublishedWorksBeforeAnchorDate,
+  ) {
+    return this.publishedWorkService.findPublishedWorksBeforeAnchorDate(
+      params.anchorDate,
+      Number(params.dataCount),
+    );
+  }
+
   @Get()
   async getAllPublishedWorks() {
     return this.publishedWorkService.findAllPublishedWorks();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/:workID')
+  async getPublishedWorkByID(
+    @Param() params: GetPublishedWorkByIDDto,
+    @Request() req: { user: JwtDto },
+  ) {
+    const { workID } = params;
+    const {
+      user: { userName },
+    } = req;
+    return this.publishedWorkService.findUserPublishedWorkByWorkID(
+      userName,
+      workID,
+    );
   }
 
   @UseGuards(JwtAuthGuard)

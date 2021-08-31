@@ -7,10 +7,12 @@ import Menu from 'pages/home/menu-module/index';
 import { renderRoutes } from 'routes/index';
 import { Box, Button } from '@material-ui/core';
 import { useAuth } from 'auth/auth';
+import useUser from 'hooks/useUser';
 
 const Home: React.FC = () => {
   const { authContext } = useAuth();
   const { logout } = React.useContext(authContext);
+  const user = useUser();
   const history = useHistory();
   const handleClickMenuItem = (path: string) => {
     history.push(path);
@@ -20,6 +22,7 @@ const Home: React.FC = () => {
     history.replace('/');
   };
   const { path } = useRouteMatch();
+
   return (
     <Wrapper>
       <Container maxWidth={false}>
@@ -29,7 +32,7 @@ const Home: React.FC = () => {
         <HeaderBox>
           <h2>欢迎来到全景漫游世界</h2>
           <Box>
-            <span style={{ fontWeight: 'bolder', fontSize: '1vw', marginRight: '1vw' }}>党传文</span>
+            <span style={{ fontWeight: 'bolder', fontSize: '1vw', marginRight: '1vw' }}>{user?.userName}</span>
             <Button onClick={handleClickLogOut}>退出</Button>
           </Box>
         </HeaderBox>

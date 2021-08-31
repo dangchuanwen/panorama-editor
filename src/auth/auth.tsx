@@ -4,6 +4,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import * as requests from '../requests/requests';
 
 interface Auth {
+  user: requests.User | null;
   authenticated: boolean;
   register: (userName: string, password: string, gender: Gender, country: Country) => AxiosPromise;
   login: (userName: string, password: string) => AxiosPromise<requests.LoginResult>;
@@ -26,6 +27,7 @@ export const getAccessTokenFromLocalStorage: () => string = () => {
 };
 
 const createAuth: () => Auth = () => {
+  const [user, setUser] = useState<requests.User | null>(null);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
@@ -43,6 +45,7 @@ const createAuth: () => Auth = () => {
       const res = await requests.login(userName, password);
       saveAccessTokenToLocalStorage(res && res.data && res.data.access_token);
       setAuthenticated(true);
+      setUser(res.data.user);
       return Promise.resolve(res);
     } catch (err) {
       return Promise.reject(err);
@@ -53,6 +56,7 @@ const createAuth: () => Auth = () => {
     setAuthenticated(false);
   };
   return {
+    user,
     authenticated,
     register,
     login,

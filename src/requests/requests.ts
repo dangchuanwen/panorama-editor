@@ -17,7 +17,7 @@ type Scene = {
   panorama: string;
   type: string;
 };
-export type LoginResult = { access_token: string };
+export type LoginResult = { access_token: string; user: User };
 export type PanoramaTourConfig = {
   default: {
     firstScene: string;
@@ -53,6 +53,7 @@ type UpdateWork = (workName: string, panoramaTourConfig: PanoramaTourConfig | nu
 type PublishWork = (workID: string, introduction: string) => AxiosPromise;
 type GetUserPublishedWorkByWorkID = (workID: string) => AxiosPromise<PublishedWork>;
 type GetPublishedWorksBeforeArchorDate = (archorDate: Date) => AxiosPromise<PublishedWork[]>;
+type GetUserInformation = () => AxiosPromise<User>;
 
 const request: AxiosInstance = axios.create();
 request.interceptors.request.use(
@@ -117,4 +118,8 @@ export const getUserPublishedWorkByWorkID: GetUserPublishedWorkByWorkID = async 
 
 export const getPublishedWorksBeforeArchorDate: GetPublishedWorksBeforeArchorDate = (archorDate: Date) => {
   return request.get<PublishedWork[]>(`/published-works/before/${new Date(archorDate).getTime()}/count/5`);
+};
+
+export const getUserInformation: GetUserInformation = () => {
+  return request.get<User>(`/users/information`);
 };

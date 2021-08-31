@@ -1,0 +1,11 @@
+.imageWrapper {
+  cursor: pointer;
+}
+.imageWrapper:hover .backDrop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.backDrop {
+  display: none;
+}

@@ -9,7 +9,7 @@ import {
 } from './schemas/work.schema';
 import { WorkAlreadyExistException } from './exceptions/work-already-exist.exception';
 import { UsersService } from 'src/users/user.service';
-import { User } from 'src/users/schemas/user.schema';
+import { User, UserDocument } from 'src/users/schemas/user.schema';
 import * as mongoose from 'mongoose';
 
 @Injectable()

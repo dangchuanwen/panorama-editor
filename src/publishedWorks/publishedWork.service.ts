@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { UserDocument } from 'src/users/schemas/user.schema';
 import { UsersService } from 'src/users/user.service';
 import { WorksService } from 'src/works/works.service';
 import {
@@ -59,5 +60,18 @@ export class PublishedWorkService {
         { new: true, useFindAndModify: false },
       );
     }
+  }
+
+  async getPublishedWorksOfGroupMembersByUserName(
+    userName: string,
+  ): Promise<PublishedWorkDocument[]> {
+    let groupMembers: UserDocument[];
+    groupMembers = await this.usersService.getGroupMembersByUserName(userName);
+    groupMembers = groupMembers.filter(
+      (member) => member.userName !== userName,
+    );
+    return this.publishedWorksModel
+      .find({ user: { $in: groupMembers } })
+      .populate('work');
   }
 }

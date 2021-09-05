@@ -17,6 +17,22 @@ export class UsersService {
     return this.userModel.findOne({ userName });
   }
 
+  async grouping(userName: string, group: string): Promise<UserDocument> {
+    return this.userModel.findOneAndUpdate({ userName }, { $set: { group } });
+  }
+
+  async getGroupMembersByUserName(userName: string): Promise<UserDocument[]> {
+    let groupMembers = [];
+    const user: UserDocument = await this.findUserByUserName(userName);
+    const group = user.group;
+    if (group === null) {
+      return groupMembers;
+    }
+
+    groupMembers = await this.userModel.find({ group });
+    return groupMembers;
+  }
+
   async createUser(createUserRequestDto: CreateUserRequestDto) {
     // check if user already exist
     const oldUser: User = await this.findUserByUserName(

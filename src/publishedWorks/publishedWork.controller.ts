@@ -18,6 +18,14 @@ import { PublishedWorkService } from './publishedWork.service';
 export class PublishedWorkController {
   constructor(private readonly publishedWorkService: PublishedWorkService) {}
 
+  @UseGuards(JwtAuthGuard)
+  @Get('group')
+  async getPublishedWorksOfGroupMembers(@Request() req: { user: JwtDto }) {
+    return this.publishedWorkService.getPublishedWorksOfGroupMembersByUserName(
+      req.user.userName,
+    );
+  }
+
   @Get('before/:anchorDate/count/:dataCount')
   async getPublishedWorksBeforeAnchorDate(
     @Param() params: GetPublishedWorksBeforeAnchorDate,

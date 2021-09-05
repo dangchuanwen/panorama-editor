@@ -26,6 +26,9 @@ export class User {
   @Prop({ type: mongooseSchema.Types.Number, enum: Country })
   country: Country;
 
+  @Prop()
+  group: string;
+
   @Prop({ default: Date.now })
   createdTime: Date;
 }

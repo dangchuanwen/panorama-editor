@@ -5,12 +5,14 @@ import { User } from 'src/users/schemas/user.schema';
 enum ToolNames {
   Tip = 'Tip',
   Link = 'Link',
+  Font = 'Font',
 }
 
 type HotSpot = {
   pitch: number;
   yaw: number;
   text: string;
+  fontContent: string;
   toolName: ToolNames;
 };
 

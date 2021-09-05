@@ -7,6 +7,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
+import { JwtDto } from 'src/auth/dto/jwt.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
 import { CreateUserRequestDto } from './dto/create-user.dto';
@@ -33,8 +34,8 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  async getProfile(@Request() req) {
-    return req.user;
+  @Get('information')
+  async getProfile(@Request() req: { user: JwtDto }) {
+    return this.userService.findUserByUserName(req.user.userName);
   }
 }

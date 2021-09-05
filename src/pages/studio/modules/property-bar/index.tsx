@@ -19,6 +19,13 @@ const PropertyBar: React.FC = () => {
     activatedHotSpot.text = newText;
     updateActivatedHotSpot(activatedHotSpot);
   };
+  const handleInputFontContent: (activatedHotSpot: HotSpot, newContent: string) => void = (
+    activatedHotSpot: HotSpot,
+    newContent: string,
+  ) => {
+    activatedHotSpot.fontContent = newContent;
+    updateActivatedHotSpot(activatedHotSpot);
+  };
 
   const handleClickDeleteBtn = () => {
     if (activatedHotSpot) {
@@ -37,7 +44,24 @@ const PropertyBar: React.FC = () => {
     <>
       {activatedHotSpot && (
         <Box height="100%">
-          <Box>
+          {activatedHotSpot.toolName === ToolNames.Font && (
+            <Box>
+              <Title>标签文本</Title>
+              <TextField
+                value={activatedHotSpot.fontContent || ''}
+                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  handleInputFontContent(activatedHotSpot, e.target.value);
+                }}
+                fullWidth
+                id="outlined-multiline-static"
+                label="修改标签文字"
+                multiline
+                rows={4}
+                variant="outlined"
+              />
+            </Box>
+          )}
+          <Box marginTop="3vh">
             <Title>标签内容</Title>
             <TextField
               value={activatedHotSpot.text}

@@ -16,7 +16,7 @@ const Play: React.FC = () => {
       const hotSpots = scenes[key].hotSpots;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       scenes[key].hotSpots = hotSpots.map((item: any) => {
-        item.createTooltipFunc = createTooltipInProd(item.toolName, item.text);
+        item.createTooltipFunc = createTooltipInProd(item);
         return item;
       });
     }

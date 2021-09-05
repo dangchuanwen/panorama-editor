@@ -26,6 +26,7 @@ export interface IHotSpot {
   toolName: ToolNames;
   targetID?: string;
   text?: string;
+  fontContent?: string;
   clickHandlerFunc?: IClickHandlerFunc;
   clickHandlerArgs?: HotSpot;
   createTooltipFunc?: ICreateTooltipFunc;

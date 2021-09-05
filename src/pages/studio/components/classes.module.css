@@ -1,9 +1,12 @@
 .hotSpot {
   box-sizing: content-box;
+
+  background-image: none;
+}
+.iconHotSpot {
   width: 40px;
   height: 40px;
   display: flex;
-  background-image: none;
 }
 .hotSpot > img {
   width: 100%;
@@ -24,6 +27,7 @@
   word-wrap: break-word;
   background-color: white;
   visibility: hidden;
+  box-shadow: 0 0 10px #333;
 }
 .hotSpot > span::after {
   content: '';
@@ -43,4 +47,18 @@
 }
 .activatedHotSpot > span {
   visibility: visible;
+}
+
+.fontHotSpot {
+  width: auto;
+  height: auto;
+}
+
+.fontTag {
+  margin: 0;
+  min-width: 35px;
+  min-height: 15px;
+  padding: 5px 10px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
 }

@@ -8,42 +8,50 @@ import { HotSpot } from '../state/state';
 const ToolIcons: Map<ToolNames, string> = new Map();
 ToolIcons.set(ToolNames.Link, LinkIcon);
 ToolIcons.set(ToolNames.Tip, TipIcon);
-export const createTooltipInProd = (toolName: ToolNames, text: string) => {
+
+const createTooltip = (hotSpotDiv: HTMLDivElement, hotSpot: HotSpot): void => {
+  const toolName = hotSpot.toolName;
+
+  const tipSpan: HTMLSpanElement = document.createElement('span');
+  tipSpan.innerHTML = hotSpot.text || '';
+  hotSpotDiv.draggable = false;
+  hotSpotDiv.classList.add(classes.hotSpot);
+  switch (toolName) {
+    case ToolNames.Link:
+    case ToolNames.Tip:
+      const ToolIcon = ToolIcons.get(toolName) || '';
+      const iconImage: HTMLImageElement = document.createElement('img');
+      iconImage.src = ToolIcon;
+      iconImage.draggable = false;
+      hotSpotDiv.classList.add(classes.iconHotSpot);
+      hotSpotDiv.appendChild(iconImage);
+      break;
+    case ToolNames.Font:
+      const fontTag: HTMLParagraphElement = document.createElement('p');
+      fontTag.draggable = false;
+      fontTag.innerHTML = hotSpot.fontContent || '';
+      hotSpotDiv.classList.add(classes.fontHotSpot);
+      fontTag.classList.add(classes.fontTag);
+      hotSpotDiv.appendChild(fontTag);
+      break;
+  }
+
+  hotSpotDiv.appendChild(tipSpan);
+};
+
+export const createTooltipInProd = (hotSpot: HotSpot) => {
   return (hotSpotDiv: HTMLDivElement): void => {
-    const iconImage: HTMLImageElement = document.createElement('img');
-    const tipSpan: HTMLSpanElement = document.createElement('span');
-    const ToolIcon = ToolIcons.get(toolName);
-    tipSpan.innerHTML = text || '';
-    hotSpotDiv.draggable = false;
-    hotSpotDiv.classList.add(classes.hotSpot);
-    iconImage.src = ToolIcon as string;
-    iconImage.draggable = false;
-    hotSpotDiv.appendChild(iconImage);
-    hotSpotDiv.appendChild(tipSpan);
+    createTooltip(hotSpotDiv, hotSpot);
   };
 };
 export const createTooltipInDev: (
   toolName: ToolNames,
   hotSpot: HotSpot,
   cb?: (div: HTMLDivElement) => void,
-) => ICreateTooltipFunc = (toolName: ToolNames, hotSpot: HotSpot, cb?: (div: HTMLDivElement) => void) => {
+) => ICreateTooltipFunc = (_toolName: ToolNames, hotSpot: HotSpot, cb?: (div: HTMLDivElement) => void) => {
   return (hotSpotDiv: HTMLDivElement) => {
-    const iconImage: HTMLImageElement = document.createElement('img');
-    const tipSpan: HTMLSpanElement = document.createElement('span');
-    const ToolIcon = ToolIcons.get(toolName);
-    if (ToolIcon === undefined) {
-      throw new Error(`Not found icon: ${toolName}`);
-    }
-
-    tipSpan.innerHTML = hotSpot.text || '';
-    hotSpotDiv.draggable = false;
-    hotSpotDiv.classList.add(classes.hotSpot);
+    createTooltip(hotSpotDiv, hotSpot);
     hotSpot.activated && hotSpotDiv.classList.add(classes.activatedHotSpot);
-    iconImage.src = ToolIcon;
-    iconImage.draggable = false;
-
-    hotSpotDiv.appendChild(iconImage);
-    hotSpotDiv.appendChild(tipSpan);
 
     // run callback function
     cb && cb(hotSpotDiv);

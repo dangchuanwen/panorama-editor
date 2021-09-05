@@ -32,6 +32,7 @@ export const importPanoramaTourConfig: (panoramaTourConfig: PanoramaTourConfig |
         pitch: hotSpotProd.pitch,
         text: hotSpotProd.text,
         type: hotSpotProd.type,
+        fontContent: hotSpotProd.fontContent,
         toolName: hotSpotProd.toolName,
         targetID: hotSpotProd.sceneId,
         activated: false,
@@ -62,6 +63,7 @@ export const exportPanoramaTourConfig = (panoramaImages: IPanoramaImage[]): Pano
       newHotSpot.toolName = hotSpot.toolName;
       newHotSpot.type = hotSpot.toolName === ToolNames.Link ? 'scene' : 'info';
       newHotSpot.text = hotSpot.text;
+      newHotSpot.fontContent = hotSpot.fontContent || '';
       if (hotSpot.toolName === ToolNames.Link) {
         if (panoramaImages.findIndex((image) => image.id === hotSpot.targetID) !== -1) {
           newHotSpot.sceneId = hotSpot.targetID;

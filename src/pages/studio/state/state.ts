@@ -74,6 +74,7 @@ export const useStudioState: () => IStudioState = () => {
     return updateWork(workID, exportPanoramaTourConfig(images));
   };
   const startTimedUpload = () => {
+    return;
     setTimeout(() => {
       uploadPanoramaTourConfig();
       startTimedUpload();

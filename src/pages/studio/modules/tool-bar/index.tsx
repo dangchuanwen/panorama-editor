@@ -73,6 +73,11 @@ const ToolBar: React.FC = () => {
 
   return (
     <Box width="100%" height="100%" display="flex" alignItems="center">
+      <Tooltip title="文字标签" classes={classes} placement="top" arrow={true}>
+        <Box marginRight="20px" draggable onDragStart={(e) => handleDragStart(e, ToolNames.Font)}>
+          <Iconfont name="icon-wenzi" color="#f46a12" fontSize="1.7vw" />
+        </Box>
+      </Tooltip>
       <Tooltip title="标签" classes={classes} placement="top" arrow={true}>
         <Box marginRight="20px" draggable onDragStart={(e) => handleDragStart(e, ToolNames.Tip)}>
           <Iconfont name="icon-tishi1" color="#1296db" fontSize="1.7vw" />

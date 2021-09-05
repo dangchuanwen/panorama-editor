@@ -27,6 +27,7 @@ export const getCountryData: (c: Country) => CountryData | undefined = (country:
 export enum ToolNames {
   Link = 'Link',
   Tip = 'Tip',
+  Font = 'Font',
 }
 export enum Gender {
   Male,

@@ -9,6 +9,7 @@ type HotSpot = {
   text: string;
   type: 'scene' | 'info';
   sceneId?: string;
+  fontContent?: string;
   toolName: ToolNames;
 };
 

@@ -37,11 +37,18 @@ export type Work = {
   workName: string;
   panoramaTourConfig: PanoramaTourConfig;
 };
+export type Comment = {
+  _id: string;
+  publisher: User;
+  content: string;
+};
 export type PublishedWork = {
+  _id: string;
   createdTime: Date;
   introduction: string;
   work: Work;
-  user: User;
+  author: User;
+  comments: Comment[];
 };
 
 type Register = (userName: string, password: string, gender: Gender, country: Country) => AxiosPromise;
@@ -55,6 +62,9 @@ type PublishWork = (workID: string, introduction: string) => AxiosPromise;
 type GetUserPublishedWorkByWorkID = (workID: string) => AxiosPromise<PublishedWork>;
 type GetPublishedWorksBeforeArchorDate = (archorDate: Date) => AxiosPromise<PublishedWork[]>;
 type GetUserInformation = () => AxiosPromise<User>;
+type GetPublishedWorksOfGroupMembers = () => AxiosPromise<PublishedWork[]>;
+type AddComment = (commentContent: string, commentedPublishedWorkID: string) => AxiosPromise;
+type DeleteComment = (commentID: string) => AxiosPromise;
 
 const request: AxiosInstance = axios.create();
 request.interceptors.request.use(
@@ -123,4 +133,19 @@ export const getPublishedWorksBeforeArchorDate: GetPublishedWorksBeforeArchorDat
 
 export const getUserInformation: GetUserInformation = () => {
   return request.get<User>(`/users/information`);
+};
+
+export const getPublishedWorksOfGroupMembers: GetPublishedWorksOfGroupMembers = () => {
+  return request.get<PublishedWork[]>(`/published-works/group`);
+};
+
+export const addComment: AddComment = (content: string, commentedPublishedWorkID: string) => {
+  return request.post('/comments', {
+    content,
+    commentedPublishedWorkID,
+  });
+};
+
+export const deleteComment: DeleteComment = (commentID: string) => {
+  return request.delete(`/comments/${commentID}`);
 };

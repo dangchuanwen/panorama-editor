@@ -19,7 +19,7 @@ const Home: React.FC = () => {
   };
   const handleClickLogOut: () => void = () => {
     logout();
-    history.replace('/');
+    window.location.reload();
   };
   const { path } = useRouteMatch();
 

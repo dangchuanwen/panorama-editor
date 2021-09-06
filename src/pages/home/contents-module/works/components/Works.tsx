@@ -3,6 +3,7 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 import { WorksWrapper, WorkItem, WorksBox, WorkThumbnail, WorksTitle, IconFont } from '../styled';
 import { Work } from 'requests/requests';
+import { Empty } from 'antd';
 type Props = {
   works: Work[];
 };
@@ -38,6 +39,7 @@ const Works: React.FC<Props> = ({ works }: Props) => {
     <WorksWrapper>
       <WorksTitle>我的所有作品</WorksTitle>
       <WorksBox>{renderWorkItems()}</WorksBox>
+      {works.length === 0 && <Empty description={<span style={{ color: 'gray' }}>您还没有创建过作品</span>} />}
     </WorksWrapper>
   );
 };

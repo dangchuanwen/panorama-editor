@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { FC } from 'react';
 import { getPublishedWorksBeforeArchorDate, PublishedWork } from 'requests/requests';
-import PublishedWorkList from './components/publishedWork.list';
+import PublishedWorkList from '../components/publishedWork.list';
 
 const Exhibition: FC = () => {
   const [archorDate, setArchorDate] = useState<Date>(new Date());

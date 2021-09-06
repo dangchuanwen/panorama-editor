@@ -1,4 +1,5 @@
 import { Box } from '@material-ui/core';
+import { Empty } from 'antd';
 import { FC } from 'react';
 import { PublishedWork } from 'requests/requests';
 import PublishedWorkItem from './publishedWork.item';
@@ -13,7 +14,12 @@ const PublishedWorkList: FC<Props> = ({ publishedWorks }: Props) => {
       return <PublishedWorkItem key={index} publishedWork={publishedWork} />;
     });
   };
-  return <Box width="100%">{renderPublishedWork()}</Box>;
+  return (
+    <Box width="100%">
+      {renderPublishedWork()}
+      {publishedWorks.length === 0 && <Empty description={<span style={{ color: 'gray' }}>暂无数据</span>} />}
+    </Box>
+  );
 };
 
 export default PublishedWorkList;

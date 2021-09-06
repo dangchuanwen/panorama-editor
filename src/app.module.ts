@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { WorksModule } from './works/works.module';
 import { QiniuModule } from './qiniu/qiniu.module';
 import { PublishedWorkModule } from './publishedWorks/publishedWorks.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { PublishedWorkModule } from './publishedWorks/publishedWorks.module';
     WorksModule,
     PublishedWorkModule,
     QiniuModule,
+    CommentModule,
   ],
   controllers: [],
   providers: [],

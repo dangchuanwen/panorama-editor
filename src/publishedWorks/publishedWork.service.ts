@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { UserDocument } from 'src/users/schemas/user.schema';
 import { UsersService } from 'src/users/user.service';
 import { WorksService } from 'src/works/works.service';
+import * as mongoose from 'mongoose';
 import {
   PublishedWork,
   PublishedWorkDocument,
@@ -20,6 +21,13 @@ export class PublishedWorkService {
 
   async findAllPublishedWorks() {
     return this.publishedWorksModel.find({});
+  }
+
+  async findPublishedWorkByID(publishedWorkID: string) {
+    const publishedWork = await this.publishedWorksModel.findById(
+      publishedWorkID,
+    );
+    return publishedWork;
   }
 
   async findUserPublishedWorkByWorkID(userName: string, workID: string) {
@@ -66,12 +74,68 @@ export class PublishedWorkService {
     userName: string,
   ): Promise<PublishedWorkDocument[]> {
     let groupMembers: UserDocument[];
+    let groupMembersObjectIDs: mongoose.Types.ObjectId[];
     groupMembers = await this.usersService.getGroupMembersByUserName(userName);
     groupMembers = groupMembers.filter(
       (member) => member.userName !== userName,
     );
-    return this.publishedWorksModel
-      .find({ user: { $in: groupMembers } })
-      .populate('work');
+    groupMembersObjectIDs = groupMembers.map((groupMember) =>
+      mongoose.Types.ObjectId(groupMember._id),
+    );
+    return this.publishedWorksModel.aggregate([
+      {
+        $match: {
+          user: {
+            $in: groupMembersObjectIDs,
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'comments',
+          localField: '_id',
+          foreignField: 'commentedPublishedWork',
+          as: 'comments',
+        },
+      },
+      {
+        $lookup: {
+          from: 'works',
+          localField: 'work',
+          foreignField: '_id',
+          as: 'work',
+        },
+      },
+      {
+        $unwind: '$work',
+      },
+      {
+        $sort: {
+          createdTime: -1,
+        },
+      },
+      {
+        $unwind: '$comments',
+      },
+      {
+        $sort: {
+          'comments.createdTime': 1,
+        },
+      },
+      {
+        $group: {
+          _id: '$_id',
+          comments: { $push: '$comments' },
+          publishedWork: { $first: '$$ROOT' },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: ['$publishedWork', { comments: '$comments' }],
+          },
+        },
+      },
+    ]);
   }
 }

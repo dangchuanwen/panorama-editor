@@ -19,5 +19,6 @@ import {
   ],
   controllers: [PublishedWorkController],
   providers: [PublishedWorkService],
+  exports: [PublishedWorkService],
 })
 export class PublishedWorkModule {}

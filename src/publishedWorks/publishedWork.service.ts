@@ -12,15 +12,89 @@ import {
 
 @Injectable()
 export class PublishedWorkService {
+  aggregateArray = [];
   constructor(
     @InjectModel(PublishedWork.name)
     private readonly publishedWorksModel: Model<PublishedWorkDocument>,
     private readonly usersService: UsersService,
     private readonly worksService: WorksService,
-  ) {}
+  ) {
+    this.aggregateArray = [
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'user',
+          foreignField: '_id',
+          as: 'author',
+        },
+      },
+      {
+        $unwind: '$author',
+      },
+      {
+        $lookup: {
+          from: 'works',
+          localField: 'work',
+          foreignField: '_id',
+          as: 'work',
+        },
+      },
+      {
+        $unwind: '$work',
+      },
+
+      {
+        $lookup: {
+          from: 'comments',
+          localField: '_id',
+          foreignField: 'commentedPublishedWork',
+          as: 'comments',
+        },
+      },
+      {
+        $unwind: {
+          path: '$comments',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'comments.publisher',
+          foreignField: '_id',
+          as: 'comments.publisher',
+        },
+      },
+      {
+        $unwind: {
+          path: '$comments.publisher',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $group: {
+          _id: '$_id',
+          comments: { $push: '$comments' },
+          publishedWork: { $first: '$$ROOT' },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: ['$publishedWork', { comments: '$comments' }],
+          },
+        },
+      },
+      {
+        $sort: {
+          createdTime: -1,
+        },
+      },
+    ];
+  }
 
   async findAllPublishedWorks() {
-    return this.publishedWorksModel.find({});
+    return this.publishedWorksModel.aggregate(this.aggregateArray);
   }
 
   async findPublishedWorkByID(publishedWorkID: string) {
@@ -40,12 +114,16 @@ export class PublishedWorkService {
     anchorDate: Date,
     dataCount: number,
   ) {
-    return this.publishedWorksModel
-      .find({ createdTime: { $lt: anchorDate } })
-      .populate('user')
-      .populate('work')
-      .sort({ createdTime: -1 })
-      .limit(dataCount);
+    const date = new Date(Number(anchorDate));
+    return this.publishedWorksModel.aggregate([
+      {
+        $match: { createdTime: { $lt: date } },
+      },
+      {
+        $limit: dataCount,
+      },
+      ...this.aggregateArray,
+    ]);
   }
 
   async savePublishedWork(
@@ -90,63 +168,7 @@ export class PublishedWorkService {
           },
         },
       },
-      {
-        $lookup: {
-          from: 'comments',
-          localField: '_id',
-          foreignField: 'commentedPublishedWork',
-          as: 'comments',
-        },
-      },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'user',
-          foreignField: '_id',
-          as: 'user',
-        },
-      },
-      {
-        $unwind: '$user',
-      },
-      {
-        $lookup: {
-          from: 'works',
-          localField: 'work',
-          foreignField: '_id',
-          as: 'work',
-        },
-      },
-      {
-        $unwind: '$work',
-      },
-      {
-        $sort: {
-          createdTime: -1,
-        },
-      },
-      {
-        $unwind: '$comments',
-      },
-      {
-        $sort: {
-          'comments.createdTime': 1,
-        },
-      },
-      {
-        $group: {
-          _id: '$_id',
-          comments: { $push: '$comments' },
-          publishedWork: { $first: '$$ROOT' },
-        },
-      },
-      {
-        $replaceRoot: {
-          newRoot: {
-            $mergeObjects: ['$publishedWork', { comments: '$comments' }],
-          },
-        },
-      },
+      ...this.aggregateArray,
     ]);
   }
 }

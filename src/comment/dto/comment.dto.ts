@@ -1,4 +1,4 @@
 export class CommentDto {
   content: string;
-  publishedWorkID: string;
+  commentedPublishedWorkID: string;
 }

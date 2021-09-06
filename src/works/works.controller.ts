@@ -33,11 +33,8 @@ export class WorksController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/:workID')
-  async getWork(
-    @Request() req: { user: JwtDto },
-    @Param('workID') workID: string,
-  ): Promise<Work> {
-    return this.worksService.getUserWorkByID(req.user.userName, workID);
+  async getWork(@Param('workID') workID: string): Promise<Work> {
+    return this.worksService.getUserWorkByID(workID);
   }
 
   @UseGuards(JwtAuthGuard)

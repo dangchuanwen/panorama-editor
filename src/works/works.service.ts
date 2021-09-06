@@ -27,10 +27,8 @@ export class WorksService {
     return this.worksModel.findById(workID);
   }
 
-  async getUserWorkByID(userName: string, workID: string) {
-    const user = await this.usersService.findUserByUserName(userName);
+  async getUserWorkByID(workID: string) {
     const work = await this.worksModel.findOne({
-      user,
       _id: mongoose.Types.ObjectId(workID),
     });
     return work;

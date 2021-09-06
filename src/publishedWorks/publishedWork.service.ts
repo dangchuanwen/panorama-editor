@@ -53,7 +53,7 @@ export class PublishedWorkService {
     workID: string,
     introduction: string,
   ) {
-    const work = await this.worksService.getUserWorkByID(userName, workID);
+    const work = await this.worksService.getUserWorkByID(workID);
     const user = await this.usersService.findUserByUserName(userName);
     const oldPublishedWork = await this.publishedWorksModel.findOne({
       work,
@@ -97,6 +97,17 @@ export class PublishedWorkService {
           foreignField: 'commentedPublishedWork',
           as: 'comments',
         },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'user',
+          foreignField: '_id',
+          as: 'user',
+        },
+      },
+      {
+        $unwind: '$user',
       },
       {
         $lookup: {

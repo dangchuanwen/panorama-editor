@@ -2,7 +2,7 @@
 /dist
 /node_modules
 *.zip
-
+.env
 # Logs
 logs
 *.log

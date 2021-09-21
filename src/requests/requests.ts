@@ -87,7 +87,7 @@ export const showHttpError: (err: AxiosError, prefix?: string) => void = (err: A
   if (err.response?.status && HttpErrorMessage.has(err.response?.status)) {
     message.warn(prefix + HttpErrorMessage.get(err.response?.status));
   } else {
-    message.error(err.response?.data);
+    message.error(err.response?.data.message);
   }
 };
 

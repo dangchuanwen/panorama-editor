@@ -27,7 +27,7 @@ const Exhibition: FC = () => {
           }
         }
       } catch (err) {
-        message.error(err.response.message);
+        message.error(err.response?.data.message);
       }
     };
     fetchPublishedWorksBeforeArchorDate();

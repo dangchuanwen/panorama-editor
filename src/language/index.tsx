@@ -30,7 +30,7 @@ const useLanguageState: () => ILanguageState = () => {
       const res = await getLanguagePackage(languageName);
       setLanguagePackage(res.data);
     } catch (err) {
-      message.warn(err.response.message);
+      message.warn(err.response?.data.message);
     }
   };
   useEffect(() => {

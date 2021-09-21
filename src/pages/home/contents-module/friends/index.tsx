@@ -21,7 +21,7 @@ const Friends: React.FC = () => {
       setLoadData(loadData + 1);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      message.error(err.response.message);
+      message.error(err.response?.data.message);
     }
   };
   const handleDeleteComment = async (commentID: string) => {
@@ -30,7 +30,7 @@ const Friends: React.FC = () => {
       message.success('删除成功！');
       setLoadData(loadData + 1);
     } catch (err) {
-      message.error(err.response.message);
+      message.error(err.response?.data.message);
     }
   };
   React.useEffect(() => {
@@ -42,7 +42,7 @@ const Friends: React.FC = () => {
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
-        message.error(err.response.message);
+        message.error(err.response?.data.message);
       }
     };
     fetchPublishedWorksOfGroupMembers();

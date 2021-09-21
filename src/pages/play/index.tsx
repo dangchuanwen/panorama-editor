@@ -30,7 +30,7 @@ const Play: React.FC = () => {
           window.pannellum.viewer('panorama', addHotSpotStyle(res.data.panoramaTourConfig));
         }
       } catch (err) {
-        message.warn(err.response.message);
+        message.warn(err.response?.data.message);
       }
     };
     fetchData();

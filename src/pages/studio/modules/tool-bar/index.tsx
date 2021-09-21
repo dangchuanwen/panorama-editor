@@ -30,7 +30,7 @@ const ToolBar: React.FC = () => {
           setIntroduction(res.data.introduction);
         }
       } catch (err) {
-        message.error(err.response.message);
+        message.error(err.response?.data.message);
       }
     };
     fetchData();
@@ -55,7 +55,7 @@ const ToolBar: React.FC = () => {
       await publishWork(workID, introduction);
       message.success('发布成功！');
     } catch (err) {
-      message.error(err.response.message);
+      message.error(err.response?.data.message);
     } finally {
       setShowPublishDialog(false);
     }
@@ -65,7 +65,7 @@ const ToolBar: React.FC = () => {
       await uploadPanoramaTourConfig();
       message.success('保存成功！');
     } catch (err) {
-      message.warn(err.response.message);
+      message.warn(err.response?.data.message);
     }
   };
   const handleClickPlay = () => {

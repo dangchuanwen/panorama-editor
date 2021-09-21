@@ -12,10 +12,13 @@ import { showHttpError } from 'requests/requests';
 import { Country, Gender, countries } from 'interface';
 
 import { Select } from 'antd';
+import LanguageSelecter from 'components/LanguageSelecter';
+import { LanguageContext } from 'language';
 
 const { Option } = Select;
 
 const SignUp: React.FC = () => {
+  const { languagePackage } = useContext(LanguageContext);
   const [userName, setUserName] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [gender, setGender] = React.useState<Gender>(Gender.Female);
@@ -34,7 +37,7 @@ const SignUp: React.FC = () => {
       );
     });
     return (
-      <Select style={{ width: '50%' }} value={country} onChange={(val: Country) => setCountry(val)}>
+      <Select style={{ width: '50%' }} size="small" value={country} onChange={(val: Country) => setCountry(val)}>
         {CountryOptions}
       </Select>
     );
@@ -76,23 +79,26 @@ const SignUp: React.FC = () => {
           <Grid item xs={7}>
             <div className={styles.formWrapper}>
               <div className={styles.childrenInRight}>
-                <span>已有账户？</span>
+                <LanguageSelecter />
+                <span>{languagePackage?.HaveAccountYet}</span>
                 <Link to="/signin">
-                  <Button variant="outlined">登录</Button>
+                  <Button variant="outlined">{languagePackage?.Login}</Button>
                 </Link>
               </div>
 
               <div className={styles.titleLine}>
-                <h1>欢迎来到全景世界</h1>
-                <p>注册你的账号</p>
+                <h1>{languagePackage?.WelcomeToPanoramicWorld}</h1>
+                <p>{languagePackage?.Register}</p>
               </div>
 
               <div className={styles.inputLine}>
                 <p>
-                  <strong>用户名</strong>
+                  <strong>{languagePackage?.Username}</strong>
                 </p>
                 <TextField
                   variant="outlined"
+                  InputProps={{ style: { fontSize: 12 } }}
+                  InputLabelProps={{ style: { fontSize: 12 } }}
                   label="输入一个用户名"
                   fullWidth
                   value={userName}
@@ -103,11 +109,13 @@ const SignUp: React.FC = () => {
 
               <div className={styles.inputLine}>
                 <p>
-                  <strong>密码</strong>
+                  <strong>{languagePackage?.Password}</strong>
                 </p>
                 <TextField
                   variant="outlined"
                   label="输入你的密码"
+                  InputProps={{ style: { fontSize: 12 } }}
+                  InputLabelProps={{ style: { fontSize: 12 } }}
                   fullWidth
                   value={password}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
@@ -118,27 +126,35 @@ const SignUp: React.FC = () => {
 
               <div className={styles.inputLine}>
                 <p>
-                  <strong>国家</strong>
+                  <strong>{languagePackage?.Country}</strong>
                 </p>
                 {renderCountrySelecter()}
               </div>
 
               <div className={styles.inputLine}>
-                <strong>性别</strong>
+                <strong>{languagePackage?.Gender}</strong>
                 <RadioGroup
                   aria-label="gender"
                   value={gender}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setGender(Number(e.target.value))}
                   style={{ flexDirection: 'row' }}
                 >
-                  <FormControlLabel value={Gender.Female} control={<Radio color="secondary" />} label="女" />
-                  <FormControlLabel value={Gender.Male} control={<Radio color="primary" />} label="男" />
+                  <FormControlLabel
+                    value={Gender.Female}
+                    control={<Radio size="small" color="secondary" />}
+                    label={languagePackage?.Female}
+                  />
+                  <FormControlLabel
+                    value={Gender.Male}
+                    control={<Radio size="small" color="primary" />}
+                    label={languagePackage?.Male}
+                  />
                 </RadioGroup>
               </div>
 
               <Box marginTop="2vh">
                 <Button onClick={() => handleClickCreate()} variant="contained" className={styles.submitButton}>
-                  立即创建
+                  {languagePackage?.CreateRightNow}
                 </Button>
               </Box>
             </div>

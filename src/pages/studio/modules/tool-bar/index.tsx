@@ -36,7 +36,7 @@ const ToolBar: React.FC = () => {
     fetchData();
   }, [workID]);
 
-  const { uploadPanoramaTourConfig } = React.useContext(StudioContext);
+  const { uploadPanoramaTourConfig, panoramaImages } = React.useContext(StudioContext);
   const currentRoute = useRouteMatch<StudioPageParams>();
   const classes = useStylesBootstrap();
   const handleClickPublish = async () => {
@@ -45,6 +45,10 @@ const ToolBar: React.FC = () => {
   const handleConfirmPublish = async () => {
     if (!introduction) {
       message.warn('请输入作品介绍！');
+      return;
+    }
+    if (panoramaImages.length === 0) {
+      message.warn('请先导入全景图片！');
       return;
     }
     try {

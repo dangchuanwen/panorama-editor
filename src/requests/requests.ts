@@ -2,6 +2,8 @@ import { message } from 'antd';
 import { getAccessTokenFromLocalStorage } from 'auth/auth';
 import axios, { AxiosInstance, AxiosError, AxiosPromise, AxiosRequestConfig } from 'axios';
 import { Country, Gender, ToolNames } from 'interface';
+import { LanguageNames } from 'language';
+import { WebsiteTexts } from 'language/interface';
 
 type HotSpot = {
   pitch: number;
@@ -65,6 +67,7 @@ type GetUserInformation = () => AxiosPromise<User>;
 type GetPublishedWorksOfGroupMembers = () => AxiosPromise<PublishedWork[]>;
 type AddComment = (commentContent: string, commentedPublishedWorkID: string) => AxiosPromise;
 type DeleteComment = (commentID: string) => AxiosPromise;
+type GetLanguagePackage = (languageName: LanguageNames) => AxiosPromise<WebsiteTexts>;
 
 const request: AxiosInstance = axios.create();
 request.interceptors.request.use(
@@ -148,4 +151,8 @@ export const addComment: AddComment = (content: string, commentedPublishedWorkID
 
 export const deleteComment: DeleteComment = (commentID: string) => {
   return request.delete(`/comments/${commentID}`);
+};
+
+export const getLanguagePackage: GetLanguagePackage = (languageName: LanguageNames) => {
+  return request.get(`/languages/${languageName}`);
 };

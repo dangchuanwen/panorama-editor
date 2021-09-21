@@ -36,9 +36,11 @@ const Exhibition: FC = () => {
     <Box width="60%" padding="1vw" maxHeight="80vh" overflow="auto">
       <PublishedWorkList publishedWorks={publishedWorks} />
       <Box marginLeft="30%">
-        <Button variant="contained" onClick={handleClickLoadMore}>
-          加载更多
-        </Button>
+        {Array.isArray(publishedWorks) && publishedWorks.length > 0 && (
+          <Button variant="contained" onClick={handleClickLoadMore}>
+            加载更多
+          </Button>
+        )}
       </Box>
     </Box>
   );

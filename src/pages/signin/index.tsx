@@ -9,6 +9,7 @@ import Logo from 'assets/logo.png';
 import { showHttpError } from 'requests/requests';
 import { message } from 'antd';
 import { useAuth } from 'auth/auth';
+import LanguageSelecter from 'components/LanguageSelecter';
 
 const SignIn: React.FC = () => {
   const { authContext } = useAuth();
@@ -44,6 +45,7 @@ const SignIn: React.FC = () => {
           <Grid item xs={7}>
             <div className={styles.formWrapper}>
               <div className={styles.childrenInRight}>
+                <LanguageSelecter />
                 <span>还没有没有账户？</span>
                 <Link to="/signup">
                   <Button variant="outlined">注册</Button>
@@ -60,6 +62,8 @@ const SignIn: React.FC = () => {
                 <TextField
                   variant="outlined"
                   value={userName}
+                  InputProps={{ style: { fontSize: 12 } }}
+                  InputLabelProps={{ style: { fontSize: 12 } }}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
                   label="你的账号"
                   fullWidth
@@ -73,6 +77,8 @@ const SignIn: React.FC = () => {
                 <TextField
                   variant="outlined"
                   value={password}
+                  InputProps={{ style: { fontSize: 12 } }}
+                  InputLabelProps={{ style: { fontSize: 12 } }}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                   label="你的密码"
                   fullWidth

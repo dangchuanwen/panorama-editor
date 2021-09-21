@@ -2,8 +2,8 @@
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template-columns: 50vw;
-  grid-template-rows: 60vh;
+  grid-template-columns: 55vw;
+  grid-template-rows: 65vh;
   justify-content: center;
   align-content: center;
   background: url(https://cdn.pixabay.com/photo/2015/10/29/14/38/web-1012467_960_720.jpg);
@@ -22,7 +22,7 @@
 }
 .posterWrapper > img {
   width: 100%;
-  height: 60vh;
+  height: 65vh;
 }
 .posterWrapper > p {
   left: 0;
@@ -46,7 +46,7 @@
   box-sizing: border-box;
   padding: 1.5vw;
   width: 100%;
-  height: 60vh;
+  height: 70vh;
   background-color: white;
 
   display: flex;
@@ -58,14 +58,18 @@
 
 .titleLine > h1 {
   color: #333;
+  font-size: 1.7vw;
 }
 .titleLine > p {
+  font-size: 1vw;
   color: gray;
 }
 .inputLine {
   margin-top: 1vh;
+  font-size: 0.5vw;
 }
-
+.input {
+}
 .forgetPasswordLink {
   margin-top: 1vh;
   font-size: 14px;

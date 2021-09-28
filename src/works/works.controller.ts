@@ -31,7 +31,6 @@ export class WorksController {
     return this.worksService.getUserWorks(req.user.userName);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('/:workID')
   async getWork(@Param('workID') workID: string): Promise<Work> {
     return this.worksService.getUserWorkByID(workID);

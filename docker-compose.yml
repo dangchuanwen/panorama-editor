@@ -1,0 +1,16 @@
+version: '3'
+services:
+  panorama-app:
+    container_name: panorama-app
+    image: 'dangchuanwen/panorama:latest'
+    restart: always
+    build: .
+    ports:
+      - '4000:4000'
+    external_links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - '27017:27017'

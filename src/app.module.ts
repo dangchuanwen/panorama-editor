@@ -8,13 +8,21 @@ import { PublishedWorkModule } from './publishedWorks/publishedWorks.module';
 import { CommentModule } from './comment/comment.module';
 import { LanguageModule } from './language/language.module';
 import { ConfigModule } from '@nestjs/config';
-const mongodb_url = process.env.NODE_ENV
-  ? 'mongodb+srv://qwer1234:qwer1234@cluster0.xa6fp.mongodb.net/panorama'
-  : 'mongodb://localhost:27017/panorama';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+
+const MongodbURLMaps: Map<string, string> = new Map();
+MongodbURLMaps.set('prod', 'mongodb://mongo:27017/panorama');
+MongodbURLMaps.set('dev', 'mongodb://localhost:27017/panorama');
+
+const mongodb_url = MongodbURLMaps.get(process.env.NODE_ENV);
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(mongodb_url),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
+    }),
     AuthModule,
     UsersModule,
     WorksModule,

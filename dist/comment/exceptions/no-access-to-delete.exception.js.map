@@ -1,0 +1,1 @@
+{"version":3,"file":"no-access-to-delete.exception.js","sourceRoot":"","sources":["../../../src/comment/exceptions/no-access-to-delete.exception.ts"],"names":[],"mappings":";;;AAAA,2CAA2D;AAE3D,MAAa,yBAA0B,SAAQ,sBAAa;IAC1D;QACE,KAAK,CAAC,eAAe,EAAE,mBAAU,CAAC,SAAS,CAAC,CAAC;IAC/C,CAAC;CACF;AAJD,8DAIC"}

@@ -3,12 +3,17 @@ export interface WebsiteTexts {
     LoginYourAccount: string;
     Username: string;
     YourUsername: string;
+    PleaseEnterUsername: string;
+    PleaseEnterPassword: string;
+    PleaseEnterYourUsername: string;
+    PleaseEnterYourPassword: string;
     Password: string;
     YourPassword: string;
     ForgetPassword: string;
     NoAccountYet: string;
     Register: string;
     Login: string;
+    LoginSuccessfully: string;
     Country: string;
     China: string;
     Uzbekistan: string;
@@ -24,6 +29,7 @@ export interface WebsiteTexts {
     AllMyWorks: string;
     CreateWork: string;
     PleaseGiveANameForWork: string;
+    MakeYourPanoramaWork: string;
     Create: string;
     Cancel: string;
     LoadMore: string;
@@ -48,9 +54,14 @@ export interface WebsiteTexts {
     AddingIntroductionWillTakeBetterExperienceToOthers: string;
     CreateSuccessfully: string;
     PublishSuccessfully: string;
+    TargetImage: string;
     PleaseAddIntroductionHere: string;
     PleaseImportPanoramicImage: string;
     YouHaveNotCreatedAWorkYet: string;
     NoDatasYet: string;
     NoMoreDatas: string;
+    SuccessToComment: string;
+    SuccessToRemove: string;
+    SuccessToCreate: string;
+    Watch: string;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import VR from 'assets/VR.png';
 
@@ -8,8 +8,10 @@ import { renderRoutes } from 'routes/index';
 import { Box, Button } from '@material-ui/core';
 import { useAuth } from 'auth/auth';
 import useUser from 'hooks/useUser';
+import { LanguageContext } from 'language';
 
 const Home: React.FC = () => {
+  const { languagePackage } = useContext(LanguageContext);
   const { authContext } = useAuth();
   const { logout } = React.useContext(authContext);
   const user = useUser();
@@ -30,10 +32,10 @@ const Home: React.FC = () => {
           <Logo src={VR} />
         </LogoBox>
         <HeaderBox>
-          <h2>欢迎来到全景漫游世界</h2>
+          <h2>{languagePackage?.WelcomeToPanoramicWorld}</h2>
           <Box>
             <span style={{ fontWeight: 'bolder', fontSize: '1vw', marginRight: '1vw' }}>{user?.userName}</span>
-            <Button onClick={handleClickLogOut}>退出</Button>
+            <Button onClick={handleClickLogOut}>{languagePackage?.Signout}</Button>
           </Box>
         </HeaderBox>
         <MenuBox>

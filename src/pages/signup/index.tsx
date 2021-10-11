@@ -9,7 +9,7 @@ import Logo from 'assets/logo.png';
 import { useAuth } from 'auth/auth';
 import { message } from 'antd';
 import { showHttpError } from 'requests/requests';
-import { Country, Gender, countries } from 'interface';
+import { Country, Gender, getCountries } from 'interface';
 
 import { Select } from 'antd';
 import LanguageSelecter from 'components/LanguageSelecter';
@@ -28,6 +28,11 @@ const SignUp: React.FC = () => {
   const { register } = useContext(authContext);
 
   const renderCountrySelecter = () => {
+    const countriesTexts: Map<Country, string> = new Map();
+    countriesTexts.set(Country.China, languagePackage?.China || '');
+    countriesTexts.set(Country.Indonesia, languagePackage?.Indonesia || '');
+    countriesTexts.set(Country.Uzbekistan, languagePackage?.Uzbekistan || '');
+    const countries = getCountries(countriesTexts);
     const CountryOptions = countries.map((item) => {
       return (
         <Option value={item.value} key={item.value}>
@@ -45,16 +50,16 @@ const SignUp: React.FC = () => {
 
   const handleClickCreate = async () => {
     if (!userName) {
-      message.warn('请输入用户名');
+      message.warn(languagePackage?.PleaseEnterYourUsername);
       return;
     }
     if (!password) {
-      message.warn('请输入密码');
+      message.warn(languagePackage?.PleaseEnterYourPassword);
       return;
     }
     try {
       await register(userName, password, gender, country);
-      message.success('注册成功！');
+      message.success(languagePackage?.CreateSuccessfully);
     } catch (err) {
       showHttpError(err, '用户');
     }
@@ -99,7 +104,7 @@ const SignUp: React.FC = () => {
                   variant="outlined"
                   InputProps={{ style: { fontSize: 12 } }}
                   InputLabelProps={{ style: { fontSize: 12 } }}
-                  label="输入一个用户名"
+                  label={languagePackage?.PleaseEnterUsername}
                   fullWidth
                   value={userName}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
@@ -113,7 +118,7 @@ const SignUp: React.FC = () => {
                 </p>
                 <TextField
                   variant="outlined"
-                  label="输入你的密码"
+                  label={languagePackage?.PleaseEnterPassword}
                   InputProps={{ style: { fontSize: 12 } }}
                   InputLabelProps={{ style: { fontSize: 12 } }}
                   fullWidth

@@ -7,10 +7,12 @@ import { PublishedWork } from 'requests/requests';
 import classes from './classes.module.css';
 import Comments from './comments';
 import { friendsContext } from '../friends/index';
+import { LanguageContext } from 'language';
 interface Props {
   publishedWork: PublishedWork;
 }
 const PublishedWorkItem: FC<Props> = ({ publishedWork }: Props) => {
+  const { languagePackage } = useContext(LanguageContext);
   const { commentable, handleComment } = useContext(friendsContext);
   const { author, work, introduction, comments } = publishedWork;
 
@@ -40,7 +42,7 @@ const PublishedWorkItem: FC<Props> = ({ publishedWork }: Props) => {
       </Box>
       <Box marginTop="2vh" className={classes.imageWrapper} width="30%" position="relative">
         <Box position="absolute" className={classes.backDrop} width="100%" height="100%" bgcolor="rgba(0,0,0,0.7)">
-          <Tooltip title="观看" placement="top" arrow={true}>
+          <Tooltip title={languagePackage?.Watch || ''} placement="top" arrow={true}>
             <Box onClick={handleClickPlay}>
               <Iconfont name="icon-70BasicIcons-all-64" color="#37daf6" fontSize="1.6vw" />
             </Box>
@@ -55,13 +57,13 @@ const PublishedWorkItem: FC<Props> = ({ publishedWork }: Props) => {
             <CardActions>
               <Box width="60%">
                 <Input.Search
-                  placeholder="在此输入评论"
+                  placeholder={languagePackage?.CommentHere}
                   onSearch={(content) => {
                     if (handleComment) {
                       handleComment(content, publishedWork._id);
                     }
                   }}
-                  enterButton="发布"
+                  enterButton={languagePackage?.Publish}
                 />
               </Box>
             </CardActions>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box } from '@material-ui/core';
 import { IClickHandlerFunc, IPannellum } from 'types/pannellum/interface';
 import { ToolNames } from 'interface';
@@ -7,9 +7,11 @@ import { createTooltipInDev } from 'pages/studio/components/HotSpot';
 import { generateUniqueId } from 'utils';
 import { StudioContext } from 'pages/studio/state/context';
 import { HotSpot, IPanoramaImage, IStudioState } from 'pages/studio/state/state';
+import { LanguageContext } from 'language';
 let oldHotSpots: HotSpot[] = [];
 const Canvas: React.FC = () => {
-  const { panoramaImages, switchHotSpot, addHotSpot, deSelectAllHotSpots } =
+  const { languagePackage } = useContext(LanguageContext);
+  const { panoramaImages, switchHotSpot, addHotSpot, deSelectAllHotSpots, set_Yaw_Pitch } =
     React.useContext<IStudioState>(StudioContext);
   const [pannellumInstance, setPannellumInstance] = React.useState<IPannellum | null>(null);
   const activatedImage: IPanoramaImage | undefined = panoramaImages.find((item) => item.activated);
@@ -69,6 +71,8 @@ const Canvas: React.FC = () => {
         scene0: {
           panorama: activatedImage.url,
           autoLoad: true,
+          yaw: activatedImage.yaw || 0,
+          pitch: activatedImage.pitch || 0,
           type: 'equirectangular',
           hotSpots: [],
         },
@@ -76,6 +80,7 @@ const Canvas: React.FC = () => {
     }) as IPannellum;
     p.on('mouseup', () => {
       deSelectAllHotSpots();
+      set_Yaw_Pitch(p.getYaw(), p.getPitch());
     });
     setPannellumInstance(p);
   }, [activatedImageID]);
@@ -95,7 +100,7 @@ const Canvas: React.FC = () => {
           id="panorama"
         ></Box>
       ) : (
-        '请选择一张全景图片'
+        languagePackage?.PleaseImportPanoramicImage
       )}
     </>
   );

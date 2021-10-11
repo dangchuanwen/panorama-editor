@@ -1,6 +1,7 @@
 import { Box } from '@material-ui/core';
 import { Empty } from 'antd';
-import { FC } from 'react';
+import { LanguageContext } from 'language';
+import { FC, useContext } from 'react';
 import { PublishedWork } from 'requests/requests';
 import PublishedWorkItem from './publishedWork.item';
 
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const PublishedWorkList: FC<Props> = ({ publishedWorks }: Props) => {
+  const { languagePackage } = useContext(LanguageContext);
   const renderPublishedWork = () => {
     return publishedWorks.map((publishedWork, index) => {
       return <PublishedWorkItem key={index} publishedWork={publishedWork} />;
@@ -17,7 +19,9 @@ const PublishedWorkList: FC<Props> = ({ publishedWorks }: Props) => {
   return (
     <Box width="100%">
       {renderPublishedWork()}
-      {publishedWorks.length === 0 && <Empty description={<span style={{ color: 'gray' }}>暂无数据</span>} />}
+      {publishedWorks.length === 0 && (
+        <Empty description={<span style={{ color: 'gray' }}>{languagePackage?.NoDatasYet}</span>} />
+      )}
     </Box>
   );
 };

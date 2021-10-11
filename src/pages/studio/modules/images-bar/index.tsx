@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import UploadButton from 'components/UploadButton';
 import ImageList from './components/ImageList';
 import * as qiniu from 'qiniu-js';
@@ -10,8 +10,10 @@ import classes from './classes.module.css';
 import { StudioContext } from 'pages/studio/state/context';
 import { IPanoramaImage } from 'pages/studio/state/state';
 import { getQiniuToken } from 'requests/requests';
+import { LanguageContext } from 'language';
 
 const ImagesBar: React.FC = () => {
+  const { languagePackage } = useContext(LanguageContext);
   const { panoramaImages, removeImage, switchImage, addImage } = React.useContext(StudioContext);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [token, setToken] = React.useState<string>('');
@@ -66,7 +68,7 @@ const ImagesBar: React.FC = () => {
   return (
     <>
       <Wrapper>
-        <UploadButton text="导入图片" onChooseImage={handleChooseFile} />
+        <UploadButton text={languagePackage?.ImportPanoramicImage || ''} onChooseImage={handleChooseFile} />
         <ImageList onClickImage={handleClickImage} images={panoramaImages} />
         <Button
           onClick={() => handleClickDelete(panoramaImages.find((item) => item.activated))}
@@ -75,7 +77,7 @@ const ImagesBar: React.FC = () => {
           color="secondary"
           startIcon={<DeleteIcon />}
         >
-          删除
+          {languagePackage?.Delete}
         </Button>
       </Wrapper>
       <Backdrop open={loading} className={classes.backdrop}>

@@ -21,10 +21,15 @@ const createTooltip = (hotSpotDiv: HTMLDivElement, hotSpot: HotSpot): void => {
     case ToolNames.Tip:
       const ToolIcon = ToolIcons.get(toolName) || '';
       const iconImage: HTMLImageElement = document.createElement('img');
+      const tag: HTMLSpanElement = document.createElement('p');
+      tag.classList.add(classes.tag);
+      tag.innerHTML = hotSpot.fontContent || '';
+
       iconImage.src = ToolIcon;
       iconImage.draggable = false;
       hotSpotDiv.classList.add(classes.iconHotSpot);
       hotSpotDiv.appendChild(iconImage);
+      hotSpotDiv.appendChild(tag);
       break;
     case ToolNames.Font:
       const fontTag: HTMLParagraphElement = document.createElement('p');

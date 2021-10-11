@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, TextField, Button, Select, MenuItem } from '@material-ui/core';
 import { Title } from './styled';
 import { Delete as DeleteIcon } from '@material-ui/icons';
@@ -6,8 +6,10 @@ import { Delete as DeleteIcon } from '@material-ui/icons';
 import { StudioContext } from 'pages/studio/state/context';
 import { HotSpot, IPanoramaImage } from 'pages/studio/state/state';
 import { ToolNames } from 'interface';
+import { LanguageContext } from 'language';
 
 const PropertyBar: React.FC = () => {
+  const { languagePackage } = useContext(LanguageContext);
   const { panoramaImages, updateActivatedHotSpot, removeActivatedHotSpot } = React.useContext(StudioContext);
   const activatedImage: IPanoramaImage | undefined = panoramaImages.find((item) => item.activated);
   const hotSpotsOfActivatedImage = (activatedImage && activatedImage.hotSpots) || [];
@@ -44,25 +46,24 @@ const PropertyBar: React.FC = () => {
     <>
       {activatedHotSpot && (
         <Box height="100%">
-          {activatedHotSpot.toolName === ToolNames.Font && (
-            <Box>
-              <Title>标签文本</Title>
-              <TextField
-                value={activatedHotSpot.fontContent || ''}
-                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  handleInputFontContent(activatedHotSpot, e.target.value);
-                }}
-                fullWidth
-                id="outlined-multiline-static"
-                label="修改标签文字"
-                multiline
-                rows={4}
-                variant="outlined"
-              />
-            </Box>
-          )}
+          <Box>
+            <Title>{languagePackage?.TagText}</Title>
+            <TextField
+              value={activatedHotSpot.fontContent || ''}
+              onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                handleInputFontContent(activatedHotSpot, e.target.value);
+              }}
+              fullWidth
+              id="outlined-multiline-static"
+              label={languagePackage?.ChangeTagText}
+              multiline
+              rows={4}
+              variant="outlined"
+            />
+          </Box>
+
           <Box marginTop="3vh">
-            <Title>标签内容</Title>
+            <Title>{languagePackage?.TagContent}</Title>
             <TextField
               value={activatedHotSpot.text}
               onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +71,7 @@ const PropertyBar: React.FC = () => {
               }}
               fullWidth
               id="outlined-multiline-static"
-              label="修改标签文字"
+              label={languagePackage?.ChangeTagContent}
               multiline
               rows={4}
               variant="outlined"
@@ -78,7 +79,7 @@ const PropertyBar: React.FC = () => {
           </Box>
           {activatedHotSpot.toolName === ToolNames.Link && (
             <Box marginTop="20px" maxWidth="70%">
-              <Title>目标图片</Title>
+              <Title>{languagePackage?.TargetImage}</Title>
               <Select
                 value={activatedHotSpot.targetID || ''}
                 onChange={(e: React.ChangeEvent<{ value: unknown }>) => {
@@ -90,7 +91,7 @@ const PropertyBar: React.FC = () => {
               >
                 {panoramaImages.reduce<JSX.Element[]>((prev, next, index) => {
                   if (!next.activated) {
-                    prev.push(<MenuItem value={next.id}>第 {index + 1} 张</MenuItem>);
+                    prev.push(<MenuItem value={next.id}>No.{index + 1} </MenuItem>);
                   }
                   return prev;
                 }, [])}
@@ -105,7 +106,7 @@ const PropertyBar: React.FC = () => {
               color="secondary"
               startIcon={<DeleteIcon />}
             >
-              删除
+              {languagePackage?.Delete}
             </Button>
           </Box>
         </Box>

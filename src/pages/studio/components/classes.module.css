@@ -4,26 +4,34 @@
   background-image: none;
 }
 .iconHotSpot {
-  width: 40px;
+  padding: 5px;
+  width: auto !important;
   height: 40px;
   display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 .hotSpot > img {
-  width: 100%;
+  width: 40px;
+}
+.tag {
+  margin-top: 10%;
+  white-space: nowrap;
+  color: white !important;
 }
 .hotSpot:hover > span {
   visibility: visible;
 }
 .hotSpot > span {
   position: absolute;
-  bottom: 55px;
+  bottom: 60px;
   left: 0;
 
   border-radius: 6px;
   padding: 5px 10px;
   min-height: 30px;
   min-width: 200px;
-  max-width: 400px;
+  max-width: 600px;
   word-wrap: break-word;
   background-color: white;
   visibility: hidden;
@@ -42,7 +50,6 @@
 }
 
 .activatedHotSpot {
-  border-radius: 50%;
   outline: 5px solid orangered;
 }
 .activatedHotSpot > span {

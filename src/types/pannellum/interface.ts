@@ -50,5 +50,7 @@ export interface IPannellum {
   addHotSpot: (hotSpot: IHotSpot) => void;
   removeHotSpot: (hotSpotId: string, sceneId?: string) => void;
   on: (eventName: 'mouseup', listener: () => void) => void;
+  getYaw: () => number;
+  getPitch: () => number;
   destroy: () => void;
 }

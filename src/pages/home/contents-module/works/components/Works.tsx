@@ -1,13 +1,15 @@
 /* eslint-disable react/jsx-no-target-blank */
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box } from '@material-ui/core';
 import { WorksWrapper, WorkItem, WorksBox, WorkThumbnail, WorksTitle, IconFont } from '../styled';
 import { Work } from 'requests/requests';
 import { Empty } from 'antd';
+import { LanguageContext } from 'language';
 type Props = {
   works: Work[];
 };
 const Works: React.FC<Props> = ({ works }: Props) => {
+  const { languagePackage } = useContext(LanguageContext);
   const imagePlaceholder = `http://icetnnu.ltd/u%3D861387783%2C2279533978%26fm%3D26%26fmt%3Dauto%26gp%3D0.webp`;
   const renderWorkItems = () => {
     return works.map((work) => {
@@ -37,9 +39,11 @@ const Works: React.FC<Props> = ({ works }: Props) => {
   };
   return (
     <WorksWrapper>
-      <WorksTitle>我的所有作品</WorksTitle>
+      <WorksTitle>{languagePackage?.AllMyWorks}</WorksTitle>
       <WorksBox>{renderWorkItems()}</WorksBox>
-      {works.length === 0 && <Empty description={<span style={{ color: 'gray' }}>您还没有创建过作品</span>} />}
+      {works.length === 0 && (
+        <Empty description={<span style={{ color: 'gray' }}>{languagePackage?.YouHaveNotCreatedAWorkYet}</span>} />
+      )}
     </WorksWrapper>
   );
 };

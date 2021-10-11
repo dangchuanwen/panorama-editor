@@ -10,8 +10,10 @@ import { showHttpError } from 'requests/requests';
 import { message } from 'antd';
 import { useAuth } from 'auth/auth';
 import LanguageSelecter from 'components/LanguageSelecter';
+import { LanguageContext } from 'language';
 
 const SignIn: React.FC = () => {
+  const { languagePackage } = useContext(LanguageContext);
   const { authContext } = useAuth();
   const { login } = useContext(authContext);
   const [userName, setUserName] = React.useState('');
@@ -20,7 +22,7 @@ const SignIn: React.FC = () => {
   const handleClickLogin = async () => {
     try {
       await login(userName, password);
-      message.success('登录成功！');
+      message.success(languagePackage?.LoginSuccessfully);
       history.replace('/');
     } catch (err) {
       showHttpError(err);
@@ -46,18 +48,18 @@ const SignIn: React.FC = () => {
             <div className={styles.formWrapper}>
               <div className={styles.childrenInRight}>
                 <LanguageSelecter />
-                <span>还没有没有账户？</span>
+                <span>{languagePackage?.HaveAccountYet}</span>
                 <Link to="/signup">
-                  <Button variant="outlined">注册</Button>
+                  <Button variant="outlined">{languagePackage?.Login}</Button>
                 </Link>
               </div>
               <div className={styles.titleLine}>
-                <h1>欢迎回来</h1>
-                <p>登录你的账号</p>
+                <h1>{languagePackage?.WelcomeBack}</h1>
+                <p>{languagePackage?.LoginYourAccount}</p>
               </div>
               <div className={styles.inputLine}>
                 <p>
-                  <strong>用户名</strong>
+                  <strong>{languagePackage?.Username}</strong>
                 </p>
                 <TextField
                   variant="outlined"
@@ -65,14 +67,14 @@ const SignIn: React.FC = () => {
                   InputProps={{ style: { fontSize: 12 } }}
                   InputLabelProps={{ style: { fontSize: 12 } }}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
-                  label="你的账号"
+                  label={languagePackage?.YourUsername}
                   fullWidth
                   size="small"
                 ></TextField>
               </div>
               <div className={styles.inputLine}>
                 <p>
-                  <strong>密码</strong>
+                  <strong>{languagePackage?.Password}</strong>
                 </p>
                 <TextField
                   variant="outlined"
@@ -80,18 +82,18 @@ const SignIn: React.FC = () => {
                   InputProps={{ style: { fontSize: 12 } }}
                   InputLabelProps={{ style: { fontSize: 12 } }}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                  label="你的密码"
+                  label={languagePackage?.YourPassword}
                   fullWidth
                   type="password"
                   size="small"
                 ></TextField>
                 <p className={styles.forgetPasswordLink}>
-                  <span>忘记密码？</span>
+                  <span>{languagePackage?.ForgetPassword}</span>
                 </p>
               </div>
               <div>
                 <Button variant="contained" className={styles.submitButton} onClick={handleClickLogin}>
-                  登录
+                  {languagePackage?.Login}
                 </Button>
               </div>
             </div>

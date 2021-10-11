@@ -1,6 +1,7 @@
 import { Box } from '@material-ui/core';
 import { message } from 'antd';
-import React from 'react';
+import { LanguageContext } from 'language';
+import React, { useContext } from 'react';
 import { addComment, deleteComment, getPublishedWorksOfGroupMembers, PublishedWork } from 'requests/requests';
 
 import PublishedWorkList from '../components/publishedWork.list';
@@ -12,12 +13,13 @@ interface IFriendsContext {
 export const friendsContext = React.createContext<IFriendsContext>({ commentable: false });
 
 const Friends: React.FC = () => {
+  const { languagePackage } = useContext(LanguageContext);
   const [loadData, setLoadData] = React.useState<number>(0);
   const [publishedWorksOfGroupMembers, setPublishedWorksOfGroupMembers] = React.useState<PublishedWork[]>([]);
   const handleComment = async (commentContent: string, commentedPublishedWorkID: string) => {
     try {
       await addComment(commentContent, commentedPublishedWorkID);
-      message.success('评论成功！');
+      message.success(languagePackage?.SuccessToComment);
       setLoadData(loadData + 1);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -27,7 +29,7 @@ const Friends: React.FC = () => {
   const handleDeleteComment = async (commentID: string) => {
     try {
       await deleteComment(commentID);
-      message.success('删除成功！');
+      message.success(languagePackage?.SuccessToRemove);
       setLoadData(loadData + 1);
     } catch (err) {
       message.error(err.response?.data.message);

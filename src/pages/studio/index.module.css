@@ -1,5 +1,5 @@
 .container {
-  grid-template-columns: 8vw calc(100% - 8vw) !important;
+  grid-template-columns: 10vw calc(100% - 10vw) !important;
   grid-template-rows: 5vw calc(100% - 5vw) !important;
 }
 .contentLayout {

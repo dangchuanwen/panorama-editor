@@ -16,6 +16,28 @@ export type CountryData = {
   value: Country;
   nationalFlag: string;
 };
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const getCountries = (countriesTexts: Map<Country, string>) => {
+  const res: CountryData[] = [
+    {
+      text: countriesTexts.get(Country.China) || '',
+      value: Country.China,
+      nationalFlag: 'http://icetnnu.ltd/national-flag-cn.png',
+    },
+    {
+      text: countriesTexts.get(Country.Uzbekistan) || '',
+      value: Country.Uzbekistan,
+      nationalFlag: 'http://icetnnu.ltd/national-flag-uzb.png',
+    },
+    {
+      text: countriesTexts.get(Country.Indonesia) || '',
+      value: Country.Indonesia,
+      nationalFlag: 'http://icetnnu.ltd/national-flag-idn.png',
+    },
+  ];
+
+  return res;
+};
 export const countries: CountryData[] = [
   { text: '中国', value: Country.China, nationalFlag: 'http://icetnnu.ltd/national-flag-cn.png' },
   { text: '乌兹别克斯坦', value: Country.Uzbekistan, nationalFlag: 'http://icetnnu.ltd/national-flag-uzb.png' },

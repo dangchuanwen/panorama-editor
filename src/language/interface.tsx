@@ -8,7 +8,14 @@ export interface WebsiteTexts {
   Username: string;
   // 您的用户名
   YourUsername: string;
-
+  // 在此输入用户名
+  PleaseEnterUsername: string;
+  // 在此输入密码
+  PleaseEnterPassword: string;
+  // 请输入用户名
+  PleaseEnterYourUsername: string;
+  // 请输入密码
+  PleaseEnterYourPassword: string;
   // 密码
   Password: string;
   // 您的密码
@@ -23,6 +30,8 @@ export interface WebsiteTexts {
 
   // 登录
   Login: string;
+  // 登录成功
+  LoginSuccessfully: string;
 
   // 国家
   Country: string;
@@ -57,6 +66,8 @@ export interface WebsiteTexts {
   CreateWork: string;
   // 请为该作品起个名字
   PleaseGiveANameForWork: string;
+  // 制作您的全景漫游
+  MakeYourPanoramaWork: string;
   // 创建
   Create: string;
   // 取消
@@ -105,6 +116,8 @@ export interface WebsiteTexts {
   CreateSuccessfully: string;
   // 发布成功
   PublishSuccessfully: string;
+  // 目标图片
+  TargetImage: string;
   // 请输入作品介绍
   PleaseAddIntroductionHere: string;
   // 请先导入全景图片
@@ -115,4 +128,12 @@ export interface WebsiteTexts {
   NoDatasYet: string;
   // 没有更多数据了
   NoMoreDatas: string;
+  // 评论成功
+  SuccessToComment: string;
+  // 删除成功
+  SuccessToRemove: string;
+  // 创建成功
+  SuccessToCreate: string;
+  // 观看
+  Watch: string;
 }

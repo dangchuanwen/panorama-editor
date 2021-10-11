@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Wrapper } from './styled';
 import Operation from './components/Operation';
 import Works from './components/Works';
 
 import { createWork, getUserWorks, showHttpError, Work } from 'requests/requests';
 import { message } from 'antd';
+import { LanguageContext } from 'language';
 const Studio: React.FC = () => {
+  const { languagePackage } = useContext(LanguageContext);
   const [load, setLoad] = React.useState<number>(1);
   const [works, setWorks] = React.useState<Work[]>([]);
   React.useEffect(() => {
@@ -20,7 +22,7 @@ const Studio: React.FC = () => {
   const handleConfirmCreate = async (workName: string) => {
     try {
       await createWork(workName);
-      message.success('创建成功!');
+      message.success(languagePackage?.SuccessToCreate);
       setLoad(load + 1);
     } catch (err) {
       showHttpError(err, '该作品');

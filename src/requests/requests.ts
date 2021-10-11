@@ -19,6 +19,8 @@ type Scene = {
   hotSpots: HotSpot[];
   panorama: string;
   type: string;
+  yaw: number;
+  pitch: number;
 };
 export type LoginResult = { access_token: string; user: User };
 export type PanoramaTourConfig = {

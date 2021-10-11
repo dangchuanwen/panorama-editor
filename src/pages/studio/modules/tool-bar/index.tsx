@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Tooltip, makeStyles, TextField } from '@material-ui/core';
 import Iconfont from 'components/Iconfont';
 import { ToolNames } from 'interface';
@@ -8,6 +8,7 @@ import { message, Modal } from 'antd';
 import { StudioPageParams } from 'routes/config';
 import { useState } from 'react';
 import { getUserPublishedWorkByWorkID, publishWork } from 'requests/requests';
+import { LanguageContext } from 'language';
 
 const useStylesBootstrap = makeStyles(() => ({
   tooltip: {
@@ -17,6 +18,7 @@ const useStylesBootstrap = makeStyles(() => ({
 }));
 
 const ToolBar: React.FC = () => {
+  const { languagePackage } = useContext(LanguageContext);
   const [showPublishDialog, setShowPublishDialog] = useState(false);
   const [introduction, setIntroduction] = useState('');
   const {
@@ -44,16 +46,16 @@ const ToolBar: React.FC = () => {
   };
   const handleConfirmPublish = async () => {
     if (!introduction) {
-      message.warn('请输入作品介绍！');
+      message.warn(languagePackage?.PleaseAddIntroductionHere);
       return;
     }
     if (panoramaImages.length === 0) {
-      message.warn('请先导入全景图片！');
+      message.warn(languagePackage?.PleaseImportPanoramicImage);
       return;
     }
     try {
       await publishWork(workID, introduction);
-      message.success('发布成功！');
+      message.success(languagePackage?.PublishSuccessfully);
     } catch (err) {
       message.error(err.response?.data.message);
     } finally {
@@ -63,7 +65,7 @@ const ToolBar: React.FC = () => {
   const handleClickSave = async () => {
     try {
       await uploadPanoramaTourConfig();
-      message.success('保存成功！');
+      message.success(languagePackage?.SaveSuccessfully);
     } catch (err) {
       message.warn(err.response?.data.message);
     }
@@ -77,50 +79,52 @@ const ToolBar: React.FC = () => {
 
   return (
     <Box width="100%" height="100%" display="flex" alignItems="center">
-      <Tooltip title="文字标签" classes={classes} placement="top" arrow={true}>
+      <Tooltip title={languagePackage?.TextTag || ''} classes={classes} placement="top" arrow={true}>
         <Box marginRight="20px" draggable onDragStart={(e) => handleDragStart(e, ToolNames.Font)}>
           <Iconfont name="icon-wenzi" color="#f46a12" fontSize="1.7vw" />
         </Box>
       </Tooltip>
-      <Tooltip title="标签" classes={classes} placement="top" arrow={true}>
+      <Tooltip title={languagePackage?.Tag || ''} classes={classes} placement="top" arrow={true}>
         <Box marginRight="20px" draggable onDragStart={(e) => handleDragStart(e, ToolNames.Tip)}>
           <Iconfont name="icon-tishi1" color="#1296db" fontSize="1.7vw" />
         </Box>
       </Tooltip>
-      <Tooltip title="链接" classes={classes} placement="top" arrow={true}>
+      <Tooltip title={languagePackage?.Link || ''} classes={classes} placement="top" arrow={true}>
         <Box draggable onDragStart={(e) => handleDragStart(e, ToolNames.Link)}>
           <Iconfont name="icon-xiangshangjiantouquan" color="#1AFA29" fontSize="1.7vw" />
         </Box>
       </Tooltip>
-      <Tooltip title="预览" classes={classes} placement="top" arrow={true}>
+      <Tooltip title={languagePackage?.Preview || ''} classes={classes} placement="top" arrow={true}>
         <Box marginLeft="20px" onClick={handleClickPlay}>
           <Iconfont name="icon-play-01" color="#bd8cbb" fontSize="1.6vw" />
         </Box>
       </Tooltip>
-      <Tooltip title="保存并上传" classes={classes} placement="top" arrow={true}>
+      <Tooltip title={languagePackage?.SaveAndUpload || ''} classes={classes} placement="top" arrow={true}>
         <Box marginLeft="80px" onClick={() => handleClickSave()}>
           <Iconfont name="icon-shangchuan" color="#00A99D" fontSize="1.6vw" />
         </Box>
       </Tooltip>
-      <Tooltip title="发布" classes={classes} placement="top" arrow={true}>
+      <Tooltip title={languagePackage?.Publish || ''} classes={classes} placement="top" arrow={true}>
         <Box marginLeft="20px" onClick={() => handleClickPublish()}>
           <Iconfont name="icon-fabu" color="#37daf6" fontSize="1.6vw" />
         </Box>
       </Tooltip>
       <Modal
-        title="发布全景漫游"
+        title={languagePackage?.PublishWork || ''}
         keyboard
         centered
         visible={showPublishDialog}
+        cancelText={languagePackage?.Cancel}
+        okText={languagePackage?.Publish}
         onOk={() => handleConfirmPublish()}
         onCancel={() => setShowPublishDialog(false)}
       >
         <TextField
           value={introduction}
           onInput={(e: React.ChangeEvent<HTMLInputElement>) => setIntroduction(e.target.value)}
-          label="为你的作品添加一些介绍文字"
+          label={languagePackage?.AddIntroductionHere}
           fullWidth
-          helperText="添加详细的文字可以使得其他人观看体验更佳"
+          helperText={languagePackage?.AddingIntroductionWillTakeBetterExperienceToOthers}
           variant="outlined"
           minRows={4}
           multiline

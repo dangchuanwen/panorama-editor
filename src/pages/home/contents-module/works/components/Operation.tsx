@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   TextField,
   Button,
@@ -10,10 +10,12 @@ import {
 } from '@material-ui/core';
 import { OperationWrapper } from '../styled';
 import { message } from 'antd';
+import { LanguageContext } from 'language';
 interface Props {
   onConfirm: (workName: string) => void;
 }
 const Operation: React.FC<Props> = ({ onConfirm }: Props) => {
+  const { languagePackage } = useContext(LanguageContext);
   const [showDialog, setShowDialog] = React.useState<boolean>(false);
   const [workName, setWorkName] = React.useState<string>('');
   const handleClickCreate = () => {
@@ -36,12 +38,12 @@ const Operation: React.FC<Props> = ({ onConfirm }: Props) => {
   return (
     <OperationWrapper>
       <Button variant="contained" color="primary" size="large" onClick={handleClickCreate}>
-        创建全景漫游
+        {languagePackage?.CreatePanoramicTour}
       </Button>
       <Dialog open={showDialog}>
-        <DialogTitle>创建作品</DialogTitle>
+        <DialogTitle>{languagePackage?.CreateWork}</DialogTitle>
         <DialogContent>
-          <DialogContentText>请为该作品起个名字</DialogContentText>
+          <DialogContentText>{languagePackage?.PleaseGiveANameForWork}</DialogContentText>
           <TextField
             type="text"
             value={workName}
@@ -50,10 +52,10 @@ const Operation: React.FC<Props> = ({ onConfirm }: Props) => {
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={handleClickCancel}>
-            取消
+            {languagePackage?.Cancel}
           </Button>
           <Button color="primary" onClick={handleClickConfirm}>
-            创建
+            {languagePackage?.Create}
           </Button>
         </DialogActions>
       </Dialog>

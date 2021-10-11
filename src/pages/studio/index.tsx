@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import VR from 'assets/VR.png';
 import { Box } from '@material-ui/core';
 import { Wrapper, Container, LogoBox, Logo, HeaderBox, MenuBox, ContentBox } from 'layouts';
@@ -9,8 +9,10 @@ import ImagesBar from './modules/images-bar';
 import classes from './index.module.css';
 
 import { StudioContextWrapper } from './state/context';
+import { LanguageContext } from 'language';
 
 const Studio: React.FC = () => {
+  const { languagePackage } = useContext(LanguageContext);
   return (
     <StudioContextWrapper>
       <Wrapper>
@@ -19,7 +21,7 @@ const Studio: React.FC = () => {
             <Logo src={VR} />
           </LogoBox>
           <HeaderBox>
-            <h2>制作你的全景漫游</h2>
+            <h2>{languagePackage?.MakeYourPanoramaWork}</h2>
           </HeaderBox>
           <MenuBox>
             <ImagesBar />

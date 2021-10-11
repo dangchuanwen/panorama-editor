@@ -43,6 +43,8 @@ export const importPanoramaTourConfig: (panoramaTourConfig: PanoramaTourConfig |
     panoramaImages.push({
       url: scene.panorama,
       id: sceneID,
+      yaw: scene.yaw,
+      pitch: scene.pitch,
       hotSpots: hotSpotsDev,
       isEntry: sceneID === sceneIDs[0],
       activated: sceneID === sceneIDs[0],
@@ -76,6 +78,8 @@ export const exportPanoramaTourConfig = (panoramaImages: IPanoramaImage[]): Pano
       autoLoad: true,
       type: 'equirectangular',
       panorama: item.url,
+      yaw: item.yaw || 0,
+      pitch: item.pitch || 0,
       hotSpots: hotSpotsOfItem,
     };
   }

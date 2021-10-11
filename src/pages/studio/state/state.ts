@@ -15,6 +15,8 @@ export interface IPanoramaImage {
   hotSpots: HotSpot[];
   isEntry: boolean;
   activated: boolean;
+  yaw?: number;
+  pitch?: number;
 }
 
 interface IAddImage {
@@ -47,6 +49,9 @@ interface IRemoveActivatedHotSpot {
 interface IUpdatePanoramaTourConfig {
   (): AxiosPromise<Work>;
 }
+interface ISet_Yaw_Pitch {
+  (yaw: number, pitch: number): void;
+}
 
 export interface IStudioState {
   panoramaImages: IPanoramaImage[];
@@ -61,6 +66,7 @@ export interface IStudioState {
   removeActivatedHotSpot: IRemoveActivatedHotSpot;
   initPanoramaImages: IInitPanoramaImages;
   uploadPanoramaTourConfig: IUpdatePanoramaTourConfig;
+  set_Yaw_Pitch: ISet_Yaw_Pitch;
 }
 
 let images: IPanoramaImage[] = [];
@@ -190,6 +196,17 @@ export const useStudioState: () => IStudioState = () => {
     }
   };
 
+  const set_Yaw_Pitch: ISet_Yaw_Pitch = (yaw: number, pitch: number) => {
+    const newImages = [...images];
+    const activatedImage: IPanoramaImage | undefined = newImages.find((item) => item.activated);
+    if (activatedImage) {
+      activatedImage.yaw = yaw;
+      activatedImage.pitch = pitch;
+      images = newImages;
+      setPanoramaImages(images);
+    }
+  };
+
   return {
     panoramaImages,
     renderCanvasFlag,
@@ -203,5 +220,6 @@ export const useStudioState: () => IStudioState = () => {
     removeActivatedHotSpot,
     initPanoramaImages,
     uploadPanoramaTourConfig,
+    set_Yaw_Pitch,
   };
 };

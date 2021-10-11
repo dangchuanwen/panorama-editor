@@ -1,12 +1,14 @@
 import { Box, Button } from '@material-ui/core';
 import { message } from 'antd';
-import { useEffect } from 'react';
+import { LanguageContext } from 'language';
+import { useContext, useEffect } from 'react';
 import { useState } from 'react';
 import { FC } from 'react';
 import { getPublishedWorksBeforeArchorDate, PublishedWork } from 'requests/requests';
 import PublishedWorkList from '../components/publishedWork.list';
 
 const Exhibition: FC = () => {
+  const { languagePackage } = useContext(LanguageContext);
   const [archorDate, setArchorDate] = useState<Date>(new Date());
   const [publishedWorks, setPublishedWorks] = useState<PublishedWork[]>([]);
   const handleClickLoadMore = () => {
@@ -23,7 +25,7 @@ const Exhibition: FC = () => {
           const newPublishedWorks = [...publishedWorks, ...res.data];
           setPublishedWorks(newPublishedWorks);
           if (res.data.length === 0) {
-            message.warn('没有更多数据了');
+            message.warn(languagePackage?.NoMoreDatas);
           }
         }
       } catch (err) {
@@ -38,7 +40,7 @@ const Exhibition: FC = () => {
       <Box marginLeft="30%">
         {Array.isArray(publishedWorks) && publishedWorks.length > 0 && (
           <Button variant="contained" onClick={handleClickLoadMore}>
-            加载更多
+            {languagePackage?.LoadMore}
           </Button>
         )}
       </Box>

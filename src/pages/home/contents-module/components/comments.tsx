@@ -1,11 +1,13 @@
 import { Box } from '@material-ui/core';
-import { FC } from 'react';
+import { LanguageContext } from 'language';
+import { FC, useContext } from 'react';
 import { Comment as IComment } from 'requests/requests';
 import Comment from './comment';
 interface Props {
   comments: IComment[];
 }
 const Comments: FC<Props> = ({ comments }: Props) => {
+  const { languagePackage } = useContext(LanguageContext);
   const commentsDatas = comments.filter((comment) => Boolean(comment._id));
   const renderComments = () => {
     return commentsDatas.map((comment) => <Comment comment={comment} key={comment._id} />);
@@ -13,10 +15,10 @@ const Comments: FC<Props> = ({ comments }: Props) => {
   return (
     <Box>
       <h3>
-        <strong>评论</strong>
+        <strong>{languagePackage?.Comments}</strong>
       </h3>
       <Box>{renderComments()}</Box>
-      {commentsDatas.length === 0 && <p style={{ color: 'gray' }}>暂无评论</p>}
+      {commentsDatas.length === 0 && <p style={{ color: 'gray' }}>{languagePackage?.NoComments}</p>}
     </Box>
   );
 };

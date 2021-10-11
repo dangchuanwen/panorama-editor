@@ -55,6 +55,16 @@ let WorksService = class WorksService {
         const user = await this.usersService.findUserByUserName(userName);
         return this.worksModel.findOneAndUpdate({ _id: mongoose.Types.ObjectId(workID), user }, { panoramaTourConfig }, { new: true, useFindAndModify: false });
     }
+    async getWorkOwner(workdID) {
+        const work = await this.worksModel
+            .findById(workdID)
+            .populate('user')
+            .lean();
+        return work.user || null;
+    }
+    async removeWork(workdID) {
+        await this.worksModel.findByIdAndDelete(workdID);
+    }
 };
 WorksService = __decorate([
     common_1.Injectable(),

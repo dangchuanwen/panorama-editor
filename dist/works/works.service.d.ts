@@ -12,4 +12,6 @@ export declare class WorksService {
     getUserWorks(userName: string): Promise<WorkDocument[]>;
     createWork(workName: string, workTheme: WorkTheme, userName: string): Promise<WorkDocument>;
     updateWork(workID: string, userName: string, panoramaTourConfig: PanoramaTourConfig): Promise<WorkDocument>;
+    getWorkOwner(workdID: string): Promise<User>;
+    removeWork(workdID: string): Promise<void>;
 }

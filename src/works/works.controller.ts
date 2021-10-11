@@ -1,7 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -60,5 +64,19 @@ export class WorksController {
       req.user.userName,
       body.panoramaTourConfig,
     );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(204)
+  @Delete('/:workID')
+  async deleteWork(
+    @Param('workID') workID: string,
+    @Request() req: { user: JwtDto },
+  ) {
+    const workOwner = await this.worksService.getWorkOwner(workID);
+    if (!workOwner || workOwner.userName !== req.user.userName) {
+      throw new HttpException('Access Denied', HttpStatus.FORBIDDEN);
+    }
+    await this.worksService.removeWork(workID);
   }
 }

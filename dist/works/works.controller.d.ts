@@ -17,4 +17,7 @@ export declare class WorksController {
     updateWork(req: {
         user: JwtDto;
     }, body: UpdateWorkDto): Promise<Work>;
+    deleteWork(workID: string, req: {
+        user: JwtDto;
+    }): Promise<void>;
 }

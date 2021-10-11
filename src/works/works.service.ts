@@ -61,4 +61,16 @@ export class WorksService {
       { new: true, useFindAndModify: false },
     );
   }
+
+  async getWorkOwner(workdID: string) {
+    const work = await this.worksModel
+      .findById(workdID)
+      .populate('user')
+      .lean();
+    return work.user || null;
+  }
+
+  async removeWork(workdID: string) {
+    await this.worksModel.findByIdAndDelete(workdID);
+  }
 }

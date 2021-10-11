@@ -39,6 +39,13 @@ let WorksController = class WorksController {
     async updateWork(req, body) {
         return this.worksService.updateWork(body.workID, req.user.userName, body.panoramaTourConfig);
     }
+    async deleteWork(workID, req) {
+        const workOwner = await this.worksService.getWorkOwner(workID);
+        if (!workOwner || workOwner.userName !== req.user.userName) {
+            throw new common_1.HttpException('Access Denied', common_1.HttpStatus.FORBIDDEN);
+        }
+        await this.worksService.removeWork(workID);
+    }
 };
 __decorate([
     common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
@@ -80,6 +87,16 @@ __decorate([
     __metadata("design:paramtypes", [Object, update_work_dto_1.UpdateWorkDto]),
     __metadata("design:returntype", Promise)
 ], WorksController.prototype, "updateWork", null);
+__decorate([
+    common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
+    common_1.HttpCode(204),
+    common_1.Delete('/:workID'),
+    __param(0, common_1.Param('workID')),
+    __param(1, common_1.Request()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], WorksController.prototype, "deleteWork", null);
 WorksController = __decorate([
     common_1.Controller('works'),
     __metadata("design:paramtypes", [works_service_1.WorksService])

@@ -93,6 +93,13 @@ export class PublishedWorkService {
     ];
   }
 
+  async removePublishedWorksByWorkID(workID: string) {
+    const work = await this.worksService.findWorkByID(workID);
+    return this.publishedWorksModel.deleteMany({
+      work,
+    });
+  }
+
   async findAllPublishedWorks() {
     return this.publishedWorksModel.aggregate(this.aggregateArray);
   }

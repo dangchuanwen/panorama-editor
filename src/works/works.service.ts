@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
@@ -9,7 +9,7 @@ import {
 } from './schemas/work.schema';
 import { WorkAlreadyExistException } from './exceptions/work-already-exist.exception';
 import { UsersService } from 'src/users/user.service';
-import { User, UserDocument } from 'src/users/schemas/user.schema';
+import { User } from 'src/users/schemas/user.schema';
 import * as mongoose from 'mongoose';
 
 @Injectable()

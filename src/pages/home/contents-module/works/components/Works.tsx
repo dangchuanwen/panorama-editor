@@ -7,8 +7,9 @@ import { Empty } from 'antd';
 import { LanguageContext } from 'language';
 type Props = {
   works: Work[];
+  handleRemoveWork: (workdID: string) => void;
 };
-const Works: React.FC<Props> = ({ works }: Props) => {
+const Works: React.FC<Props> = ({ works, handleRemoveWork }: Props) => {
   const { languagePackage } = useContext(LanguageContext);
   const imagePlaceholder = `http://icetnnu.ltd/u%3D861387783%2C2279533978%26fm%3D26%26fmt%3Dauto%26gp%3D0.webp`;
   const renderWorkItems = () => {
@@ -32,6 +33,13 @@ const Works: React.FC<Props> = ({ works }: Props) => {
                 <IconFont style={{ color: '#d4237a' }} className="iconfont icon-yulan"></IconFont>
               </a>
             )}
+          </Box>
+          <Box bgcolor="#2b3133" className="deleteBox" display="none" justifyContent="center" alignItems="center">
+            <IconFont
+              onClick={() => handleRemoveWork(work._id)}
+              style={{ color: 'white' }}
+              className="iconfont icon-delete-fill"
+            ></IconFont>
           </Box>
         </WorkItem>
       );

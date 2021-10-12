@@ -37,19 +37,28 @@ export const IconFont = styled.i`
 
 export const WorkItem = styled.li`
   margin-bottom: 15px;
-  width: 20vw;
-  height: 8vh;
+  width: 24vw;
+  height: 9vh;
   display: grid;
-  grid-template-columns: 5vw 10vw 3vw;
+  grid-template-columns: 5vw 10vw 3vw 1fr;
   grid-template-rows: 100%;
   gap: 1vw;
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
   &:hover ${IconFont} {
     display: inline;
   }
+  &:hover .deleteBox {
+    display: flex;
+  }
+  &:hover {
+    box-shadow: 0 0 10px gray;
+  }
+  box-shadow: 0 0 10px gray;
 `;
 
 export const WorkThumbnail = styled.img`
-  border-radius: 5px;
   width: 100%;
   height: 100%;
 `;

@@ -24,7 +24,7 @@ const Exhibition: FC = () => {
         if (res && res.data) {
           const newPublishedWorks = [...publishedWorks, ...res.data];
           setPublishedWorks(newPublishedWorks);
-          if (res.data.length === 0) {
+          if (res.data.length === 0 && publishedWorks.length > 0) {
             message.warn(languagePackage?.NoMoreDatas);
           }
         }

@@ -70,6 +70,7 @@ type GetPublishedWorksOfGroupMembers = () => AxiosPromise<PublishedWork[]>;
 type AddComment = (commentContent: string, commentedPublishedWorkID: string) => AxiosPromise;
 type DeleteComment = (commentID: string) => AxiosPromise;
 type GetLanguagePackage = (languageName: LanguageNames) => AxiosPromise<WebsiteTexts>;
+type RemoveWork = (workID: string) => AxiosPromise;
 
 const request: AxiosInstance = axios.create();
 request.interceptors.request.use(
@@ -157,4 +158,8 @@ export const deleteComment: DeleteComment = (commentID: string) => {
 
 export const getLanguagePackage: GetLanguagePackage = (languageName: LanguageNames) => {
   return request.get(`/languages/${languageName}`);
+};
+
+export const removeWork: RemoveWork = (workID: string) => {
+  return request.delete(`/works/${workID}`);
 };

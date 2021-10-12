@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { Wrapper } from './styled';
 import Operation from './components/Operation';
 import Works from './components/Works';
-
-import { createWork, getUserWorks, showHttpError, Work } from 'requests/requests';
-import { message } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { createWork, getUserWorks, removeWork, showHttpError, Work } from 'requests/requests';
+import { message, Modal } from 'antd';
 import { LanguageContext } from 'language';
 const Studio: React.FC = () => {
   const { languagePackage } = useContext(LanguageContext);
@@ -28,10 +28,26 @@ const Studio: React.FC = () => {
       showHttpError(err, '该作品');
     }
   };
+  const handleClickRemoveWork = async (workID: string) => {
+    try {
+      Modal.confirm({
+        title: 'Do you want to delete this work?',
+        icon: <ExclamationCircleOutlined />,
+        content: '',
+        onOk: async () => {
+          await removeWork(workID);
+          message.success(languagePackage?.SuccessToRemove);
+          setLoad(load + 1);
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Wrapper>
       <Operation onConfirm={(workName: string) => handleConfirmCreate(workName)} />
-      <Works works={works} />
+      <Works works={works} handleRemoveWork={handleClickRemoveWork} />
     </Wrapper>
   );
 };

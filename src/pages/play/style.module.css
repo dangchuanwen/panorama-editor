@@ -1,0 +1,12 @@
+.wrapper {
+  position: relative;
+}
+
+.control {
+  position: absolute;
+  left: 1vw;
+  bottom: 1vw;
+}
+.backIcon {
+  font-size: 3vw;
+}

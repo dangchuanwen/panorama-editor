@@ -11,7 +11,7 @@ import { LanguageContext } from 'language';
 let oldHotSpots: HotSpot[] = [];
 const Canvas: React.FC = () => {
   const { languagePackage } = useContext(LanguageContext);
-  const { panoramaImages, switchHotSpot, addHotSpot, deSelectAllHotSpots, set_Yaw_Pitch } =
+  const { panoramaImages, switchHotSpot, addHotSpot, deSelectAllHotSpots, set_Yaw_Pitch, set_Hfov } =
     React.useContext<IStudioState>(StudioContext);
   const [pannellumInstance, setPannellumInstance] = React.useState<IPannellum | null>(null);
   const activatedImage: IPanoramaImage | undefined = panoramaImages.find((item) => item.activated);
@@ -73,6 +73,7 @@ const Canvas: React.FC = () => {
           autoLoad: true,
           yaw: activatedImage.yaw || 0,
           pitch: activatedImage.pitch || 0,
+          hfov: activatedImage.hfov || 100,
           type: 'equirectangular',
           hotSpots: [],
         },
@@ -82,6 +83,10 @@ const Canvas: React.FC = () => {
       deSelectAllHotSpots();
       set_Yaw_Pitch(p.getYaw(), p.getPitch());
     });
+    p.on('zoomchange', () => {
+      set_Hfov(p.getHfov());
+    });
+
     setPannellumInstance(p);
   }, [activatedImageID]);
 

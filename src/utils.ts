@@ -45,6 +45,7 @@ export const importPanoramaTourConfig: (panoramaTourConfig: PanoramaTourConfig |
       id: sceneID,
       yaw: scene.yaw,
       pitch: scene.pitch,
+      hfov: scene.hfov,
       hotSpots: hotSpotsDev,
       isEntry: sceneID === sceneIDs[0],
       activated: sceneID === sceneIDs[0],
@@ -73,13 +74,13 @@ export const exportPanoramaTourConfig = (panoramaImages: IPanoramaImage[]): Pano
       }
       hotSpotsOfItem.push(newHotSpot);
     }
-
     scenes[item.id] = {
       autoLoad: true,
       type: 'equirectangular',
       panorama: item.url,
       yaw: item.yaw || 0,
       pitch: item.pitch || 0,
+      hfov: item.hfov || 100,
       hotSpots: hotSpotsOfItem,
     };
   }

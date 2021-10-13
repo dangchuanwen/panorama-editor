@@ -50,7 +50,7 @@ const SignIn: React.FC = () => {
                 <LanguageSelecter />
                 <span>{languagePackage?.HaveAccountYet}</span>
                 <Link to="/signup">
-                  <Button variant="outlined">{languagePackage?.Login}</Button>
+                  <Button variant="outlined">{languagePackage?.Register}</Button>
                 </Link>
               </div>
               <div className={styles.titleLine}>

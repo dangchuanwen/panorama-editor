@@ -21,6 +21,7 @@ type Scene = {
   type: string;
   yaw: number;
   pitch: number;
+  hfov: number;
 };
 export type LoginResult = { access_token: string; user: User };
 export type PanoramaTourConfig = {

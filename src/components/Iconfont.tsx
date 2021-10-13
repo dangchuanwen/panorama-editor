@@ -4,12 +4,17 @@ interface Props {
   color?: string;
   fontSize?: string;
   name: string;
+  className?: string;
   [key: string]: unknown;
 }
 
-const Iconfont: React.FC<Props> = ({ name, color, fontSize, ...rest }: Props) => {
+const Iconfont: React.FC<Props> = ({ className = '', name, color, fontSize, ...rest }: Props) => {
   return (
-    <i className={`iconfont ${name}`} {...rest} style={{ color, fontSize, cursor: 'pointer', borderRadius: '50%' }}></i>
+    <i
+      className={`iconfont ${name} ` + className}
+      {...rest}
+      style={{ color, fontSize, cursor: 'pointer', borderRadius: '50%' }}
+    ></i>
   );
 };
 

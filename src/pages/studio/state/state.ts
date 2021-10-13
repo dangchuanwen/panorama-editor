@@ -17,6 +17,7 @@ export interface IPanoramaImage {
   activated: boolean;
   yaw?: number;
   pitch?: number;
+  hfov?: number;
 }
 
 interface IAddImage {
@@ -52,6 +53,9 @@ interface IUpdatePanoramaTourConfig {
 interface ISet_Yaw_Pitch {
   (yaw: number, pitch: number): void;
 }
+interface ISet_Hfov {
+  (hfov: number): void;
+}
 
 export interface IStudioState {
   panoramaImages: IPanoramaImage[];
@@ -67,6 +71,7 @@ export interface IStudioState {
   initPanoramaImages: IInitPanoramaImages;
   uploadPanoramaTourConfig: IUpdatePanoramaTourConfig;
   set_Yaw_Pitch: ISet_Yaw_Pitch;
+  set_Hfov: ISet_Hfov;
 }
 
 let images: IPanoramaImage[] = [];
@@ -207,6 +212,16 @@ export const useStudioState: () => IStudioState = () => {
     }
   };
 
+  const set_Hfov: ISet_Hfov = (hfov: number) => {
+    const newImages = [...images];
+    const activatedImage: IPanoramaImage | undefined = newImages.find((item) => item.activated);
+    if (activatedImage) {
+      activatedImage.hfov = hfov;
+      images = newImages;
+      setPanoramaImages(images);
+    }
+  };
+
   return {
     panoramaImages,
     renderCanvasFlag,
@@ -221,5 +236,6 @@ export const useStudioState: () => IStudioState = () => {
     initPanoramaImages,
     uploadPanoramaTourConfig,
     set_Yaw_Pitch,
+    set_Hfov,
   };
 };

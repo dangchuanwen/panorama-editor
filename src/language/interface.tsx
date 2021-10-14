@@ -136,4 +136,10 @@ export interface WebsiteTexts {
   SuccessToCreate: string;
   // 观看
   Watch: string;
+  // 选择至少六个你感兴趣的文化主题
+  SelectAtLeastSixCultureThemesYouInterestedIn: string;
+  // 请选择至少六个你感兴趣的文化主题
+  PleaseSelectAtLeastSixCultureThemesYouInterestedIn: string;
+  // 提交成功
+  SuccessToSubmit: string;
 }

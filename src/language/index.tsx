@@ -1,4 +1,3 @@
-import { message } from 'antd';
 import { Context, createContext, FC, useEffect, useState } from 'react';
 import { getLanguagePackage } from 'requests/requests';
 import { WebsiteTexts } from './interface';
@@ -30,7 +29,7 @@ const useLanguageState: () => ILanguageState = () => {
       const res = await getLanguagePackage(languageName);
       setLanguagePackage(res.data);
     } catch (err) {
-      message.warn(err.response?.data.message);
+      console.log(err);
     }
   };
   useEffect(() => {

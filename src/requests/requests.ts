@@ -55,6 +55,15 @@ export type PublishedWork = {
   author: User;
   comments: Comment[];
 };
+export type CultureTheme = {
+  _id: string;
+  name: string;
+  description: string;
+  rules: string;
+};
+export type Settings = {
+  grouped: boolean;
+};
 
 type Register = (userName: string, password: string, gender: Gender, country: Country) => AxiosPromise;
 type Login = (userName: string, password: string) => AxiosPromise<LoginResult>;
@@ -72,6 +81,9 @@ type AddComment = (commentContent: string, commentedPublishedWorkID: string) => 
 type DeleteComment = (commentID: string) => AxiosPromise;
 type GetLanguagePackage = (languageName: LanguageNames) => AxiosPromise<WebsiteTexts>;
 type RemoveWork = (workID: string) => AxiosPromise;
+type GetCultureThemes = () => AxiosPromise<CultureTheme[]>;
+type UpdatePreferCultureThemes = (cultureThemesNames: string[]) => AxiosPromise;
+type GetSettings = () => AxiosPromise<Settings>;
 
 const request: AxiosInstance = axios.create();
 request.interceptors.request.use(
@@ -163,4 +175,18 @@ export const getLanguagePackage: GetLanguagePackage = (languageName: LanguageNam
 
 export const removeWork: RemoveWork = (workID: string) => {
   return request.delete(`/works/${workID}`);
+};
+
+export const getCultureThemes: GetCultureThemes = () => {
+  return request.get('/cultureThemes');
+};
+
+export const updatePreferCultureThemes: UpdatePreferCultureThemes = (cultureThemesNames: string[]) => {
+  return request.put('/cultureThemes/user', {
+    cultureThemesNames,
+  });
+};
+
+export const getSettings: GetSettings = () => {
+  return request.get<Settings>('/settings');
 };

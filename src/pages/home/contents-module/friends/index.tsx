@@ -5,6 +5,7 @@ import React, { useContext } from 'react';
 import { addComment, deleteComment, getPublishedWorksOfGroupMembers, PublishedWork } from 'requests/requests';
 
 import PublishedWorkList from '../components/publishedWork.list';
+import CultureThemesSelecter from './components/CultureThemesSelecter';
 interface IFriendsContext {
   commentable: boolean;
   handleComment?: (commentContent: string, commentedPublishedWorkID: string) => Promise<void>;
@@ -32,7 +33,7 @@ const Friends: React.FC = () => {
       message.success(languagePackage?.SuccessToRemove);
       setLoadData(loadData + 1);
     } catch (err) {
-      message.error(err.response?.data.message);
+      console.log(err);
     }
   };
   React.useEffect(() => {
@@ -50,10 +51,13 @@ const Friends: React.FC = () => {
     fetchPublishedWorksOfGroupMembers();
   }, [loadData]);
   return (
-    <Box width="60%" padding="1vw" maxHeight="80vh" overflow="auto">
-      <friendsContext.Provider value={{ commentable: true, handleComment, handleDeleteComment }}>
-        <PublishedWorkList publishedWorks={publishedWorksOfGroupMembers} />
-      </friendsContext.Provider>
+    <Box width="100%">
+      <CultureThemesSelecter />
+      <Box width="60%" padding="1vw" maxHeight="80vh" overflow="auto">
+        <friendsContext.Provider value={{ commentable: true, handleComment, handleDeleteComment }}>
+          <PublishedWorkList publishedWorks={publishedWorksOfGroupMembers} />
+        </friendsContext.Provider>
+      </Box>
     </Box>
   );
 };

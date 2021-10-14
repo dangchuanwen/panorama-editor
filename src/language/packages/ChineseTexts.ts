@@ -67,4 +67,9 @@ export const ChineseTexts: WebsiteTexts = {
   SuccessToRemove: '删除成功',
   SuccessToCreate: '创建成功',
   Watch: '观看',
+  SelectAtLeastSixCultureThemesYouInterestedIn:
+    '选择至少六个你感兴趣的文化主题',
+  PleaseSelectAtLeastSixCultureThemesYouInterestedIn:
+    '请选择至少六个你感兴趣的文化主题',
+  SuccessToSubmit: '提交成功！',
 };

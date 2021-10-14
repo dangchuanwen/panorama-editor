@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as mongooseSchema } from 'mongoose';
+import { CultureTheme } from 'src/cultureThemes/schemas/cultureTheme.schema';
 
 export type UserDocument = User & Document;
 export enum Gender {
@@ -28,6 +29,9 @@ export class User {
 
   @Prop()
   group: string;
+
+  @Prop({ type: [mongooseSchema.Types.ObjectId], ref: CultureTheme.name })
+  preferCultureThemes: CultureTheme[];
 
   @Prop({ default: Date.now })
   createdTime: Date;

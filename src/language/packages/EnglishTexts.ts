@@ -66,4 +66,9 @@ export const EnglishTexts: WebsiteTexts = {
   SuccessToRemove: 'Success To Delete',
   SuccessToCreate: 'Success To Create',
   Watch: 'Watch',
+  SelectAtLeastSixCultureThemesYouInterestedIn:
+    'Select At Least Six Culture Themes You Interested In',
+  PleaseSelectAtLeastSixCultureThemesYouInterestedIn:
+    'Please Select At Least Six Culture Themes You Interested In',
+  SuccessToSubmit: 'Success To Submit',
 };

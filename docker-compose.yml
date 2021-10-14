@@ -7,9 +7,14 @@ services:
     build: .
     ports:
       - '4000:4000'
-    external_links:
+    links:
       - mongo
   mongo:
+    volumes:
+      - /root/panorama-studio/db:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=dangchuanwen
+      - MONGO_INITDB_ROOT_PASSWORD=dcw19971119.
     container_name: mongo
     image: mongo
     ports:

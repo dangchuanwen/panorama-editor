@@ -13,6 +13,7 @@ lerna-debug.log*
 /dist
 /client
 
+docker-compose.yml
 # OS
 .DS_Store
 

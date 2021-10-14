@@ -14,6 +14,7 @@ import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
 import { CreateUserRequestDto } from './dto/create-user.dto';
 import { GroupingDto } from './dto/grouping.dto';
 import { LoginRequestDto, LoginResponseDto } from './dto/login.dto';
+import { updatePreferCultureThemesDto } from './dto/updatePreferCultureThemes.dto';
 import { User } from './schemas/user.schema';
 import { UsersService } from './user.service';
 
@@ -45,5 +46,17 @@ export class UsersController {
   @Put('grouping')
   async grouping(@Body() body: GroupingDto, @Request() req: { user: JwtDto }) {
     return this.userService.grouping(req.user.userName, body.group);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('preferCultureThemes')
+  async updatePreferCultureThemes(
+    @Body() body: updatePreferCultureThemesDto,
+    @Request() req: { user: JwtDto },
+  ) {
+    return this.userService.updateUserPreferCultureThemes(
+      req.user.userName,
+      body.preferCultureThemesNames,
+    );
   }
 }

@@ -10,16 +10,22 @@ import { LanguageModule } from './language/language.module';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { CultureThemesModule } from './cultureThemes/cultureThemes.module';
+import { SettingsModule } from './settings/settings.module';
 
-const MongodbURLMaps: Map<string, string> = new Map();
-MongodbURLMaps.set('prod', 'mongodb://mongo:27017/panorama');
-MongodbURLMaps.set('dev', 'mongodb://localhost:27017/panorama');
+const getMongoDBURL = () => {
+  const MongodbURLMaps: Map<string, string> = new Map();
+  MongodbURLMaps.set('prod', process.env.MONGODB_URL);
+  MongodbURLMaps.set('dev', 'mongodb://localhost:27017/panorama');
 
-const mongodb_url = MongodbURLMaps.get(process.env.NODE_ENV);
+  const mongodb_url = MongodbURLMaps.get(process.env.NODE_ENV);
+  return mongodb_url;
+};
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(mongodb_url),
+    MongooseModule.forRoot(getMongoDBURL()),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
     }),
@@ -30,6 +36,8 @@ const mongodb_url = MongodbURLMaps.get(process.env.NODE_ENV);
     QiniuModule,
     CommentModule,
     LanguageModule,
+    CultureThemesModule,
+    SettingsModule,
   ],
   controllers: [],
   providers: [],

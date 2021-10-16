@@ -14,6 +14,7 @@ import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
 import { CreateUserRequestDto } from './dto/create-user.dto';
 import { GroupingDto } from './dto/grouping.dto';
 import { LoginRequestDto, LoginResponseDto } from './dto/login.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { updatePreferCultureThemesDto } from './dto/updatePreferCultureThemes.dto';
 import { User } from './schemas/user.schema';
 import { UsersService } from './user.service';
@@ -28,6 +29,15 @@ export class UsersController {
   @Post()
   async register(@Body() body: CreateUserRequestDto): Promise<User> {
     return this.userService.createUser(body);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put()
+  async updateProfile(
+    @Body() body: UpdateUserDto,
+    @Request() req: { user: JwtDto },
+  ) {
+    return this.userService.updateUser(req.user.userName, body);
   }
 
   @UseGuards(LocalAuthGuard)
@@ -46,6 +56,12 @@ export class UsersController {
   @Put('grouping')
   async grouping(@Body() body: GroupingDto, @Request() req: { user: JwtDto }) {
     return this.userService.grouping(req.user.userName, body.group);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('members')
+  async getGroupMembers(@Request() req: { user: JwtDto }) {
+    return this.userService.getGroupMembers(req.user.userName);
   }
 
   @UseGuards(JwtAuthGuard)

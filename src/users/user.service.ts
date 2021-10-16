@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { CreateUserRequestDto } from './dto/create-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 import { UserAlreadyExistException } from './exceptions/user-already-exist.exception';
 import * as bcrypt from 'bcrypt';
 import { saltOrRounds } from 'src/auth/constants';
 import { CultureThemesService } from 'src/cultureThemes/cultureThemes.service';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -19,8 +20,33 @@ export class UsersService {
     return this.userModel.findOne({ userName });
   }
 
+  async updateUser(userName: string, profile: UpdateUserDto) {
+    return this.userModel.findOneAndUpdate(
+      { userName },
+      {
+        gender: profile.gender,
+        country: profile.country,
+        introductionVideoLink: profile.introductionVideoLink,
+        avatarUrl: profile.avatarUrl,
+      },
+      {
+        useFindAndModify: false,
+      },
+    );
+  }
+
   async grouping(userName: string, group: string): Promise<UserDocument> {
     return this.userModel.findOneAndUpdate({ userName }, { $set: { group } });
+  }
+
+  async getGroupMembers(userName: string) {
+    const user = await this.findUserByUserName(userName);
+    const group = user.group;
+    let members: User[] = [];
+    if (group) {
+      members = await this.userModel.find({ group }).lean();
+    }
+    return members.filter((member) => member.userName !== userName);
   }
 
   async getGroupMembersByUserName(userName: string): Promise<UserDocument[]> {

@@ -30,6 +30,12 @@ export class User {
   @Prop()
   group: string;
 
+  @Prop()
+  introductionVideoLink: string;
+
+  @Prop()
+  avatarUrl: string;
+
   @Prop({ type: [mongooseSchema.Types.ObjectId], ref: CultureTheme.name })
   preferCultureThemes: CultureTheme[];
 

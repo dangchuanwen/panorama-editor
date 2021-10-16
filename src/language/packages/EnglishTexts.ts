@@ -71,4 +71,5 @@ export const EnglishTexts: WebsiteTexts = {
   PleaseSelectAtLeastSixCultureThemesYouInterestedIn:
     'Please Select At Least Six Culture Themes You Interested In',
   SuccessToSubmit: 'Success To Submit',
+  GroupMembers: 'Groupe Members',
 };

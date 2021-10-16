@@ -72,4 +72,5 @@ export const ChineseTexts: WebsiteTexts = {
   PleaseSelectAtLeastSixCultureThemesYouInterestedIn:
     '请选择至少六个你感兴趣的文化主题',
   SuccessToSubmit: '提交成功！',
+  GroupMembers: '小组成员',
 };

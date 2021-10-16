@@ -46,6 +46,12 @@ export class UsersController {
     return await this.authService.login(body);
   }
 
+  @UseGuards(LocalAuthGuard)
+  @Post('admin/login')
+  async adminLogin(@Body() body: LoginRequestDto) {
+    return await this.authService.adminLogin(body);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get('information')
   async getProfile(@Request() req: { user: JwtDto }) {

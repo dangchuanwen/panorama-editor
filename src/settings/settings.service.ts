@@ -11,8 +11,13 @@ export class SettingsService {
   ) {}
 
   async initSettings() {
-    return this.settingsModel.create({
-      grouped: false,
+    return this.settingsModel.create({});
+  }
+
+  async updateSettings(newSettings: Setting) {
+    const settings = await this.settingsModel.findOne().lean();
+    return this.settingsModel.findByIdAndUpdate(settings._id, newSettings, {
+      useFindAndModify: false,
     });
   }
 

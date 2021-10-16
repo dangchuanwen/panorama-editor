@@ -8,6 +8,18 @@ export class Setting {
   @Prop({ default: false })
   grouped: boolean;
 
+  @Prop({ default: true })
+  showStudio: boolean;
+
+  @Prop({ default: true })
+  showPlayground: boolean;
+
+  @Prop({ default: true })
+  showFriends: boolean;
+
+  @Prop({ default: true })
+  showSettings: boolean;
+
   @Prop()
   qiniuFilePrefix: string;
 }

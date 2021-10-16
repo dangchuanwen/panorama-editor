@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/user.service';
 import { LoginRequestDto, LoginResponseDto } from 'src/users/dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -24,6 +24,22 @@ export class AuthService {
     const user = await this.usersService.findUserByUserName(
       loginRequestDto.userName,
     );
+    return {
+      access_token: this.jwtService.sign(payload),
+      user,
+    };
+  }
+
+  async adminLogin(
+    loginRequestDto: LoginRequestDto,
+  ): Promise<LoginResponseDto> {
+    const payload = { userName: loginRequestDto.userName };
+    const user = await this.usersService.findUserByUserName(
+      loginRequestDto.userName,
+    );
+    if (user.userName !== process.env.admin) {
+      throw new HttpException('Access dinied', HttpStatus.FORBIDDEN);
+    }
     return {
       access_token: this.jwtService.sign(payload),
       user,

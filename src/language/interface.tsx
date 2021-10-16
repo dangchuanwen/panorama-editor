@@ -142,4 +142,6 @@ export interface WebsiteTexts {
   PleaseSelectAtLeastSixCultureThemesYouInterestedIn: string;
   // 提交成功
   SuccessToSubmit: string;
+  // 小组成员
+  GroupMembers: string;
 }

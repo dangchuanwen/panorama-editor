@@ -36,6 +36,8 @@ export type User = {
   userName: string;
   gender: Gender;
   country: Country;
+  introductionVideoLink: string;
+  avatarUrl: string;
 };
 export type Work = {
   _id: string;
@@ -63,6 +65,7 @@ export type CultureTheme = {
 };
 export type Settings = {
   grouped: boolean;
+  qiniuFilePrefix: string;
 };
 
 type Register = (userName: string, password: string, gender: Gender, country: Country) => AxiosPromise;
@@ -84,6 +87,8 @@ type RemoveWork = (workID: string) => AxiosPromise;
 type GetCultureThemes = () => AxiosPromise<CultureTheme[]>;
 type UpdatePreferCultureThemes = (cultureThemesNames: string[]) => AxiosPromise;
 type GetSettings = () => AxiosPromise<Settings>;
+type UpdateProfile = (profile: User) => AxiosPromise;
+type GetGroupMembers = () => AxiosPromise<User[]>;
 
 const request: AxiosInstance = axios.create();
 request.interceptors.request.use(
@@ -189,4 +194,12 @@ export const updatePreferCultureThemes: UpdatePreferCultureThemes = (cultureThem
 
 export const getSettings: GetSettings = () => {
   return request.get<Settings>('/settings');
+};
+
+export const updateProfile: UpdateProfile = (profile: User) => {
+  return request.put('/users', profile);
+};
+
+export const getGroupMembers: GetGroupMembers = () => {
+  return request.get<User[]>('/users/members');
 };

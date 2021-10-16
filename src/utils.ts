@@ -1,7 +1,7 @@
-import { ToolNames } from 'interface';
+import { QiniuCompeleteRes, ToolNames } from 'interface';
 import { HotSpot, IPanoramaImage } from 'pages/studio/state/state';
-import { PanoramaTourConfig } from 'requests/requests';
-
+import { getQiniuToken, PanoramaTourConfig } from 'requests/requests';
+import * as qiniu from 'qiniu-js';
 interface AnyObject {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
@@ -91,4 +91,20 @@ export const exportPanoramaTourConfig = (panoramaImages: IPanoramaImage[]): Pano
     scenes: scenes,
   };
   return config as PanoramaTourConfig;
+};
+
+export const uploadFile: (file: File) => Promise<QiniuCompeleteRes> = async (file: File) => {
+  return new Promise<QiniuCompeleteRes>(async (resolve, reject) => {
+    const getTokenRes = await getQiniuToken();
+    const observer = {
+      error(err: unknown) {
+        reject(err);
+      },
+      complete(res: QiniuCompeleteRes) {
+        resolve(res);
+      },
+    };
+    const observable = qiniu.upload(file, undefined, getTokenRes.data);
+    observable.subscribe(observer);
+  });
 };

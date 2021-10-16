@@ -12,10 +12,10 @@ interface ILanguageState {
   updateLanguagePackage: (languageName: LanguageNames) => Promise<void>;
 }
 
-const saveLanaugeToLocalStorage = (languageName: LanguageNames) => {
+export const saveLanaugeToLocalStorage: (l: LanguageNames) => void = (languageName: LanguageNames) => {
   localStorage.setItem('language', languageName);
 };
-const getLanguageFromLocalStorage = () => {
+export const getLanguageFromLocalStorage: () => LanguageNames = () => {
   return (localStorage.getItem('language') as LanguageNames) || LanguageNames.cn;
 };
 

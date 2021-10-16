@@ -1,3 +1,35 @@
 .cultureThemes {
   max-width: 60%;
 }
+.members {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.profileCard {
+  width: 200px;
+}
+.avatarBox {
+  display: flex;
+  justify-content: center;
+}
+.avatar {
+  width: 70px;
+  height: 70px;
+}
+.profileBox {
+  padding-top: 0 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.genderIcon {
+  font-size: 20px;
+  font-weight: bold;
+}
+.nationalFlag {
+  width: 20px;
+}
+.countryName {
+  margin-right: 5px;
+}

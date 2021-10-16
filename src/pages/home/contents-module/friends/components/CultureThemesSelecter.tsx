@@ -13,6 +13,7 @@ type CultureThemeWithChecked = CultureTheme & {
 
 const CultureThemesSelecter: FC = () => {
   const settings = useContext(SettingsContext);
+  const { languagePackage } = useContext(LanguageContext);
 
   const [cultureThemes, setCultureThemes] = useState<CultureThemeWithChecked[]>([]);
   useEffect(() => {
@@ -26,8 +27,6 @@ const CultureThemesSelecter: FC = () => {
     };
     fetchCultureThemes();
   }, []);
-
-  const { languagePackage } = useContext(LanguageContext);
 
   const handleCultureThemeChecked = (cultureThemeName: string, checked: boolean) => {
     setCultureThemes(

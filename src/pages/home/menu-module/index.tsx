@@ -24,6 +24,10 @@ const menuConfig: MenuItem[] = [
     pathname: '/dashboard/friends',
     iconClass: 'icon-haoyou1',
   },
+  {
+    pathname: '/dashboard/settings',
+    iconClass: 'icon-shezhi',
+  },
 ];
 const Menu: React.FC<Props> = ({ onClickMenuItem }: Props) => {
   const { pathname } = useLocation();

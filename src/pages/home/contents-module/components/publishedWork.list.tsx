@@ -7,9 +7,10 @@ import PublishedWorkItem from './publishedWork.item';
 
 interface Props {
   publishedWorks: PublishedWork[];
+  showEmpty?: boolean;
 }
 
-const PublishedWorkList: FC<Props> = ({ publishedWorks }: Props) => {
+const PublishedWorkList: FC<Props> = ({ publishedWorks, showEmpty = true }: Props) => {
   const { languagePackage } = useContext(LanguageContext);
   const renderPublishedWork = () => {
     return publishedWorks.map((publishedWork, index) => {
@@ -19,7 +20,7 @@ const PublishedWorkList: FC<Props> = ({ publishedWorks }: Props) => {
   return (
     <Box width="100%">
       {renderPublishedWork()}
-      {publishedWorks.length === 0 && (
+      {showEmpty && publishedWorks.length === 0 && (
         <Empty description={<span style={{ color: 'gray' }}>{languagePackage?.NoDatasYet}</span>} />
       )}
     </Box>

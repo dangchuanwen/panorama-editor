@@ -3,9 +3,11 @@ import { message } from 'antd';
 import { LanguageContext } from 'language';
 import React, { useContext } from 'react';
 import { addComment, deleteComment, getPublishedWorksOfGroupMembers, PublishedWork } from 'requests/requests';
+import { SettingsContext } from 'settings';
 
 import PublishedWorkList from '../components/publishedWork.list';
 import CultureThemesSelecter from './components/CultureThemesSelecter';
+import GroupMembers from './components/GroupMembers';
 interface IFriendsContext {
   commentable: boolean;
   handleComment?: (commentContent: string, commentedPublishedWorkID: string) => Promise<void>;
@@ -14,6 +16,7 @@ interface IFriendsContext {
 export const friendsContext = React.createContext<IFriendsContext>({ commentable: false });
 
 const Friends: React.FC = () => {
+  const settings = useContext(SettingsContext);
   const { languagePackage } = useContext(LanguageContext);
   const [loadData, setLoadData] = React.useState<number>(0);
   const [publishedWorksOfGroupMembers, setPublishedWorksOfGroupMembers] = React.useState<PublishedWork[]>([]);
@@ -52,10 +55,12 @@ const Friends: React.FC = () => {
   }, [loadData]);
   return (
     <Box width="100%">
-      <CultureThemesSelecter />
+      {settings?.grouped && <GroupMembers />}
+      {!settings?.grouped && <CultureThemesSelecter />}
+
       <Box width="60%" padding="1vw" maxHeight="80vh" overflow="auto">
         <friendsContext.Provider value={{ commentable: true, handleComment, handleDeleteComment }}>
-          <PublishedWorkList publishedWorks={publishedWorksOfGroupMembers} />
+          <PublishedWorkList showEmpty={settings?.grouped} publishedWorks={publishedWorksOfGroupMembers} />
         </friendsContext.Provider>
       </Box>
     </Box>

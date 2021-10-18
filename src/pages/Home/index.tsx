@@ -1,14 +1,20 @@
 import { FC } from "react";
-import { Switch, Route, Redirect, useRouteMatch, Link} from "react-router-dom";
+import { Switch, Route, Redirect, useRouteMatch, Link } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import Settings from "./components/Settings";
 import Grouping from "./components/Grouping";
+import CultureThemes from "./components/CultureThemes";
 const { Header, Sider, Content } = Layout;
+interface IMenu {
+  value: string;
+  path: string;
+}
 const Home: FC = () => {
   const { path } = useRouteMatch();
- 
-  const menus = [
+
+  const menus: IMenu[] = [
     { value: "系统设置", path: "/settings" },
+    { value: "文化主题设置", path: "/culture-themes" },
     { value: "分组设置", path: "/grouping" },
   ];
   const renderMenus = () => {
@@ -36,6 +42,9 @@ const Home: FC = () => {
             </Route>
             <Route path={`${path}/grouping`}>
               <Grouping />
+            </Route>
+            <Route path={`${path}/culture-themes`}>
+              <CultureThemes />
             </Route>
             <Route path={path} exact>
               <Redirect to={`${path}/settings`} />

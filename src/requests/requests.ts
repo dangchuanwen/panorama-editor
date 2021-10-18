@@ -63,7 +63,10 @@ export type CultureTheme = {
   description: string;
   rules: string;
 };
+export type SwitchNames = 'showFriends' | 'showPlayground' | 'showSettings' | 'showStudio';
 export type Settings = {
+  [key in SwitchNames]: boolean;
+} & {
   grouped: boolean;
   qiniuFilePrefix: string;
 };

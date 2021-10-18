@@ -28,7 +28,7 @@ export class SettingsService {
   }
 
   async getSettings() {
-    const settings = await this.settingsModel.findOne();
+    const settings = await this.settingsModel.findOne()
     if (!settings) {
       return this.initSettings();
     }

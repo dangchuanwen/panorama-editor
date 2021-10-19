@@ -2,7 +2,7 @@ import { CardHeader, CardContent, Card, Typography, IconButton } from '@material
 import { Delete as DeleteIcon } from '@material-ui/icons';
 
 import useUser from 'hooks/useUser';
-import { Gender, getCountryData } from 'interface';
+import { getCountryData } from 'interface';
 import { FC, useContext } from 'react';
 import { Comment as IComment } from 'requests/requests';
 import { friendsContext } from '../friends/index';
@@ -15,8 +15,6 @@ const Comment: FC<Props> = ({ comment }: Props) => {
   const { handleDeleteComment, commentable } = useContext(friendsContext);
 
   const user = useUser();
-  const avatar =
-    comment.publisher.gender === Gender.Female ? 'http://icetnnu.ltd/female.png' : 'http://icetnnu.ltd/male.png';
   const countryData = getCountryData(comment.publisher.country);
   const cardHeaderActionComponent = (commentable && user && user.userName === comment.publisher.userName && (
     <IconButton aria-label="settings" onClick={() => handleDeleteComment && handleDeleteComment(comment._id)}>
@@ -27,7 +25,7 @@ const Comment: FC<Props> = ({ comment }: Props) => {
     <Card className={classes.comment}>
       <CardHeader
         className={classes.commentHeader}
-        avatar={<img src={avatar} className={classes.avatar} />}
+        avatar={<img src={comment.publisher.avatarUrl} className={classes.avatar} />}
         title={<strong>{comment.publisher.userName}</strong>}
         action={cardHeaderActionComponent}
         subheader={<img src={countryData?.nationalFlag} className={classes.nationalFlag} />}

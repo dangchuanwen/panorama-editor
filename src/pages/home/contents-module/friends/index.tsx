@@ -54,11 +54,11 @@ const Friends: React.FC = () => {
     fetchPublishedWorksOfGroupMembers();
   }, [loadData]);
   return (
-    <Box width="100%">
+    <Box width="100%" maxHeight="80vh" overflow="auto">
       {settings?.grouped && <GroupMembers />}
       {!settings?.grouped && <CultureThemesSelecter />}
 
-      <Box width="60%" padding="1vw" maxHeight="80vh" overflow="auto">
+      <Box width="60%" padding="1vw">
         <friendsContext.Provider value={{ commentable: true, handleComment, handleDeleteComment }}>
           <PublishedWorkList showEmpty={settings?.grouped} publishedWorks={publishedWorksOfGroupMembers} />
         </friendsContext.Provider>

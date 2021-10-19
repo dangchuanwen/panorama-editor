@@ -1,13 +1,13 @@
 import { Avatar, Box, Tooltip, Card, CardActions } from '@material-ui/core';
 import { Input } from 'antd';
 import Iconfont from 'components/Iconfont';
-import { getAvatorOfGender, getCountryData } from 'interface';
+import { CountryData, getCountryData } from 'interface';
 import { FC, useContext } from 'react';
 import { PublishedWork } from 'requests/requests';
 import classes from './classes.module.css';
 import Comments from './comments';
 import { friendsContext } from '../friends/index';
-import { LanguageContext } from 'language';
+import { getLanguageFromLocalStorage, LanguageContext, LanguageNames } from 'language';
 interface Props {
   publishedWork: PublishedWork;
 }
@@ -15,25 +15,28 @@ const PublishedWorkItem: FC<Props> = ({ publishedWork }: Props) => {
   const { languagePackage } = useContext(LanguageContext);
   const { commentable, handleComment } = useContext(friendsContext);
   const { author, work, introduction, comments } = publishedWork;
+  const languageName: LanguageNames = getLanguageFromLocalStorage();
+  const countryData: CountryData | undefined = getCountryData(author.country);
+  const countryName: string =
+    (countryData && (languageName === LanguageNames.cn ? countryData.cnText : countryData?.enText)) || '';
 
   const firstScene = work.panoramaTourConfig.default.firstScene;
   const workPoster =
     work.panoramaTourConfig.scenes[firstScene].panorama ||
     'http://icetnnu.ltd/u%3D861387783%2C2279533978%26fm%3D26%26fmt%3Dauto%26gp%3D0.webp';
-  const userCountryData = getCountryData(author.country);
-  const avatorOfGender = getAvatorOfGender(author.gender);
+
   const handleClickPlay = () => {
     window.open(`/play/${work._id}`);
   };
   return (
     <Box width="100%" marginBottom="2vh" padding="10px" borderRadius="5px" boxShadow="0 0 6px gray">
       <Box display="flex" alignItems="center">
-        <Avatar alt="female avatar" src={avatorOfGender} />
+        <Avatar alt="female avatar" src={author.avatarUrl} />
         <Box marginLeft="0.5vw">
           <p style={{ fontWeight: 'bold', margin: '0' }}>{author.userName}</p>
           <p style={{ margin: '0' }}>
-            <span style={{ color: 'gray', marginRight: '0.3vw' }}>{userCountryData?.text}</span>
-            <img style={{ width: '1.2vw' }} src={userCountryData?.nationalFlag} alt={userCountryData?.text} />
+            <span style={{ color: 'gray', marginRight: '0.3vw' }}>{countryName}</span>
+            <img style={{ width: '1.2vw' }} src={countryData?.nationalFlag} alt={countryData?.text} />
           </p>
         </Box>
       </Box>

@@ -7,13 +7,17 @@ import { AuthContext } from "../../auth";
 type FormDto = {
   username: string;
   password: string;
-}
+};
 
 const SignIn: FC = () => {
-  const { login } = useContext(AuthContext)
+  const { login } = useContext(AuthContext);
   const onFinish = async (values: FormDto) => {
-    await login(values.username, values.password);
-    message.success("登录成功！")
+    try {
+      await login(values.username, values.password);
+      message.success("登录成功！");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -27,7 +31,7 @@ const SignIn: FC = () => {
         </Col>
       </Row>
       <Row justify="center">
-      <Col>
+        <Col>
           <Form
             name="basic"
             labelCol={{ span: 8 }}

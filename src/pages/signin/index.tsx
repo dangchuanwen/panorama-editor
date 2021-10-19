@@ -6,7 +6,6 @@ import { Link, useHistory } from 'react-router-dom';
 import { Container, Grid, Button, TextField } from '@material-ui/core';
 
 import Logo from 'assets/logo.png';
-import { showHttpError } from 'requests/requests';
 import { message } from 'antd';
 import { useAuth } from 'auth/auth';
 import LanguageSelecter from 'components/LanguageSelecter';
@@ -25,7 +24,7 @@ const SignIn: React.FC = () => {
       message.success(languagePackage?.LoginSuccessfully);
       history.replace('/');
     } catch (err) {
-      showHttpError(err);
+      message.warn(languagePackage?.UsernameOrPasswordError);
     }
   };
   return (

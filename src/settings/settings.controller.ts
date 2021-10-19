@@ -7,7 +7,6 @@ import { SettingsService } from './settings.service';
 export class SettingsController {
   constructor(private settingsService: SettingsService) {}
 
-  @UseGuards(AdminAuthGuard)
   @Get('')
   async getSettings() {
     return this.settingsService.getSettings();

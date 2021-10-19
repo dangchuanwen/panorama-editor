@@ -14,6 +14,14 @@ export class CultureThemesService {
     private readonly CultureThemesModel: Model<CultureThemeDocument>,
   ) {}
 
+  async updateCultureTheme(id: string, newVal: CultureTheme) {
+    return this.CultureThemesModel.findByIdAndUpdate(id, newVal);
+  }
+
+  async removeCultureTheme(cultureThemeID: string) {
+    return this.CultureThemesModel.findByIdAndDelete(cultureThemeID);
+  }
+
   async createCultureTheme(body: CreateCultureThemeDto) {
     return this.CultureThemesModel.create(body);
   }

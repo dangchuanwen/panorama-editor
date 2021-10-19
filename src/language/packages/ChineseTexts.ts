@@ -73,4 +73,5 @@ export const ChineseTexts: WebsiteTexts = {
     '请选择至少六个你感兴趣的文化主题',
   SuccessToSubmit: '提交成功！',
   GroupMembers: '小组成员',
+  UsernameOrPasswordError: '用户名或者密码错误',
 };

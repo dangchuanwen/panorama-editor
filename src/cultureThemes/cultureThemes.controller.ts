@@ -8,12 +8,16 @@ import {
   UseGuards,
   Request,
   Put,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { JwtDto } from 'src/auth/dto/jwt.dto';
+import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { UsersService } from 'src/users/user.service';
 import { CultureThemesService } from './cultureThemes.service';
 import { CreateCultureThemeDto } from './dto/createCultureTheme.dto';
+import { UpdateCultureThemeDto } from './dto/updateCultureTheme.dto';
 import { UpdateUserPreferCultureThemesDto } from './dto/updateUserPreferCultureThemes.dto';
 import { CultureTheme } from './schemas/cultureTheme.schema';
 
@@ -24,6 +28,25 @@ export class CultureThemesController {
     private readonly usersService: UsersService,
   ) {}
 
+  @UseGuards(AdminAuthGuard)
+  @Put('/:id')
+  async updateCultureTheme(
+    @Param('id') id,
+    @Body() body: UpdateCultureThemeDto,
+  ) {
+    return this.cultureThemesService.updateCultureTheme(id, {
+      ...body,
+      createdTime: new Date(),
+    });
+  }
+
+  @UseGuards(AdminAuthGuard)
+  @Delete('/:id')
+  async removeCultureTheme(@Param('id') id) {
+    return this.cultureThemesService.removeCultureTheme(id);
+  }
+
+  @UseGuards(AdminAuthGuard)
   @Post('')
   async createCultureTheme(@Body() body: CreateCultureThemeDto) {
     if (!body.name) {

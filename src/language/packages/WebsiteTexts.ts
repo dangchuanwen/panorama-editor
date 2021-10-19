@@ -144,4 +144,6 @@ export interface WebsiteTexts {
   SuccessToSubmit: string;
   // 小组成员
   GroupMembers: string;
+  // 用户名或者密码不正确
+  UsernameOrPasswordError: string;
 }

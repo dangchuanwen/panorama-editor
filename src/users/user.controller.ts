@@ -6,14 +6,19 @@ import {
   UseGuards,
   Request,
   Put,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtDto } from 'src/auth/dto/jwt.dto';
+import { AdminAuthGuard } from 'src/auth/guards/admin.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
 import { CreateUserRequestDto } from './dto/create-user.dto';
 import { GroupingDto } from './dto/grouping.dto';
 import { LoginRequestDto, LoginResponseDto } from './dto/login.dto';
+import { UpdateUserGroupDto } from './dto/update-user-group.dto';
+import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { updatePreferCultureThemesDto } from './dto/updatePreferCultureThemes.dto';
 import { User } from './schemas/user.schema';
@@ -80,5 +85,35 @@ export class UsersController {
       req.user.userName,
       body.preferCultureThemesNames,
     );
+  }
+
+  @UseGuards(AdminAuthGuard)
+  @Get('preferCultureThemes/all')
+  async getAllUserPreferCultureThemes() {
+    return this.userService.getAllUsersPreferCultureThemes();
+  }
+
+  @UseGuards(AdminAuthGuard)
+  @Delete('/:id')
+  async removeUser(@Param('id') id: string) {
+    return this.userService.removeUser(id);
+  }
+
+  @UseGuards(AdminAuthGuard)
+  @Put('/:id/group')
+  async updateUserGroup(
+    @Param('id') id: string,
+    @Body() body: UpdateUserGroupDto,
+  ) {
+    return this.userService.updateUserGroup(id, body.group);
+  }
+
+  @UseGuards(AdminAuthGuard)
+  @Put('/:id/password')
+  async updateUserPassword(
+    @Param('id') id: string,
+    @Body() body: UpdateUserPasswordDto,
+  ) {
+    return this.userService.updateUserPassword(id, body.password);
   }
 }

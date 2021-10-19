@@ -16,6 +16,23 @@ export class UsersService {
     private readonly cultureThemesService: CultureThemesService,
   ) {}
 
+  async updateUserPassword(id: string, password: string) {
+    const hash = await bcrypt.hash(password, saltOrRounds);
+    return this.userModel.findByIdAndUpdate(
+      id,
+      { password: hash },
+      { useFindAndModify: false },
+    );
+  }
+
+  async removeUser(id: string) {
+    return this.userModel.findByIdAndDelete(id);
+  }
+
+  async updateUserGroup(id: string, group: string) {
+    return this.userModel.findByIdAndUpdate(id, { group });
+  }
+
   async findUserByUserName(userName: string): Promise<UserDocument> {
     return this.userModel.findOne({ userName });
   }
@@ -107,5 +124,12 @@ export class UsersService {
       .populate('preferCultureThemes');
     const preferCultureThemes = (user && user.preferCultureThemes) || [];
     return preferCultureThemes;
+  }
+
+  async getAllUsersPreferCultureThemes() {
+    const usersWithPreferCultureThemes: User[] = await this.userModel
+      .find()
+      .populate('preferCultureThemes');
+    return usersWithPreferCultureThemes;
   }
 }

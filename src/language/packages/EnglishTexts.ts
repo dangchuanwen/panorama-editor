@@ -72,4 +72,5 @@ export const EnglishTexts: WebsiteTexts = {
     'Please Select At Least Six Culture Themes You Interested In',
   SuccessToSubmit: 'Success To Submit',
   GroupMembers: 'Groupe Members',
+  UsernameOrPasswordError: 'Sorry, Your username or password is incorrect',
 };

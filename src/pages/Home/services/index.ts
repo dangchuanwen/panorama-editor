@@ -28,6 +28,7 @@ export interface User {
 }
 
 export interface Settings {
+  grouped: boolean;
   showFriends: boolean;
   showPlayground: boolean;
   showSettings: boolean;

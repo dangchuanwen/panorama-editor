@@ -3,6 +3,7 @@ import { Row, Col, Switch, message } from "antd";
 import classes from "./style.module.css";
 import { getSettings, Settings, updateSettings } from "../../services/index";
 type SettingName =
+  | "grouped"
   | "showFriends"
   | "showPlayground"
   | "showSettings"
@@ -16,6 +17,7 @@ const SystemSetting: FC = () => {
       const res = await getSettings();
       const data: Settings = res.data;
       setSettings({
+        grouped: data.grouped,
         showFriends: data.showFriends,
         showPlayground: data.showPlayground,
         showSettings: data.showSettings,

@@ -184,6 +184,9 @@ const Grouping: FC = () => {
               group = val as string;
             }}
           >
+            <Select.Option key="none" value={""}>
+              无主题
+            </Select.Option>
             {cultureThemes.map((item) => {
               return (
                 <Select.Option key={item.name} value={item.name}>

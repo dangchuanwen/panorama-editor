@@ -36,7 +36,7 @@ export class WorksService {
 
   async getUserWorks(userName: string) {
     const user = await this.usersService.findUserByUserName(userName);
-    const works = await this.worksModel.find({ user });
+    const works = await this.worksModel.find({ user }).populate('user').lean();
     return works;
   }
 

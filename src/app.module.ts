@@ -24,11 +24,16 @@ const getMongoDBURL = () => {
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(getMongoDBURL()),
+    ServeStaticModule.forRoot({
+      serveRoot: '/backstage',
+      rootPath: join(__dirname, '..', 'backstage'),
+    }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
     }),
+
+    ConfigModule.forRoot({ isGlobal: true }),
+    MongooseModule.forRoot(getMongoDBURL()),
     AuthModule,
     UsersModule,
     WorksModule,

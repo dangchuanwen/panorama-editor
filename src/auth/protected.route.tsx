@@ -9,7 +9,7 @@ const ProtectedRoute: FC<RouteProps> = ({ ...rest }) => {
   if (authenticated) {
     return <Route {...rest}></Route>;
   } else {
-    return <Redirect from={pathname} to="/signin" />;
+    return <Redirect from={pathname} to="/backstage/signin" />;
   }
 };
 

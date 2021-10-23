@@ -56,7 +56,7 @@ const useAuth: () => AuthState = () => {
   useEffect(() => {
     const fetchUserInformation = async () => {
       try {
-        await requestWithToken.get("/user/information");
+        await requestWithToken.get("/users/information");
         setAuthenticated(true);
       } catch (err) {
         console.log(err);

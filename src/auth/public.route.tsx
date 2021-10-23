@@ -7,11 +7,10 @@ const PublicRoute: FC<RouteProps> = ({ ...rest }) => {
   const { pathname } = useLocation();
   const { authenticated } = useContext(AuthContext);
   if (authenticated) {
-    return <Redirect from={pathname} to="/home" />;
+    return <Redirect from={pathname} to="/backstage/home" />;
   } else {
     return <Route {...rest}></Route>;
   }
 };
-
 
 export default PublicRoute;

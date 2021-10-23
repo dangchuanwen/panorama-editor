@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import ProtectedRoute from "./auth/protected.route";
 import PublicRoute from "./auth/public.route";
 
@@ -10,15 +15,11 @@ function App() {
     <div>
       <Router>
         <Switch>
-          <Route path="/" exact>
-            <Redirect to="/home"/>
+          <Route path="/backstage" exact>
+            <Redirect to="/backstage/home" />
           </Route>
-          
-          {/* <Route path="/signin" component={SignIn}/>
-            
-          <Route path="/home" component={Home}/> */}
-          <PublicRoute path="/signin" component={SignIn}/>
-          <ProtectedRoute path="/home" component={Home}/>
+          <PublicRoute path="/backstage/signin" component={SignIn} />
+          <ProtectedRoute path="/backstage/home" component={Home} />
         </Switch>
       </Router>
     </div>

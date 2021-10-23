@@ -1,5 +1,5 @@
 import { Avatar, Box, Tooltip, Card, CardActions } from '@material-ui/core';
-import { Input } from 'antd';
+import { Input, Tag } from 'antd';
 import Iconfont from 'components/Iconfont';
 import { CountryData, getCountryData } from 'interface';
 import { FC, useContext } from 'react';
@@ -30,14 +30,19 @@ const PublishedWorkItem: FC<Props> = ({ publishedWork }: Props) => {
   };
   return (
     <Box width="100%" marginBottom="2vh" padding="10px" borderRadius="5px" boxShadow="0 0 6px gray">
-      <Box display="flex" alignItems="center">
-        <Avatar alt="female avatar" src={author.avatarUrl} />
-        <Box marginLeft="0.5vw">
-          <p style={{ fontWeight: 'bold', margin: '0' }}>{author.userName}</p>
-          <p style={{ margin: '0' }}>
-            <span style={{ color: 'gray', marginRight: '0.3vw' }}>{countryName}</span>
-            <img style={{ width: '1.2vw' }} src={countryData?.nationalFlag} alt={countryData?.text} />
-          </p>
+      <Box width="100%" display="flex" justifyContent="space-between">
+        <Box display="flex" alignItems="center">
+          <Avatar alt="female avatar" src={author.avatarUrl} />
+          <Box marginLeft="0.5vw">
+            <p style={{ fontWeight: 'bold', margin: '0' }}>{author.userName}</p>
+            <p style={{ margin: '0' }}>
+              <span style={{ color: 'gray', marginRight: '0.3vw' }}>{countryName}</span>
+              <img style={{ width: '1.2vw' }} src={countryData?.nationalFlag} alt={countryData?.text} />
+            </p>
+          </Box>
+        </Box>
+        <Box>
+          <Tag color="#2db7f5">{publishedWork.author.group}</Tag>
         </Box>
       </Box>
       <Box marginTop="1vh" fontSize="1vw" color="#333">

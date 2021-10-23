@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { Box } from '@material-ui/core';
 import { WorksWrapper, WorkItem, WorksBox, WorkThumbnail, WorksTitle, IconFont } from '../styled';
 import { Work } from 'requests/requests';
-import { Empty } from 'antd';
+import { Empty, Tag } from 'antd';
 import { LanguageContext } from 'language';
 type Props = {
   works: Work[];
@@ -21,8 +21,11 @@ const Works: React.FC<Props> = ({ works, handleRemoveWork }: Props) => {
           <Box>
             <WorkThumbnail src={firstSceneImage || imagePlaceholder} />
           </Box>
-          <Box color="#333" fontWeight="bold">
-            {work.workName}
+          <Box color="#333">
+            <strong>{work.workName}</strong>
+            <Tag style={{ marginLeft: '5px' }} color="#2db7f5">
+              {work.user.group}
+            </Tag>
           </Box>
           <Box display="flex" flexDirection="column">
             <a href={`/studio/${work._id}`} target="_blank">

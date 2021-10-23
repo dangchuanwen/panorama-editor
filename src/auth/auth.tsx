@@ -31,10 +31,16 @@ const createAuth: () => Auth = () => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
-    const access_token: string = getAccessTokenFromLocalStorage();
-    if (access_token) {
-      setAuthenticated(true);
-    }
+    const fetchUserInformation = async () => {
+      const res = await requests.getUserInformation();
+      const user: requests.User = res.data;
+      if (user) {
+        setAuthenticated(true);
+      } else {
+        setAuthenticated(false);
+      }
+    };
+    fetchUserInformation();
   }, []);
 
   const register: Auth['register'] = async (userName: string, password: string, gender: Gender, country: Country) => {
@@ -45,7 +51,9 @@ const createAuth: () => Auth = () => {
       const res = await requests.login(userName, password);
       saveAccessTokenToLocalStorage(res && res.data && res.data.access_token);
       setAuthenticated(true);
-      setUser(res.data.user);
+      setTimeout(() => {
+        setUser(res.data.user);
+      }, 100);
       return Promise.resolve(res);
     } catch (err) {
       return Promise.reject(err);

@@ -38,9 +38,11 @@ export type User = {
   country: Country;
   introductionVideoLink: string;
   avatarUrl: string;
+  group: string;
 };
 export type Work = {
   _id: string;
+  user: User;
   workName: string;
   panoramaTourConfig: PanoramaTourConfig;
 };

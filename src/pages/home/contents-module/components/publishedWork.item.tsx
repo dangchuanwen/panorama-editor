@@ -41,9 +41,7 @@ const PublishedWorkItem: FC<Props> = ({ publishedWork }: Props) => {
             </p>
           </Box>
         </Box>
-        <Box>
-          <Tag color="#2db7f5">{publishedWork.author.group}</Tag>
-        </Box>
+        <Box>{publishedWork.author.group && <Tag color="#2db7f5">{publishedWork.author.group}</Tag>}</Box>
       </Box>
       <Box marginTop="1vh" fontSize="1vw" color="#333">
         <p>{introduction}</p>

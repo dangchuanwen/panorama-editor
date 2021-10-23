@@ -23,9 +23,11 @@ const Works: React.FC<Props> = ({ works, handleRemoveWork }: Props) => {
           </Box>
           <Box color="#333">
             <strong>{work.workName}</strong>
-            <Tag style={{ marginLeft: '5px' }} color="#2db7f5">
-              {work.user.group}
-            </Tag>
+            {work.user.group && (
+              <Tag style={{ marginLeft: '5px' }} color="#2db7f5">
+                {work.user.group}
+              </Tag>
+            )}
           </Box>
           <Box display="flex" flexDirection="column">
             <a href={`/studio/${work._id}`} target="_blank">

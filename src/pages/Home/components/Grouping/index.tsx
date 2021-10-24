@@ -89,23 +89,8 @@ const columns: TableColumnsType<User> = [
   },
 ];
 
-const AutoGrouping = (users: User[]) => {
-  const themesWithUsers: Map<string, User[]> = new Map();
-  users.forEach((user) => {
-    const preferThemes = user.preferCultureThemes;
-    preferThemes.forEach((preferTheme) => {
-      if (!themesWithUsers.has(preferTheme.name)) {
-        themesWithUsers.set(preferTheme.name, []);
-      }
-      themesWithUsers.get(preferTheme.name)?.push(user);
-    });
-  });
-  console.log(themesWithUsers);
-};
-
 const Grouping: FC = () => {
   const [load, setLoad] = useState<number>(0);
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [cultureThemes, setCultureThemes] = useState<CultureTheme[]>([]);
   useEffect(() => {
@@ -128,12 +113,7 @@ const Grouping: FC = () => {
     };
     fetchCultureThemes();
   }, []);
-  const handleClickAutoGrouping = () => {
-    const selectedUsers: User[] = selectedRowKeys.map((_id) => {
-      return users.find((user) => user._id === _id) as User;
-    });
-    AutoGrouping(selectedUsers);
-  };
+
   const handleConfirmUpdatePassword = async (id: string, password: string) => {
     await updateUserPassword(id, password);
     message.success("修改成功，记得告诉用户！");
@@ -238,21 +218,11 @@ const Grouping: FC = () => {
   return (
     <div className={styles.wrapper}>
       <Space direction="vertical" style={{ width: "100%" }}>
-        <Button type="primary" onClick={handleClickAutoGrouping}>
-          自动分组
-        </Button>
         <Table
           columns={tableColumns}
+          rowKey={(record) => record._id}
           dataSource={users}
           pagination={false}
-          rowKey="_id"
-          rowSelection={{
-            type: "checkbox",
-            selectedRowKeys: selectedRowKeys,
-            onChange: (selectedRows) => {
-              setSelectedRowKeys(selectedRows);
-            },
-          }}
         />
       </Space>
     </div>

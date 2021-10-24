@@ -103,7 +103,11 @@ const CultureThemes: FC = () => {
             创建
           </Button>
         </Row>
-        <Table dataSource={cultureThemes} columns={tableColumns} />
+        <Table
+          dataSource={cultureThemes}
+          columns={tableColumns}
+          rowKey={(record) => record._id}
+        />
       </Space>
       <Modal
         title="创建文化主题"

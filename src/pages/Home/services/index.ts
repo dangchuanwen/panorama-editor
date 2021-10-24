@@ -35,6 +35,14 @@ export interface Settings {
   showStudio: boolean;
 }
 
+export interface TaskProcessStep {
+  _id: string;
+  name: string;
+  order: number;
+  done: boolean;
+  description: string;
+}
+
 type GetSettings = () => AxiosPromise<Settings>;
 type UpdateSettings = (settings: Settings) => AxiosPromise;
 type GetCultureThemes = () => AxiosPromise<CultureTheme[]>;
@@ -48,6 +56,15 @@ type GetAllUserPreferCultureThemes = () => AxiosPromise<User[]>;
 type RemoveUser = (id: string) => AxiosPromise;
 type UpdateUserGroup = (id: string, group: string) => AxiosPromise;
 type UpdateUserPassword = (id: string, password: string) => AxiosPromise;
+type GetTasksProcess = () => AxiosPromise<TaskProcessStep[]>;
+type CreateTaskProcessStep = (
+  newStep: TaskProcessStep
+) => AxiosPromise<TaskProcessStep>;
+type UpdateTaskProcessStep = (
+  id: string,
+  newStep: TaskProcessStep
+) => AxiosPromise<TaskProcessStep>;
+type RemoveTaskProcessStep = (id: string) => AxiosPromise;
 
 export const getSettings: GetSettings = () => {
   return requestWithToken.get<Settings>("/settings");
@@ -96,4 +113,25 @@ export const updateUserPassword: UpdateUserPassword = (
   password: string
 ) => {
   return requestWithToken.put(`/users/${id}/password`, { password });
+};
+
+export const getTasksProcess: GetTasksProcess = () => {
+  return requestWithToken.get("/tasks-process");
+};
+
+export const createTaskProcessStep: CreateTaskProcessStep = (
+  newStep: TaskProcessStep
+) => {
+  return requestWithToken.post("/tasks-process", newStep);
+};
+
+export const updateTaskProcessStep: UpdateTaskProcessStep = (
+  id: string,
+  newVal: TaskProcessStep
+) => {
+  return requestWithToken.put(`/tasks-process/${id}`, newVal);
+};
+
+export const removeTaskProcessStep: RemoveTaskProcessStep = (id: string) => {
+  return requestWithToken.delete(`/tasks-process/${id}`);
 };

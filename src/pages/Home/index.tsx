@@ -4,6 +4,7 @@ import { Layout, Menu } from "antd";
 import Settings from "./components/Settings";
 import Grouping from "./components/Grouping";
 import CultureThemes from "./components/CultureThemes";
+import TasksProcess from "./components/TasksProcess";
 const { Header, Sider, Content } = Layout;
 interface IMenu {
   value: string;
@@ -14,6 +15,7 @@ const Home: FC = () => {
 
   const menus: IMenu[] = [
     { value: "系统设置", path: "/settings" },
+    { value: "任务管理", path: "/tasks-process" },
     { value: "文化主题设置", path: "/culture-themes" },
     { value: "分组设置", path: "/grouping" },
   ];
@@ -39,6 +41,9 @@ const Home: FC = () => {
           <Switch>
             <Route path={`${path}/settings`}>
               <Settings />
+            </Route>
+            <Route path={`${path}/tasks-process`}>
+              <TasksProcess />
             </Route>
             <Route path={`${path}/grouping`}>
               <Grouping />

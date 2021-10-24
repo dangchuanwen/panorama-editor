@@ -77,4 +77,5 @@ export const EnglishTexts: WebsiteTexts = {
   Submit: 'Submit',
   IntroductionVideo: 'Introduction Video',
   FinishedAllTasks: "All steps completed - you're finished",
+  PleaseContactAdmin: 'Please contact admin!',
 };

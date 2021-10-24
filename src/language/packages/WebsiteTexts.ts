@@ -154,4 +154,6 @@ export interface WebsiteTexts {
   IntroductionVideo: string;
   // 完成全部任务
   FinishedAllTasks: string;
+  // 请联系管理员（忘记密码的时候提示）
+  PleaseContactAdmin: string;
 }

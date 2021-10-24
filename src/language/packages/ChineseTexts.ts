@@ -78,4 +78,5 @@ export const ChineseTexts: WebsiteTexts = {
   Submit: '提交',
   IntroductionVideo: '介绍视频',
   FinishedAllTasks: '恭喜你，已完成全部任务!',
+  PleaseContactAdmin: '请联系管理员！',
 };

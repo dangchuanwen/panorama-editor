@@ -87,7 +87,13 @@ const SignIn: React.FC = () => {
                   size="small"
                 ></TextField>
                 <p className={styles.forgetPasswordLink}>
-                  <span>{languagePackage?.ForgetPassword}</span>
+                  <span
+                    onClick={() => {
+                      message.warn(languagePackage?.PleaseContactAdmin);
+                    }}
+                  >
+                    {languagePackage?.ForgetPassword}
+                  </span>
                 </p>
               </div>
               <div>

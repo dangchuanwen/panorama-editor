@@ -29,18 +29,6 @@ export class CultureThemesController {
   ) {}
 
   @UseGuards(AdminAuthGuard)
-  @Put('/:id')
-  async updateCultureTheme(
-    @Param('id') id,
-    @Body() body: UpdateCultureThemeDto,
-  ) {
-    return this.cultureThemesService.updateCultureTheme(id, {
-      ...body,
-      createdTime: new Date(),
-    });
-  }
-
-  @UseGuards(AdminAuthGuard)
   @Delete('/:id')
   async removeCultureTheme(@Param('id') id) {
     return this.cultureThemesService.removeCultureTheme(id);
@@ -87,5 +75,17 @@ export class CultureThemesController {
       req.user.userName,
       body.cultureThemesNames,
     );
+  }
+
+  @UseGuards(AdminAuthGuard)
+  @Put('/:id')
+  async updateCultureTheme(
+    @Param('id') id,
+    @Body() body: UpdateCultureThemeDto,
+  ) {
+    return this.cultureThemesService.updateCultureTheme(id, {
+      ...body,
+      createdTime: new Date(),
+    });
   }
 }

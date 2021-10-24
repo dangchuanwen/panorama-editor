@@ -73,4 +73,8 @@ export const EnglishTexts: WebsiteTexts = {
   SuccessToSubmit: 'Success To Submit',
   GroupMembers: 'Groupe Members',
   UsernameOrPasswordError: 'Sorry, Your username or password is incorrect',
+  GroupName: 'Group Name',
+  Submit: 'Submit',
+  IntroductionVideo: 'Introduction Video',
+  FinishedAllTasks: "All steps completed - you're finished",
 };

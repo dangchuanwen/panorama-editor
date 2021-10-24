@@ -12,6 +12,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CultureThemesModule } from './cultureThemes/cultureThemes.module';
 import { SettingsModule } from './settings/settings.module';
+import { TasksProcessModule } from './tasksProcess/tasksProcess.module';
 
 const getMongoDBURL = () => {
   const MongodbURLMaps: Map<string, string> = new Map();
@@ -43,6 +44,7 @@ const getMongoDBURL = () => {
     LanguageModule,
     CultureThemesModule,
     SettingsModule,
+    TasksProcessModule,
   ],
   controllers: [],
   providers: [],

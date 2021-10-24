@@ -74,4 +74,8 @@ export const ChineseTexts: WebsiteTexts = {
   SuccessToSubmit: '提交成功！',
   GroupMembers: '小组成员',
   UsernameOrPasswordError: '用户名或者密码错误',
+  GroupName: '小组名称',
+  Submit: '提交',
+  IntroductionVideo: '介绍视频',
+  FinishedAllTasks: '恭喜你，已完成全部任务!',
 };

@@ -42,7 +42,25 @@ export class PublishedWorkService {
       {
         $unwind: '$work',
       },
-
+      {
+        $match: {
+          $and: [
+            { 'work.workTheme': { $ne: null } },
+            { 'work.workTheme': { $ne: '' } },
+          ],
+        },
+      },
+      {
+        $lookup: {
+          from: 'culturethemes',
+          localField: 'work.workTheme',
+          foreignField: '_id',
+          as: 'work.workTheme',
+        },
+      },
+      {
+        $unwind: '$work.workTheme',
+      },
       {
         $lookup: {
           from: 'comments',

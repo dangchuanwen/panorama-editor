@@ -146,4 +146,12 @@ export interface WebsiteTexts {
   GroupMembers: string;
   // 用户名或者密码不正确
   UsernameOrPasswordError: string;
+  // 小组名称
+  GroupName: string;
+  // 提交
+  Submit: string;
+  // 介绍视频
+  IntroductionVideo: string;
+  // 完成全部任务
+  FinishedAllTasks: string;
 }

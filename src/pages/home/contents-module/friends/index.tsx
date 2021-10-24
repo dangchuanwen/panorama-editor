@@ -1,5 +1,6 @@
-import { Box } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { message } from 'antd';
+import useUser from 'hooks/useUser';
 import { LanguageContext } from 'language';
 import React, { useContext } from 'react';
 import { addComment, deleteComment, getPublishedWorksOfGroupMembers, PublishedWork } from 'requests/requests';
@@ -17,6 +18,7 @@ export const friendsContext = React.createContext<IFriendsContext>({ commentable
 
 const Friends: React.FC = () => {
   const settings = useContext(SettingsContext);
+  const user = useUser();
   const { languagePackage } = useContext(LanguageContext);
   const [loadData, setLoadData] = React.useState<number>(0);
   const [publishedWorksOfGroupMembers, setPublishedWorksOfGroupMembers] = React.useState<PublishedWork[]>([]);
@@ -55,14 +57,21 @@ const Friends: React.FC = () => {
   }, [loadData]);
   return (
     <Box width="100%" maxHeight="80vh" overflow="auto">
-      {settings?.grouped && <GroupMembers />}
+      {settings?.grouped && user && user.group && (
+        <Typography variant="h5" component="div" gutterBottom>
+          {languagePackage?.GroupName}: {user && user.group}
+        </Typography>
+      )}
+      {settings?.grouped && user && user.group && <GroupMembers />}
       {!settings?.grouped && <CultureThemesSelecter />}
 
-      <Box width="60%" padding="1vw">
-        <friendsContext.Provider value={{ commentable: true, handleComment, handleDeleteComment }}>
-          <PublishedWorkList showEmpty={settings?.grouped} publishedWorks={publishedWorksOfGroupMembers} />
-        </friendsContext.Provider>
-      </Box>
+      {settings?.grouped && (
+        <Box width="60%" padding="1vw">
+          <friendsContext.Provider value={{ commentable: true, handleComment, handleDeleteComment }}>
+            <PublishedWorkList showEmpty={settings?.grouped} publishedWorks={publishedWorksOfGroupMembers} />
+          </friendsContext.Provider>
+        </Box>
+      )}
     </Box>
   );
 };

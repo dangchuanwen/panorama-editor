@@ -3,7 +3,6 @@ import { message } from 'antd';
 import { LanguageContext } from 'language';
 import { FC, useEffect, useState, ChangeEvent, useContext } from 'react';
 import { CultureTheme, getCultureThemes, updatePreferCultureThemes } from 'requests/requests';
-import { SettingsContext } from 'settings';
 
 import classes from './style.module.css';
 
@@ -12,7 +11,6 @@ type CultureThemeWithChecked = CultureTheme & {
 };
 
 const CultureThemesSelecter: FC = () => {
-  const settings = useContext(SettingsContext);
   const { languagePackage } = useContext(LanguageContext);
 
   const [cultureThemes, setCultureThemes] = useState<CultureThemeWithChecked[]>([]);
@@ -79,20 +77,18 @@ const CultureThemesSelecter: FC = () => {
 
   return (
     <Box>
-      {settings && !settings.grouped && (
-        <>
-          <Typography variant="h5" component="div" gutterBottom>
-            {languagePackage?.SelectAtLeastSixCultureThemesYouInterestedIn}
-          </Typography>
+      <>
+        <Typography variant="h5" component="div" gutterBottom>
+          {languagePackage?.SelectAtLeastSixCultureThemesYouInterestedIn}
+        </Typography>
 
-          <FormGroup row className={classes.cultureThemes}>
-            {renderCultureThemes()}
-          </FormGroup>
-          <Button variant="contained" color="primary" onClick={() => handleClickSubmit()}>
-            Submit
-          </Button>
-        </>
-      )}
+        <FormGroup row className={classes.cultureThemes}>
+          {renderCultureThemes()}
+        </FormGroup>
+        <Button variant="contained" color="primary" onClick={() => handleClickSubmit()}>
+          {languagePackage?.Submit}
+        </Button>
+      </>
     </Box>
   );
 };

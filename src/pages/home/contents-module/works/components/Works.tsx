@@ -23,9 +23,9 @@ const Works: React.FC<Props> = ({ works, handleRemoveWork }: Props) => {
           </Box>
           <Box color="#333">
             <strong>{work.workName}</strong>
-            {work.user.group && (
+            {work.workTheme && (
               <Tag style={{ marginLeft: '5px' }} color="#2db7f5">
-                {work.user.group}
+                {work.workTheme.name}
               </Tag>
             )}
           </Box>

@@ -40,10 +40,17 @@ export type User = {
   avatarUrl: string;
   group: string;
 };
+export type CultureTheme = {
+  _id: string;
+  name: string;
+  description: string;
+  rules: string;
+};
 export type Work = {
   _id: string;
   user: User;
   workName: string;
+  workTheme: CultureTheme;
   panoramaTourConfig: PanoramaTourConfig;
 };
 export type Comment = {
@@ -59,12 +66,7 @@ export type PublishedWork = {
   author: User;
   comments: Comment[];
 };
-export type CultureTheme = {
-  _id: string;
-  name: string;
-  description: string;
-  rules: string;
-};
+
 export type SwitchNames = 'showFriends' | 'showPlayground' | 'showSettings' | 'showStudio';
 export type Settings = {
   [key in SwitchNames]: boolean;
@@ -72,6 +74,13 @@ export type Settings = {
   grouped: boolean;
   qiniuFilePrefix: string;
 };
+export interface TaskProcessStep {
+  _id: string;
+  name: string;
+  order: number;
+  done: boolean;
+  description: string;
+}
 
 type Register = (userName: string, password: string, gender: Gender, country: Country) => AxiosPromise;
 type Login = (userName: string, password: string) => AxiosPromise<LoginResult>;
@@ -94,6 +103,7 @@ type UpdatePreferCultureThemes = (cultureThemesNames: string[]) => AxiosPromise;
 type GetSettings = () => AxiosPromise<Settings>;
 type UpdateProfile = (profile: User) => AxiosPromise;
 type GetGroupMembers = () => AxiosPromise<User[]>;
+type GetTasksProcess = () => AxiosPromise<TaskProcessStep[]>;
 
 const request: AxiosInstance = axios.create();
 request.interceptors.request.use(
@@ -207,4 +217,8 @@ export const updateProfile: UpdateProfile = (profile: User) => {
 
 export const getGroupMembers: GetGroupMembers = () => {
   return request.get<User[]>('/users/members');
+};
+
+export const getTasksProcess: GetTasksProcess = () => {
+  return request.get('/tasks-process');
 };

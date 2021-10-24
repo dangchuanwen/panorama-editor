@@ -2,8 +2,8 @@
 import { Card, CardContent, Avatar, Typography, Button } from '@material-ui/core';
 import Iconfont from 'components/Iconfont';
 import { CountryData, Gender, getCountryData } from 'interface';
-import { getLanguageFromLocalStorage, LanguageNames } from 'language';
-import { FC } from 'react';
+import { getLanguageFromLocalStorage, LanguageNames, LanguageContext } from 'language';
+import { FC, useContext } from 'react';
 import { User } from 'requests/requests';
 import classes from './style.module.css';
 interface Props {
@@ -21,6 +21,7 @@ GenderIconsMap.set(Gender.Female, feMaleIcon);
 GenderIconsMap.set(Gender.Male, maleIcon);
 
 const ProfileCard: FC<Props> = ({ profile }: Props) => {
+  const { languagePackage } = useContext(LanguageContext);
   const languageName: LanguageNames = getLanguageFromLocalStorage();
   const genderIcon: GenderIcon = GenderIconsMap.get(profile.gender) || feMaleIcon;
   const countryData: CountryData | undefined = getCountryData(profile.country);
@@ -44,7 +45,7 @@ const ProfileCard: FC<Props> = ({ profile }: Props) => {
         <p>
           <a href={profile.introductionVideoLink} target="_blank">
             <Button color="primary" size="small">
-              Introduction Video
+              {languagePackage?.IntroductionVideo}
             </Button>
           </a>
         </p>

@@ -3,7 +3,7 @@ import { Wrapper } from './styled';
 import Operation from './components/Operation';
 import Works from './components/Works';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { createWork, getUserWorks, removeWork, showHttpError, Work } from 'requests/requests';
+import { createWork, getUserWorks, removeWork, Work } from 'requests/requests';
 import { message, Modal } from 'antd';
 import { LanguageContext } from 'language';
 const Studio: React.FC = () => {
@@ -25,7 +25,7 @@ const Studio: React.FC = () => {
       message.success(languagePackage?.SuccessToCreate);
       setLoad(load + 1);
     } catch (err) {
-      showHttpError(err, '该作品');
+      console.log(err);
     }
   };
   const handleClickRemoveWork = async (workID: string) => {

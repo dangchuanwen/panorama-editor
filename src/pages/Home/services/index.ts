@@ -33,6 +33,7 @@ export interface Settings {
   showPlayground: boolean;
   showSettings: boolean;
   showStudio: boolean;
+  qiniuFilePrefix: string;
 }
 
 export interface TaskProcessStep {

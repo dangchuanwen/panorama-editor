@@ -151,7 +151,7 @@ const TasksProcess: FC = () => {
             <Input />
           </Form.Item>
           <Form.Item label="任务描述" name="description" required>
-            <Input />
+            <Input.TextArea rows={10} />
           </Form.Item>
           <Form.Item
             label="是否完成"

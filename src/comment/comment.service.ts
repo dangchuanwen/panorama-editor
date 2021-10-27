@@ -38,7 +38,10 @@ export class CommentService {
       await this.publishedWorksService.findPublishedWorkByID(
         commentedPublishedWorkID,
       );
-    const comments = await this.commentModel.find({ commentedPublishedWork });
+    const comments = await this.commentModel
+      .find({ commentedPublishedWork })
+      .populate('publisher')
+      .lean();
     return comments;
   }
 

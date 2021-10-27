@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CultureThemesModule } from 'src/cultureThemes/cultureThemes.module';
 import { UsersModule } from 'src/users/user.module';
 import { WorksModule } from 'src/works/works.module';
 import { PublishedWorkController } from './publishedWork.controller';
@@ -13,6 +14,7 @@ import {
   imports: [
     UsersModule,
     WorksModule,
+    CultureThemesModule,
     MongooseModule.forFeature([
       { name: PublishedWork.name, schema: PublishedWorkSchema },
     ]),

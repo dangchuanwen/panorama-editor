@@ -78,4 +78,9 @@ export const EnglishTexts: WebsiteTexts = {
   IntroductionVideo: 'Introduction Video',
   FinishedAllTasks: "All steps completed - you're finished",
   PleaseContactAdmin: 'Please contact admin!',
+  DoYouWantToDelete: 'Do you want to delete it?',
+  TasksProcess: 'Tasks Process',
+  TaskDescription: 'Description Of Task',
+  CommentAt: 'Comment At ',
+  PublishAt: 'Publish At ',
 };

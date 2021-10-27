@@ -10,7 +10,10 @@ import {
 import { JwtDto } from 'src/auth/dto/jwt.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { GetPublishedWorkByIDDto } from './dto/getPublishedWorkByID.dto';
-import { GetPublishedWorksBeforeAnchorDate } from './dto/getPublishedWorksBeforeAnchorDate.dto';
+import {
+  GetPublishedWorksBeforeAnchorDateBodyDto,
+  GetPublishedWorksBeforeAnchorDateParamDto,
+} from './dto/getPublishedWorksBeforeAnchorDate.dto';
 import { PublishWorkDto } from './dto/publishWork.dto';
 import { PublishedWorkService } from './publishedWork.service';
 
@@ -26,19 +29,16 @@ export class PublishedWorkController {
     );
   }
 
-  @Get('before/:anchorDate/count/:dataCount')
+  @Post('before/:anchorDate/count/:dataCount')
   async getPublishedWorksBeforeAnchorDate(
-    @Param() params: GetPublishedWorksBeforeAnchorDate,
+    @Param() params: GetPublishedWorksBeforeAnchorDateParamDto,
+    @Body() body: GetPublishedWorksBeforeAnchorDateBodyDto,
   ) {
     return this.publishedWorkService.findPublishedWorksBeforeAnchorDate(
-      params.anchorDate,
+      new Date(Number(params.anchorDate)),
       Number(params.dataCount),
+      body.cultureThemesNames || [],
     );
-  }
-
-  @Get()
-  async getAllPublishedWorks() {
-    return this.publishedWorkService.findAllPublishedWorks();
   }
 
   @UseGuards(JwtAuthGuard)

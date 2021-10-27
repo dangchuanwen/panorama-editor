@@ -49,7 +49,7 @@ export const ChineseTexts: WebsiteTexts = {
   TagContent: '标签内容',
   ChangeTagContent: '修改标签内容',
   Delete: '删除',
-  ImportPanoramicImage: '导入全景图片',
+  ImportPanoramicImage: '导入素材',
   SaveSuccessfully: '保存成功',
   PublishWork: '发布作品',
   AddIntroductionHere: '为您的作品添加一些介绍文字',
@@ -79,4 +79,9 @@ export const ChineseTexts: WebsiteTexts = {
   IntroductionVideo: '介绍视频',
   FinishedAllTasks: '恭喜你，已完成全部任务!',
   PleaseContactAdmin: '请联系管理员！',
+  DoYouWantToDelete: '确认删除？',
+  TasksProcess: '任务进度',
+  TaskDescription: '任务描述',
+  CommentAt: '评论于',
+  PublishAt: '发布于',
 };

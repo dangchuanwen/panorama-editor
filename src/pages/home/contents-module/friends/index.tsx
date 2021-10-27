@@ -9,12 +9,7 @@ import { SettingsContext } from 'settings';
 import PublishedWorkList from '../components/publishedWork.list';
 import CultureThemesSelecter from './components/CultureThemesSelecter';
 import GroupMembers from './components/GroupMembers';
-interface IFriendsContext {
-  commentable: boolean;
-  handleComment?: (commentContent: string, commentedPublishedWorkID: string) => Promise<void>;
-  handleDeleteComment?: (commentID: string) => Promise<void>;
-}
-export const friendsContext = React.createContext<IFriendsContext>({ commentable: false });
+import { PublishedWorksContext } from '../contexts';
 
 const Friends: React.FC = () => {
   const settings = useContext(SettingsContext);
@@ -67,9 +62,17 @@ const Friends: React.FC = () => {
 
       {settings?.grouped && (
         <Box width="60%" padding="1vw">
-          <friendsContext.Provider value={{ commentable: true, handleComment, handleDeleteComment }}>
-            <PublishedWorkList showEmpty={settings?.grouped} publishedWorks={publishedWorksOfGroupMembers} />
-          </friendsContext.Provider>
+          <PublishedWorksContext.Provider
+            value={{
+              showEmpty: settings?.grouped,
+              commentable: true,
+              publishedWorks: publishedWorksOfGroupMembers,
+              handleComment,
+              handleDeleteComment,
+            }}
+          >
+            <PublishedWorkList />
+          </PublishedWorksContext.Provider>
         </Box>
       )}
     </Box>

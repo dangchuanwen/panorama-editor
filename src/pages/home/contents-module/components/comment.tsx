@@ -3,21 +3,23 @@ import { Delete as DeleteIcon } from '@material-ui/icons';
 
 import useUser from 'hooks/useUser';
 import { getCountryData } from 'interface';
+import { LanguageContext } from 'language';
 import { FC, useContext } from 'react';
 import { Comment as IComment } from 'requests/requests';
-import { friendsContext } from '../friends/index';
+import { PublishedWorksContext } from '../contexts';
 import classes from './classes.module.css';
 interface Props {
   comment: IComment;
+  handleDeleteComment: (commentID: string) => void;
 }
-const Comment: FC<Props> = ({ comment }: Props) => {
+const Comment: FC<Props> = ({ comment, handleDeleteComment }: Props) => {
   if (!comment._id) return <></>;
-  const { handleDeleteComment, commentable } = useContext(friendsContext);
-
+  const { commentable } = useContext(PublishedWorksContext);
+  const { languagePackage } = useContext(LanguageContext);
   const user = useUser();
   const countryData = getCountryData(comment.publisher.country);
   const cardHeaderActionComponent = (commentable && user && user.userName === comment.publisher.userName && (
-    <IconButton aria-label="settings" onClick={() => handleDeleteComment && handleDeleteComment(comment._id)}>
+    <IconButton aria-label="settings" onClick={() => handleDeleteComment(comment._id)}>
       <DeleteIcon />
     </IconButton>
   )) || <></>;
@@ -31,8 +33,14 @@ const Comment: FC<Props> = ({ comment }: Props) => {
         subheader={<img src={countryData?.nationalFlag} className={classes.nationalFlag} />}
       />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography variant="body1" component="p">
           {comment.content}
+        </Typography>
+      </CardContent>
+      <CardContent>
+        <Typography variant="caption" color="textSecondary" component="p">
+          {languagePackage?.CommentAt}
+          {new Date(comment.createdTime).toLocaleDateString()}
         </Typography>
       </CardContent>
     </Card>

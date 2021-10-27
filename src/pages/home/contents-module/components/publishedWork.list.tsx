@@ -2,16 +2,12 @@ import { Box } from '@material-ui/core';
 import { Empty } from 'antd';
 import { LanguageContext } from 'language';
 import { FC, useContext } from 'react';
-import { PublishedWork } from 'requests/requests';
+import { PublishedWorksContext } from '../contexts';
 import PublishedWorkItem from './publishedWork.item';
 
-interface Props {
-  publishedWorks: PublishedWork[];
-  showEmpty?: boolean;
-}
-
-const PublishedWorkList: FC<Props> = ({ publishedWorks, showEmpty = true }: Props) => {
+const PublishedWorkList: FC = () => {
   const { languagePackage } = useContext(LanguageContext);
+  const { publishedWorks, showEmpty } = useContext(PublishedWorksContext);
   const renderPublishedWork = () => {
     return publishedWorks.map((publishedWork, index) => {
       return <PublishedWorkItem key={index} publishedWork={publishedWork} />;

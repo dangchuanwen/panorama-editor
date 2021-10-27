@@ -57,6 +57,7 @@ export type Comment = {
   _id: string;
   publisher: User;
   content: string;
+  createdTime: Date;
 };
 export type PublishedWork = {
   _id: string;
@@ -91,11 +92,15 @@ type GetWorkData = (workID: string) => AxiosPromise<Work>;
 type UpdateWork = (workName: string, panoramaTourConfig: PanoramaTourConfig | null) => AxiosPromise<Work>;
 type PublishWork = (workID: string, introduction: string) => AxiosPromise;
 type GetUserPublishedWorkByWorkID = (workID: string) => AxiosPromise<PublishedWork>;
-type GetPublishedWorksBeforeArchorDate = (archorDate: Date) => AxiosPromise<PublishedWork[]>;
+type GetPublishedWorksBeforeArchorDate = (
+  archorDate: Date,
+  cultureThemesNames: string[],
+) => AxiosPromise<PublishedWork[]>;
 type GetUserInformation = () => AxiosPromise<User>;
 type GetPublishedWorksOfGroupMembers = () => AxiosPromise<PublishedWork[]>;
 type AddComment = (commentContent: string, commentedPublishedWorkID: string) => AxiosPromise;
 type DeleteComment = (commentID: string) => AxiosPromise;
+type GetCommentsOfPublishedWork = (publishedWorkID: string) => AxiosPromise<Comment[]>;
 type GetLanguagePackage = (languageName: LanguageNames) => AxiosPromise<WebsiteTexts>;
 type RemoveWork = (workID: string) => AxiosPromise;
 type GetCultureThemes = () => AxiosPromise<CultureTheme[]>;
@@ -166,8 +171,13 @@ export const getUserPublishedWorkByWorkID: GetUserPublishedWorkByWorkID = async 
   return request.get(`/published-works/${workID}`);
 };
 
-export const getPublishedWorksBeforeArchorDate: GetPublishedWorksBeforeArchorDate = (archorDate: Date) => {
-  return request.get<PublishedWork[]>(`/published-works/before/${new Date(archorDate).getTime()}/count/5`);
+export const getPublishedWorksBeforeArchorDate: GetPublishedWorksBeforeArchorDate = (
+  archorDate: Date,
+  cultureThemesNames: string[],
+) => {
+  return request.post<PublishedWork[]>(`/published-works/before/${archorDate.getTime()}/count/10`, {
+    cultureThemesNames,
+  });
 };
 
 export const getUserInformation: GetUserInformation = () => {
@@ -221,4 +231,8 @@ export const getGroupMembers: GetGroupMembers = () => {
 
 export const getTasksProcess: GetTasksProcess = () => {
   return request.get('/tasks-process');
+};
+
+export const getCommentsOfPublishedWork: GetCommentsOfPublishedWork = (publishedWorkID: string) => {
+  return request.get(`/comments?publishedWorkID=${publishedWorkID}`);
 };

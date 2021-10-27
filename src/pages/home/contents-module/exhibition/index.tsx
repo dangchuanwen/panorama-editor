@@ -4,65 +4,93 @@ import { LanguageContext } from 'language';
 import { useContext, useEffect } from 'react';
 import { useState } from 'react';
 import { FC } from 'react';
-import { getPublishedWorksBeforeArchorDate, PublishedWork } from 'requests/requests';
+import { addComment, deleteComment, getPublishedWorksBeforeArchorDate, PublishedWork } from 'requests/requests';
 import PublishedWorkList from '../components/publishedWork.list';
 import ClassificationTags from './components/ClassificationTags';
-
+import { PublishedWorksContext } from '../contexts';
 const Exhibition: FC = () => {
   const { languagePackage } = useContext(LanguageContext);
-  const [archorDate, setArchorDate] = useState<Date>(new Date());
+  const [load, setLoad] = useState<number>(0);
 
   const [selectedCultureThemesNames, setSelectedCultureThemesNames] = useState<string[]>([]);
   const handleClickCultureThemeTag: (s: string[]) => void = (cultureThemesNames: string[]) => {
     setSelectedCultureThemesNames(cultureThemesNames);
   };
 
-  const [totalPublishedWorks, setTotalPublishedWorks] = useState<PublishedWork[]>([]);
-  const handleClickLoadMore = () => {
-    const earliestPublishedWork = totalPublishedWorks[totalPublishedWorks.length - 1];
+  const [publishedWorks, setPublishedWorks] = useState<PublishedWork[]>([]);
+  const handleClickLoadMore = async () => {
+    const earliestPublishedWork = publishedWorks[publishedWorks.length - 1];
     if (earliestPublishedWork) {
-      setArchorDate(earliestPublishedWork.createdTime);
+      try {
+        const res = await getPublishedWorksBeforeArchorDate(
+          new Date(earliestPublishedWork.createdTime),
+          selectedCultureThemesNames,
+        );
+        if (res && res.data) {
+          if (res.data.length === 0 && publishedWorks.length > 0) {
+            message.warn(languagePackage?.NoMoreDatas);
+          } else {
+            setPublishedWorks([...publishedWorks, ...res.data]);
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
   useEffect(() => {
     const fetchPublishedWorksBeforeArchorDate = async () => {
       try {
-        const res = await getPublishedWorksBeforeArchorDate(archorDate);
+        const res = await getPublishedWorksBeforeArchorDate(new Date(), selectedCultureThemesNames);
         if (res && res.data) {
-          const newPublishedWorks = [...totalPublishedWorks, ...res.data];
-          setTotalPublishedWorks(newPublishedWorks);
-          if (res.data.length === 0 && totalPublishedWorks.length > 0) {
-            message.warn(languagePackage?.NoMoreDatas);
-          }
+          const newPublishedWorks = res.data;
+          setPublishedWorks(newPublishedWorks);
         }
       } catch (err) {
         console.log(err);
       }
     };
     fetchPublishedWorksBeforeArchorDate();
-  }, [archorDate]);
+  }, [selectedCultureThemesNames]);
 
-  const [selectedPublishedWorks, setSelectedPublishedWorks] = useState<PublishedWork[]>([]);
-  useEffect(() => {
-    if (selectedCultureThemesNames.length === 0) {
-      setSelectedPublishedWorks(totalPublishedWorks);
-    } else {
-      setSelectedPublishedWorks(
-        totalPublishedWorks.filter((item) => {
-          return selectedCultureThemesNames.includes(item.work.workTheme.name);
-        }),
-      );
+  const handleComment = async (commentContent: string, commentedPublishedWorkID: string) => {
+    try {
+      await addComment(commentContent, commentedPublishedWorkID);
+      message.success(languagePackage?.SuccessToComment);
+      setLoad(load + 1);
+    } catch (err) {
+      console.log(err);
     }
-  }, [selectedCultureThemesNames, totalPublishedWorks]);
+  };
+  const handleDeleteComment = async (commentID: string) => {
+    try {
+      await deleteComment(commentID);
+      message.success(languagePackage?.SuccessToRemove);
+      setLoad(load + 1);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Box width="60%" padding="1vw" maxHeight="80vh" overflow="auto">
       <Box marginBottom="20px">
         <ClassificationTags handleClickCultureThemeTag={handleClickCultureThemeTag} />
       </Box>
-      <PublishedWorkList publishedWorks={selectedPublishedWorks} />
+      <PublishedWorksContext.Provider
+        value={{
+          publishedWorks: publishedWorks,
+          commentable: true,
+          showEmpty: true,
+          handleComment,
+          handleDeleteComment,
+        }}
+      >
+        <PublishedWorkList />
+      </PublishedWorksContext.Provider>
+
       <Box marginLeft="30%">
-        {Array.isArray(selectedPublishedWorks) && selectedPublishedWorks.length > 0 && (
+        {Array.isArray(publishedWorks) && publishedWorks.length > 0 && (
           <Button variant="contained" onClick={handleClickLoadMore}>
             {languagePackage?.LoadMore}
           </Button>

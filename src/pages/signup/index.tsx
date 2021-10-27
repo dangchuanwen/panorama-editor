@@ -5,10 +5,9 @@ import styles from '../signin/style.module.css';
 import { Container, Grid, Button, TextField, Radio, FormControlLabel, RadioGroup, Box } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-import Logo from 'assets/logo.png';
+import Logo from 'assets/vr-logo.png';
 import { useAuth } from 'auth/auth';
 import { message } from 'antd';
-import { showHttpError } from 'requests/requests';
 import { Country, Gender, getCountries } from 'interface';
 
 import { Select } from 'antd';
@@ -61,7 +60,7 @@ const SignUp: React.FC = () => {
       await register(userName, password, gender, country);
       message.success(languagePackage?.CreateSuccessfully);
     } catch (err) {
-      showHttpError(err, '用户');
+      console.log(err);
     }
   };
 
@@ -69,7 +68,7 @@ const SignUp: React.FC = () => {
     <div className={styles.wrapper}>
       <Container maxWidth={false} className={styles.container}>
         <Grid container>
-          <Grid item xs={5}>
+          <Grid xs={5}>
             <div className={styles.posterWrapper}>
               <img
                 src="https://images.pexels.com/photos/4145356/pexels-photo-4145356.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
@@ -77,7 +76,7 @@ const SignUp: React.FC = () => {
               />
               <p>
                 <img src={Logo} alt="" />
-                <span>360°</span>
+                <span className={styles.appTitle}>VR TOUR</span>
               </p>
             </div>
           </Grid>

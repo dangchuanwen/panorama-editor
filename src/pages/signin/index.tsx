@@ -5,7 +5,7 @@ import { Link, useHistory } from 'react-router-dom';
 
 import { Container, Grid, Button, TextField } from '@material-ui/core';
 
-import Logo from 'assets/logo.png';
+import Logo from 'assets/vr-logo.png';
 import { message } from 'antd';
 import { useAuth } from 'auth/auth';
 import LanguageSelecter from 'components/LanguageSelecter';
@@ -31,7 +31,7 @@ const SignIn: React.FC = () => {
     <div className={styles.wrapper}>
       <Container maxWidth={false} className={styles.container}>
         <Grid container>
-          <Grid item xs={5}>
+          <Grid xs={5}>
             <div className={styles.posterWrapper}>
               <img
                 src="https://images.pexels.com/photos/4145356/pexels-photo-4145356.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
@@ -39,7 +39,7 @@ const SignIn: React.FC = () => {
               />
               <p>
                 <img src={Logo} alt="" />
-                <span>360°</span>
+                <span className={styles.appTitle}>VR TOUR</span>
               </p>
             </div>
           </Grid>

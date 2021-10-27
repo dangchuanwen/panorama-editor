@@ -26,7 +26,7 @@ const Home: FC = () => {
   }, []);
   return (
     <Box>
-      <Typography variant="h5">任务进度</Typography>
+      <Typography variant="h5">{languagePackage?.TasksProcess}</Typography>
       <Box>
         <Stepper activeStep={currentStep}>
           {tasksProcess.map((step) => {
@@ -39,7 +39,7 @@ const Home: FC = () => {
         </Stepper>
       </Box>
       <Box>
-        <Typography variant="h6">任务描述</Typography>
+        <Typography variant="h6">{languagePackage?.TaskDescription}</Typography>
       </Box>
       <div dangerouslySetInnerHTML={{ __html: taskDescription }}></div>
     </Box>

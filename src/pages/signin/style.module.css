@@ -2,8 +2,8 @@
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template-columns: 55vw;
-  grid-template-rows: 65vh;
+  grid-template-columns: 60vw;
+  grid-template-rows: auto;
   justify-content: center;
   align-content: center;
   background: url(https://cdn.pixabay.com/photo/2015/10/29/14/38/web-1012467_960_720.jpg);
@@ -21,8 +21,7 @@
   background-size: 100%;
 }
 .posterWrapper > img {
-  width: 100%;
-  height: 65vh;
+  height: 70vh;
 }
 .posterWrapper > p {
   left: 0;
@@ -66,9 +65,7 @@
 }
 .inputLine {
   margin-top: 1vh;
-  font-size: 0.5vw;
-}
-.input {
+  font-size: 1vw;
 }
 .forgetPasswordLink {
   margin-top: 1vh;
@@ -83,4 +80,9 @@
   color: white !important;
   font-weight: bold !important;
   background-color: #7436ff !important;
+}
+
+.appTitle {
+  color: wheat !important;
+  text-shadow: 2px 2px 3px #333;
 }

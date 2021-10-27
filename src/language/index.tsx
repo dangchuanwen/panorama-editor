@@ -16,7 +16,7 @@ export const saveLanaugeToLocalStorage: (l: LanguageNames) => void = (languageNa
   localStorage.setItem('language', languageName);
 };
 export const getLanguageFromLocalStorage: () => LanguageNames = () => {
-  return (localStorage.getItem('language') as LanguageNames) || LanguageNames.cn;
+  return (localStorage.getItem('language') as LanguageNames) || LanguageNames.en;
 };
 
 const useLanguageState: () => ILanguageState = () => {

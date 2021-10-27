@@ -47,7 +47,7 @@ const ImagesBar: React.FC = () => {
       try {
         setLoading(true);
         const res: QiniuCompeleteRes = await uploadFile(files[0]);
-        const url = process.env.REACT_APP_IMAGE_PREFIX + '/' + res.hash;
+        const url = 'http://icetnnu.ltd' + '/' + res.hash;
         addImage(url);
         setLoading(false);
       } catch (err) {

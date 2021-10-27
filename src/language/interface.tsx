@@ -156,4 +156,14 @@ export interface WebsiteTexts {
   FinishedAllTasks: string;
   // 请联系管理员（忘记密码的时候提示）
   PleaseContactAdmin: string;
+  // 确认删除？
+  DoYouWantToDelete: string;
+  // 任务进度
+  TasksProcess: string;
+  // 任务描述
+  TaskDescription: string;
+  // 发布于
+  PublishAt: string;
+  // 评论于
+  CommentAt: string;
 }

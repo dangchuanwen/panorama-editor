@@ -81,6 +81,6 @@ export const EnglishTexts: WebsiteTexts = {
   DoYouWantToDelete: 'Do you want to delete it?',
   TasksProcess: 'Tasks Process',
   TaskDescription: 'Description Of Task',
-  CommentAt: 'Comment At ',
-  PublishAt: 'Publish At ',
+  CommentAt: 'Commented At ',
+  PublishAt: 'Published At ',
 };

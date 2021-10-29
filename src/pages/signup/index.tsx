@@ -41,7 +41,7 @@ const SignUp: React.FC = () => {
       );
     });
     return (
-      <Select style={{ width: '50%' }} size="small" value={country} onChange={(val: Country) => setCountry(val)}>
+      <Select style={{ width: '50%' }} size="large" value={country} onChange={(val: Country) => setCountry(val)}>
         {CountryOptions}
       </Select>
     );
@@ -101,8 +101,8 @@ const SignUp: React.FC = () => {
                 </p>
                 <TextField
                   variant="outlined"
-                  InputProps={{ style: { fontSize: 12 } }}
-                  InputLabelProps={{ style: { fontSize: 12 } }}
+                  InputProps={{ style: { fontSize: 15 } }}
+                  InputLabelProps={{ style: { fontSize: 15 } }}
                   label={languagePackage?.PleaseEnterUsername}
                   fullWidth
                   value={userName}
@@ -118,8 +118,8 @@ const SignUp: React.FC = () => {
                 <TextField
                   variant="outlined"
                   label={languagePackage?.PleaseEnterPassword}
-                  InputProps={{ style: { fontSize: 12 } }}
-                  InputLabelProps={{ style: { fontSize: 12 } }}
+                  InputProps={{ style: { fontSize: 15 } }}
+                  InputLabelProps={{ style: { fontSize: 15 } }}
                   fullWidth
                   value={password}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}

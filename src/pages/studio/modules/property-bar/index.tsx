@@ -62,7 +62,7 @@ const PropertyBar: React.FC = () => {
             />
           </Box>
 
-          <Box marginTop="3vh">
+          <Box marginTop="10px">
             <Title>{languagePackage?.TagContent}</Title>
             <TextField
               value={activatedHotSpot.text}
@@ -78,7 +78,7 @@ const PropertyBar: React.FC = () => {
             />
           </Box>
           {activatedHotSpot.toolName === ToolNames.Link && (
-            <Box marginTop="20px" maxWidth="70%">
+            <Box marginTop="10px" maxWidth="70%">
               <Title>{languagePackage?.TargetImage}</Title>
               <Select
                 value={activatedHotSpot.targetID || ''}
@@ -98,7 +98,7 @@ const PropertyBar: React.FC = () => {
               </Select>
             </Box>
           )}
-          <Box marginTop="50px">
+          <Box marginTop="20px">
             <Button
               onClick={() => handleClickDeleteBtn()}
               variant="contained"

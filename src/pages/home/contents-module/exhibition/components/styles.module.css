@@ -1,3 +1,5 @@
 .tag {
+  padding: 5px 10px;
+  font-size: 1vw;
   cursor: pointer;
 }

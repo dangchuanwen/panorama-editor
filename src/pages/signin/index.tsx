@@ -63,8 +63,8 @@ const SignIn: React.FC = () => {
                 <TextField
                   variant="outlined"
                   value={userName}
-                  InputProps={{ style: { fontSize: 12 } }}
-                  InputLabelProps={{ style: { fontSize: 12 } }}
+                  InputProps={{ style: { fontSize: 15 } }}
+                  InputLabelProps={{ style: { fontSize: 15 } }}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
                   label={languagePackage?.YourUsername}
                   fullWidth
@@ -78,8 +78,8 @@ const SignIn: React.FC = () => {
                 <TextField
                   variant="outlined"
                   value={password}
-                  InputProps={{ style: { fontSize: 12 } }}
-                  InputLabelProps={{ style: { fontSize: 12 } }}
+                  InputProps={{ style: { fontSize: 15 } }}
+                  InputLabelProps={{ style: { fontSize: 15 } }}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                   label={languagePackage?.YourPassword}
                   fullWidth

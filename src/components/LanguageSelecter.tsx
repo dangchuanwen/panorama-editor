@@ -20,7 +20,7 @@ const LanguageSelecter: FC = () => {
     updateLanguagePackage(val);
   };
   return (
-    <Select defaultValue={language.name} onChange={(val) => handleSelectLanguage(val)} bordered={false}>
+    <Select defaultValue={language.name} size="large" onChange={(val) => handleSelectLanguage(val)} bordered={false}>
       {languages.map((language) => (
         <Option key={language.name} value={language.name}>
           {language.label}

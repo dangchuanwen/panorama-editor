@@ -28,7 +28,7 @@ const CountrySelecter: FC<Props> = ({ country, handleSelectCountry }: Props) => 
     return (
       <Select
         style={{ width: '50%' }}
-        size="small"
+        size="middle"
         value={country}
         onChange={(val: Country) => handleSelectCountry(val)}
       >

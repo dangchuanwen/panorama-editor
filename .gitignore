@@ -1,7 +1,7 @@
 # compiled output
 /node_modules
 *.zip
-.env
+*.env
 # Logs
 logs
 *.log

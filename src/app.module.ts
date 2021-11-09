@@ -15,12 +15,7 @@ import { SettingsModule } from './settings/settings.module';
 import { TasksProcessModule } from './tasksProcess/tasksProcess.module';
 
 const getMongoDBURL = () => {
-  const MongodbURLMaps: Map<string, string> = new Map();
-  MongodbURLMaps.set('prod', process.env.MONGODB_URL);
-  MongodbURLMaps.set('dev', 'mongodb://localhost:27017/panorama');
-
-  const mongodb_url = MongodbURLMaps.get(process.env.NODE_ENV);
-  return mongodb_url;
+  return process.env.MONGODB_URL;
 };
 
 @Module({
@@ -33,7 +28,10 @@ const getMongoDBURL = () => {
       rootPath: join(__dirname, '..', 'client'),
     }),
 
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.dev.env', '.prod.env'],
+    }),
     MongooseModule.forRoot(getMongoDBURL()),
     AuthModule,
     UsersModule,

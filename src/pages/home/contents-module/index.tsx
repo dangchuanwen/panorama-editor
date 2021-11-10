@@ -26,20 +26,22 @@ const Home: FC = () => {
   }, []);
   return (
     <Box>
-      <Typography variant="h5">{languagePackage?.TasksProcess}</Typography>
+      <Typography variant="h4">{languagePackage?.TasksProcess}</Typography>
       <Box>
         <Stepper activeStep={currentStep}>
           {tasksProcess.map((step) => {
             return (
               <Step key={step._id}>
-                <StepLabel>{step.name}</StepLabel>
+                <StepLabel>
+                  <Typography variant="h6">{step.name}</Typography>
+                </StepLabel>
               </Step>
             );
           })}
         </Stepper>
       </Box>
       <Box>
-        <Typography variant="h6">{languagePackage?.TaskDescription}</Typography>
+        <Typography variant="h4">{languagePackage?.TaskDescription}</Typography>
       </Box>
       <div dangerouslySetInnerHTML={{ __html: taskDescription }}></div>
     </Box>

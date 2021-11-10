@@ -80,7 +80,7 @@ export const ChineseTexts: WebsiteTexts = {
   FinishedAllTasks: '恭喜你，已完成全部任务!',
   PleaseContactAdmin: '请联系管理员！',
   DoYouWantToDelete: '确认删除？',
-  TasksProcess: '任务进度',
+  TasksProcess: '活动进度',
   TaskDescription: '任务描述',
   CommentAt: '评论于',
   PublishAt: '发布于',

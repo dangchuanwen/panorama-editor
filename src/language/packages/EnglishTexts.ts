@@ -79,8 +79,8 @@ export const EnglishTexts: WebsiteTexts = {
   FinishedAllTasks: "All steps completed - you're finished",
   PleaseContactAdmin: 'Please contact admin!',
   DoYouWantToDelete: 'Do you want to delete it?',
-  TasksProcess: 'Tasks Process',
-  TaskDescription: 'Description Of Task',
+  TasksProcess: 'Activities Process',
+  TaskDescription: 'Tasks',
   CommentAt: 'Commented At ',
   PublishAt: 'Published At ',
 };

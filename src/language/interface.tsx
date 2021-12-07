@@ -152,6 +152,8 @@ export interface WebsiteTexts {
   Submit: string;
   // 介绍视频
   IntroductionVideo: string;
+  // 介绍文字
+  IntroductionText: string;
   // 完成全部任务
   FinishedAllTasks: string;
   // 请联系管理员（忘记密码的时候提示）

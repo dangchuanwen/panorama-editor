@@ -49,6 +49,13 @@ const ProfileCard: FC<Props> = ({ profile }: Props) => {
             </Button>
           </a>
         </p>
+        <p>
+          <a href={profile.introductionTextLink} target="_blank">
+            <Button color="secondary" size="small">
+              {languagePackage?.IntroductionText}
+            </Button>
+          </a>
+        </p>
       </CardContent>
     </Card>
   );

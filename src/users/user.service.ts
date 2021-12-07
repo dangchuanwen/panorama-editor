@@ -45,6 +45,7 @@ export class UsersService {
         country: profile.country,
         introductionVideoLink: profile.introductionVideoLink,
         avatarUrl: profile.avatarUrl,
+        introductionTextLink: profile.introductionTextLink,
       },
       {
         useFindAndModify: false,

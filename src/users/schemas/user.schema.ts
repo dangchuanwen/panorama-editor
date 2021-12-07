@@ -34,6 +34,9 @@ export class User {
   introductionVideoLink: string;
 
   @Prop()
+  introductionTextLink: string;
+
+  @Prop()
   avatarUrl: string;
 
   @Prop({ type: [mongooseSchema.Types.ObjectId], ref: CultureTheme.name })

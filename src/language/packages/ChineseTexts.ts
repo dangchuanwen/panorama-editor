@@ -76,7 +76,7 @@ export const ChineseTexts: WebsiteTexts = {
   UsernameOrPasswordError: '用户名或者密码错误',
   GroupName: '小组名称',
   Submit: '提交',
-  IntroductionVideo: '介绍视频',
+  IntroductionVideo: '视频介绍',
   FinishedAllTasks: '恭喜你，已完成全部任务!',
   PleaseContactAdmin: '请联系管理员！',
   DoYouWantToDelete: '确认删除？',
@@ -84,4 +84,5 @@ export const ChineseTexts: WebsiteTexts = {
   TaskDescription: '任务描述',
   CommentAt: '评论于',
   PublishAt: '发布于',
+  IntroductionText: '文字介绍',
 };

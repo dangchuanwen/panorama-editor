@@ -83,4 +83,5 @@ export const EnglishTexts: WebsiteTexts = {
   TaskDescription: 'Tasks',
   CommentAt: 'Commented At ',
   PublishAt: 'Published At ',
+  IntroductionText: 'Introduction Text',
 };

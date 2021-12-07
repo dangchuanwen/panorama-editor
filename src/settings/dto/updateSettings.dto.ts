@@ -7,4 +7,5 @@ export class UpdateSettingsDto implements Setting {
   showFriends: boolean;
   showSettings: boolean;
   qiniuFilePrefix: string;
+  clientHost: string;
 }

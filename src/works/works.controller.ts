@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import { JwtDto } from 'src/auth/dto/jwt.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { User } from 'src/users/schemas/user.schema';
 import { CreateWorkDto } from './dto/create-work.dto';
 import { UpdateWorkDto } from './dto/update-work.dto';
 import { Work } from './schemas/work.schema';
@@ -22,6 +23,11 @@ import { WorksService } from './works.service';
 @Controller('works')
 export class WorksController {
   constructor(private readonly worksService: WorksService) {}
+
+  @Get('users')
+  async getAllUsersWorks(): Promise<Array<{ user: User; works: Work[] }>> {
+    return this.worksService.getAllUsersWorks();
+  }
 
   @UseGuards(JwtAuthGuard)
   @Get()

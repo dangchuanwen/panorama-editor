@@ -42,6 +42,36 @@ export class WorksService {
     return works;
   }
 
+  async getAllUsersWorks() {
+    const usersWithWorks: Array<{
+      user: User;
+      works: Array<Work>;
+    }> = [];
+
+    // 获取所有的作品
+    const allWorks = await this.worksModel
+      .find()
+      .populate('user')
+      .populate('workTheme')
+      .lean();
+
+    // 根据作者汇总
+    allWorks.forEach((work) => {
+      const user = usersWithWorks.find(
+        (item) => item.user.userName === work.user.userName,
+      );
+      if (user) {
+        user.works.push(work);
+      } else {
+        usersWithWorks.push({
+          user: work.user,
+          works: [work],
+        });
+      }
+    });
+    return usersWithWorks;
+  }
+
   async createWork(workName: string, userName: string) {
     const user = await this.usersService.findUserByUserName(userName);
     const cultureTheme: CultureTheme =

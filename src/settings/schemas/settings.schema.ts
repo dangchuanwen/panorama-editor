@@ -22,6 +22,9 @@ export class Setting {
 
   @Prop()
   qiniuFilePrefix: string;
+
+  @Prop({ default: '' })
+  clientHost: string;
 }
 
 export const SettingSchema = SchemaFactory.createForClass(Setting);

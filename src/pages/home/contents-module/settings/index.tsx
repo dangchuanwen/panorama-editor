@@ -15,6 +15,7 @@ import classes from './style.module.css';
 
 type UserWithExtra = User & {
   editAbleOfIntroductionVideoLink?: boolean;
+  editAbltOfIntroductionTextLink?: boolean;
 };
 const Settings: FC = () => {
   const settings = useContext(SettingsContext);
@@ -83,6 +84,29 @@ const Settings: FC = () => {
               handleSelectCountry={(country: Country) => setProfile({ ...profile, country })}
             />
           </p>
+
+          <p className={classes.profileUnit}>
+            <strong>Self-Introduction Text Link: </strong>
+            <FormControl variant="filled" className={classes.formControl}>
+              <Input
+                type="text"
+                disabled={!profile.editAbltOfIntroductionTextLink}
+                value={profile.introductionTextLink}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  setProfile({ ...profile, introductionTextLink: e.target.value });
+                }}
+                onBlur={() => setProfile({ ...profile, editAbltOfIntroductionTextLink: false })}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <Box onClick={() => setProfile({ ...profile, editAbltOfIntroductionTextLink: true })}>
+                      <Iconfont name="icon-bianji" color="gray" className={classes.editIcon}></Iconfont>
+                    </Box>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </p>
+
           <p className={classes.profileUnit}>
             <strong>Self-Introduction Video Link: </strong>
             <FormControl variant="filled" className={classes.formControl}>

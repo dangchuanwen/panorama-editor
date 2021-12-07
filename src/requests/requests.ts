@@ -37,6 +37,7 @@ export type User = {
   gender: Gender;
   country: Country;
   introductionVideoLink: string;
+  introductionTextLink: string;
   avatarUrl: string;
   group: string;
 };

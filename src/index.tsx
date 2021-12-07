@@ -5,9 +5,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "antd/dist/antd.css";
 import { AuthWrapper } from "./auth";
+import { SettingsWrapper } from "./contexts/settings";
 ReactDOM.render(
   <React.StrictMode>
-    <AuthWrapper><App /></AuthWrapper>
+    <SettingsWrapper>
+      <AuthWrapper>
+        <App />
+      </AuthWrapper>
+    </SettingsWrapper>
   </React.StrictMode>,
   document.getElementById("root")
 );

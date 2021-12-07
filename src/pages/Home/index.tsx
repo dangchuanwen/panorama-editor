@@ -5,6 +5,7 @@ import Settings from "./components/Settings";
 import Grouping from "./components/Grouping";
 import CultureThemes from "./components/CultureThemes";
 import TasksProcess from "./components/TasksProcess";
+import UsersWorks from "./components/UsersWorks";
 const { Header, Sider, Content } = Layout;
 interface IMenu {
   value: string;
@@ -18,6 +19,7 @@ const Home: FC = () => {
     { value: "任务管理", path: "/tasks-process" },
     { value: "文化主题设置", path: "/culture-themes" },
     { value: "分组设置", path: "/grouping" },
+    { value: "检查作品", path: "/users-works" },
   ];
   const renderMenus = () => {
     return (
@@ -50,6 +52,9 @@ const Home: FC = () => {
             </Route>
             <Route path={`${path}/culture-themes`}>
               <CultureThemes />
+            </Route>
+            <Route path={`${path}/users-works`}>
+              <UsersWorks />
             </Route>
             <Route path={path} exact>
               <Redirect to={`${path}/settings`} />

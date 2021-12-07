@@ -53,6 +53,9 @@ const SystemSetting: FC = () => {
         <Form.Item label="七牛云图片前缀" name="qiniuFilePrefix">
           <Input />
         </Form.Item>
+        <Form.Item label="客户端地址" name="clientHost">
+          <Input />
+        </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit">
             Submit

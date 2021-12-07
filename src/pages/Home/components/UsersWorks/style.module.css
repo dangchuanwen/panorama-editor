@@ -1,0 +1,7 @@
+.wrapper {
+  box-sizing: border-box;
+  padding: 20px;
+}
+.row {
+  margin-bottom: 10px;
+}

@@ -27,6 +27,11 @@ export interface User {
   preferCultureThemes: CultureTheme[];
 }
 
+export interface Work {
+  _id: string;
+  workName: string;
+}
+
 export interface Settings {
   grouped: boolean;
   showFriends: boolean;
@@ -34,6 +39,7 @@ export interface Settings {
   showSettings: boolean;
   showStudio: boolean;
   qiniuFilePrefix: string;
+  clientHost: string;
 }
 
 export interface TaskProcessStep {
@@ -43,6 +49,11 @@ export interface TaskProcessStep {
   done: boolean;
   description: string;
 }
+
+export type UserWithWorks = {
+  user: User;
+  works: Array<Work>;
+};
 
 type GetSettings = () => AxiosPromise<Settings>;
 type UpdateSettings = (settings: Settings) => AxiosPromise;
@@ -66,6 +77,7 @@ type UpdateTaskProcessStep = (
   newStep: TaskProcessStep
 ) => AxiosPromise<TaskProcessStep>;
 type RemoveTaskProcessStep = (id: string) => AxiosPromise;
+type GetAllUserWorks = () => AxiosPromise<UserWithWorks[]>;
 
 export const getSettings: GetSettings = () => {
   return requestWithToken.get<Settings>("/settings");
@@ -135,4 +147,8 @@ export const updateTaskProcessStep: UpdateTaskProcessStep = (
 
 export const removeTaskProcessStep: RemoveTaskProcessStep = (id: string) => {
   return requestWithToken.delete(`/tasks-process/${id}`);
+};
+
+export const getAllUsersWorks: GetAllUserWorks = () => {
+  return requestWithToken.get("/works/users");
 };

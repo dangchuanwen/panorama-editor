@@ -31,7 +31,7 @@ const Studio: React.FC = () => {
   const handleClickRemoveWork = async (workID: string) => {
     try {
       Modal.confirm({
-        title: 'Do you want to delete this work?',
+        title: languagePackage?.DoYouWantToDelete,
         icon: <ExclamationCircleOutlined />,
         content: '',
         onOk: async () => {

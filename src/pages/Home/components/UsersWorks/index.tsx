@@ -53,12 +53,13 @@ const columns: TableColumnsType<UserWithWorks> = [
       };
       const renderWorksComplexity = () => {
         return works.map((work: any, index: number) => {
-          const scenes = work.panoramaTourConfig.scenes;
+          let scenes;
+          scenes = work.panoramaTourConfig?.scenes;
 
           return (
             <div key={work._id}>
               作品: {work.workName}
-              <div>{renderScenes(scenes)}</div>
+              <div>{scenes && renderScenes(scenes)}</div>
             </div>
           );
         });

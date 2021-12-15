@@ -33,7 +33,37 @@ const columns: TableColumnsType<UserWithWorks> = [
     dataIndex: "country",
     key: "country",
     render: function (text: any, record: UserWithWorks) {
-      return CountryMap.get(text);
+      return CountryMap.get(record.user.country);
+    },
+  },
+  {
+    title: "作品复杂度",
+    dataIndex: "worksComplexity",
+    key: "worksComplexity",
+    render: function (text: any, record: UserWithWorks) {
+      const works = record.works;
+      const renderScenes = (scenes: any) => {
+        return Object.values(scenes).map((scene: any, index: number) => {
+          return (
+            <div key={index}>
+              场景 {index + 1}, 热点数: {scene.hotSpots.length}
+            </div>
+          );
+        });
+      };
+      const renderWorksComplexity = () => {
+        return works.map((work: any, index: number) => {
+          const scenes = work.panoramaTourConfig.scenes;
+
+          return (
+            <div key={work._id}>
+              作品: {work.workName}
+              <div>{renderScenes(scenes)}</div>
+            </div>
+          );
+        });
+      };
+      return <div>{renderWorksComplexity()}</div>;
     },
   },
 ];
@@ -42,7 +72,7 @@ const UsersWorks: FC = () => {
   const tableColumns = [
     ...columns,
     {
-      title: "作品",
+      title: "作品链接",
       dataIndex: "works",
       key: "works",
       render: function (text: any, record: UserWithWorks) {
@@ -67,6 +97,7 @@ const UsersWorks: FC = () => {
       const res = await getAllUsersWorks();
       if (res && res.data) {
         setUsersWithWorks(res.data);
+        console.log(res.data);
       }
     };
     fetchUsersWithWorks();

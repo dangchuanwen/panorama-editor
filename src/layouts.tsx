@@ -56,6 +56,7 @@ export const MenuBox = styled(Box)`
 `;
 
 export const ContentBox = styled(Box)`
+  overflow: auto;
   padding: 20px;
   border-bottom: 1px solid #dee1e7;
 `;

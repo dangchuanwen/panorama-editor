@@ -23,6 +23,7 @@ export interface User {
   country: Country;
   group: string;
   introductionVideoLink: string;
+  introductionTextLink: string;
   avatarUrl: string;
   preferCultureThemes: CultureTheme[];
 }

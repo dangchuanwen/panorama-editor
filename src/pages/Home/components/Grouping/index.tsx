@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React, { FC, useEffect, useState } from "react";
 import {
   Country,
@@ -65,15 +66,20 @@ const columns: TableColumnsType<User> = [
     key: "group",
   },
   {
-    title: "视频连接",
+    title: "自我介绍连接",
     dataIndex: "introductionVideoLink",
     key: "introductionVideoLink",
     render: (text, record) => {
       return (
-        // eslint-disable-next-line react/jsx-no-target-blank
-        <a href={record.introductionVideoLink} target="_blank">
-          <Button type="link">VIDEO LINK</Button>
-        </a>
+        <div>
+          <a href={record.introductionVideoLink} target="_blank">
+            <Button type="link">VIDEO LINK</Button>
+          </a>
+          <br />
+          <a href={record.introductionTextLink} target="_blank">
+            <Button type="link">Text LINK</Button>
+          </a>
+        </div>
       );
     },
   },

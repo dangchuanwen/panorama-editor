@@ -26,6 +26,7 @@ export interface User {
   introductionTextLink: string;
   avatarUrl: string;
   preferCultureThemes: CultureTheme[];
+  createdTime: Date;
 }
 
 export interface Work {

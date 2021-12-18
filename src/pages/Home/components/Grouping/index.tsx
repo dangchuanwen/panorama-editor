@@ -93,6 +93,14 @@ const columns: TableColumnsType<User> = [
       });
     },
   },
+  {
+    title: "创建时间",
+    dataIndex: "createdTime",
+    key: "createdTime",
+    render: (text, record) => {
+      return new Date(record.createdTime).toLocaleDateString();
+    },
+  },
 ];
 
 const Grouping: FC = () => {

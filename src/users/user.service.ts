@@ -8,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { saltOrRounds } from 'src/auth/constants';
 import { CultureThemesService } from 'src/cultureThemes/cultureThemes.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Work } from 'src/works/schemas/work.schema';
 
 @Injectable()
 export class UsersService {
@@ -132,5 +133,36 @@ export class UsersService {
       .find()
       .populate('preferCultureThemes');
     return usersWithPreferCultureThemes;
+  }
+
+  async getAllUsersWorks() {
+    const usersWithWorks: Array<{
+      user: User;
+      works: Array<Work>;
+    }> = [];
+
+    const users = await this.userModel.aggregate([
+      {
+        $lookup: {
+          from: 'works',
+          localField: '_id',
+          foreignField: 'user',
+          as: 'works',
+        },
+      },
+    ]);
+
+    users.forEach((user) => {
+      usersWithWorks.push({
+        user,
+        works: user.works,
+      });
+    });
+
+    usersWithWorks.sort((prev, next) => {
+      return next.works.length - prev.works.length;
+    });
+
+    return usersWithWorks;
   }
 }

@@ -8,7 +8,7 @@ import { StudioPageParams } from 'routes/config';
 
 import classes from './style.module.css';
 import Iconfont from 'components/Iconfont';
-
+const sceneStack: string[] = [];
 const Play: React.FC = () => {
   const currentRoute = useRouteMatch<StudioPageParams>();
   const workID = currentRoute.params.workID;
@@ -16,15 +16,12 @@ const Play: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const panellnumInstance = useRef<any>(null);
 
-  const [sceneStack, setSceneStack] = useState<string[]>([]);
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [panoramaTourConfig, setPanoramaTourConfig] = useState<any>(null);
 
   const handleClickBack: () => void = () => {
     if (sceneStack.length > 0) {
-      const sceneStackRef = [...sceneStack];
-      const latestSceneID = sceneStackRef.pop() || '';
+      const latestSceneID = sceneStack.pop() || '';
       const targetScene = panoramaTourConfig.scenes[latestSceneID];
       if (targetScene) {
         panellnumInstance.current.loadScene(
@@ -34,14 +31,14 @@ const Play: React.FC = () => {
           targetScene.hfov || 100,
         );
       }
-      setSceneStack(sceneStackRef);
     }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleClickHotSpot: (e: Event, hotSpot: any) => void = (_e: Event, hotSpot: any) => {
     if (hotSpot && hotSpot.toolName === 'Link') {
-      setSceneStack([...sceneStack, panellnumInstance.current.getScene()]);
+      sceneStack.push(panellnumInstance.current.getScene());
+      console.log(sceneStack);
     }
   };
 

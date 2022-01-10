@@ -18,6 +18,8 @@ import { CreateUserRequestDto } from './dto/create-user.dto';
 import { GroupingDto } from './dto/grouping.dto';
 import { LoginRequestDto, LoginResponseDto } from './dto/login.dto';
 import { UpdateUserGroupDto } from './dto/update-user-group.dto';
+import { UpdateUserIntroTextLinkDto } from './dto/update-user-intro-text-link.dto';
+import { UpdateUserIntroVideoLinkDto } from './dto/update-user-intro-video-link.dto';
 import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { updatePreferCultureThemesDto } from './dto/updatePreferCultureThemes.dto';
@@ -106,6 +108,24 @@ export class UsersController {
     @Body() body: UpdateUserGroupDto,
   ) {
     return this.userService.updateUserGroup(id, body.group);
+  }
+
+  @UseGuards(AdminAuthGuard)
+  @Put('/:id/intro-text-link')
+  async setUserIntroTextLink(
+    @Param('id') id: string,
+    @Body() body: UpdateUserIntroTextLinkDto,
+  ) {
+    return this.userService.setUserIntroductionTextLink(id, body.link);
+  }
+
+  @UseGuards(AdminAuthGuard)
+  @Put('/:id/intro-video-link')
+  async setUserIntroVideoLink(
+    @Param('id') id: string,
+    @Body() body: UpdateUserIntroVideoLinkDto,
+  ) {
+    return this.userService.setUserIntroductionVideoLink(id, body.link);
   }
 
   @UseGuards(AdminAuthGuard)

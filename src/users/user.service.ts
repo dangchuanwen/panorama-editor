@@ -30,6 +30,22 @@ export class UsersService {
     return this.userModel.findByIdAndDelete(id);
   }
 
+  async setUserIntroductionTextLink(userId: string, link: string) {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      { introductionTextLink: link },
+      { useFindAndModify: false },
+    );
+  }
+
+  async setUserIntroductionVideoLink(userId: string, link: string) {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      { introductionVideoLink: link },
+      { useFindAndModify: false },
+    );
+  }
+
   async updateUserGroup(id: string, group: string) {
     return this.userModel.findByIdAndUpdate(id, { group });
   }

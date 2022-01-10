@@ -70,6 +70,8 @@ type GetAllUserPreferCultureThemes = () => AxiosPromise<User[]>;
 type RemoveUser = (id: string) => AxiosPromise;
 type UpdateUserGroup = (id: string, group: string) => AxiosPromise;
 type UpdateUserPassword = (id: string, password: string) => AxiosPromise;
+type UpdateUserIntroTextLink = (id: string, link: string) => AxiosPromise;
+type UpdateUserIntroVideoLink = (id: string, link: string) => AxiosPromise;
 type GetTasksProcess = () => AxiosPromise<TaskProcessStep[]>;
 type CreateTaskProcessStep = (
   newStep: TaskProcessStep
@@ -128,6 +130,20 @@ export const updateUserPassword: UpdateUserPassword = (
   password: string
 ) => {
   return requestWithToken.put(`/users/${id}/password`, { password });
+};
+
+export const updateUserIntroTextLink: UpdateUserIntroTextLink = (
+  id: string,
+  link: string
+) => {
+  return requestWithToken.put(`/users/${id}/intro-text-link`, { link });
+};
+
+export const updateUserIntroVideoLink: UpdateUserIntroVideoLink = (
+  id: string,
+  link: string
+) => {
+  return requestWithToken.put(`/users/${id}/intro-video-link`, { link });
 };
 
 export const getTasksProcess: GetTasksProcess = () => {

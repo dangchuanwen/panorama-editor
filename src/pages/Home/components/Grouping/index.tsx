@@ -8,6 +8,8 @@ import {
   getCultureThemes,
   removeUser,
   updateUserGroup,
+  updateUserIntroTextLink,
+  updateUserIntroVideoLink,
   updateUserPassword,
   User,
 } from "../../services";
@@ -191,11 +193,61 @@ const Grouping: FC = () => {
           </Select>
         </div>
       ),
+      closable: true,
       onOk: () => {
         handleConfirmUpdateGroup(userID, group);
       },
     });
   };
+
+  const handleClickUpdateIntroTextLink = (user: User) => {
+    let link = "";
+    Modal.info({
+      title: "设置自我介绍文本链接",
+      content: (
+        <div>
+          <Input
+            defaultValue={user.introductionTextLink}
+            type="text"
+            onChange={(e) => {
+              link = e.target.value;
+            }}
+          />
+        </div>
+      ),
+      onOk: async () => {
+        await updateUserIntroTextLink(user._id, link);
+        message.success("更新成功！");
+        setLoad(load + 1);
+      },
+      closable: true,
+    });
+  };
+
+  const handleClickUpdateIntroVideoLink = (user: User) => {
+    let link = "";
+    Modal.info({
+      title: "设置自我介绍视频链接",
+      content: (
+        <div>
+          <Input
+            defaultValue={user.introductionVideoLink}
+            type="text"
+            onChange={(e) => {
+              link = e.target.value;
+            }}
+          />
+        </div>
+      ),
+      onOk: async () => {
+        await updateUserIntroVideoLink(user._id, link);
+        message.success("更新成功！");
+        setLoad(load + 1);
+      },
+      closable: true,
+    });
+  };
+
   const tableColumns: TableColumnsType<User> = [
     ...columns,
     {
@@ -204,6 +256,18 @@ const Grouping: FC = () => {
       render: (text, record) => {
         return (
           <Space>
+            <Button
+              type="primary"
+              onClick={() => handleClickUpdateIntroTextLink(record)}
+            >
+              设置自我介绍文本
+            </Button>
+            <Button
+              type="primary"
+              onClick={() => handleClickUpdateIntroVideoLink(record)}
+            >
+              设置自我介绍视频
+            </Button>
             <Button
               type="primary"
               onClick={() => handleClickUpdateGroup(record._id)}

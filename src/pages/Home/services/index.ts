@@ -26,6 +26,7 @@ export interface User {
   introductionTextLink: string;
   avatarUrl: string;
   preferCultureThemes: CultureTheme[];
+  participate: boolean;
   createdTime: Date;
 }
 
@@ -72,6 +73,10 @@ type UpdateUserGroup = (id: string, group: string) => AxiosPromise;
 type UpdateUserPassword = (id: string, password: string) => AxiosPromise;
 type UpdateUserIntroTextLink = (id: string, link: string) => AxiosPromise;
 type UpdateUserIntroVideoLink = (id: string, link: string) => AxiosPromise;
+type UpdateUserParticipateStatus = (
+  id: string,
+  status: boolean
+) => AxiosPromise;
 type GetTasksProcess = () => AxiosPromise<TaskProcessStep[]>;
 type CreateTaskProcessStep = (
   newStep: TaskProcessStep
@@ -144,6 +149,13 @@ export const updateUserIntroVideoLink: UpdateUserIntroVideoLink = (
   link: string
 ) => {
   return requestWithToken.put(`/users/${id}/intro-video-link`, { link });
+};
+
+export const updateUserParticipateStatus: UpdateUserParticipateStatus = (
+  id: string,
+  status: boolean
+) => {
+  return requestWithToken.put(`/users/${id}/participate-status`, { status });
 };
 
 export const getTasksProcess: GetTasksProcess = () => {

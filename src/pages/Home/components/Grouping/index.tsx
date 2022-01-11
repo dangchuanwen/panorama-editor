@@ -10,6 +10,7 @@ import {
   updateUserGroup,
   updateUserIntroTextLink,
   updateUserIntroVideoLink,
+  updateUserParticipateStatus,
   updateUserPassword,
   User,
 } from "../../services";
@@ -24,6 +25,7 @@ import {
   Input,
   message,
   Select,
+  Switch,
 } from "antd";
 import styles from "./style.module.css";
 
@@ -248,6 +250,12 @@ const Grouping: FC = () => {
     });
   };
 
+  const handleChangeParticipateStatus = async (user: User, status: boolean) => {
+    await updateUserParticipateStatus(user._id, status);
+    message.success("更新成功!");
+    setLoad(load + 1);
+  };
+
   const tableColumns: TableColumnsType<User> = [
     ...columns,
     {
@@ -256,6 +264,14 @@ const Grouping: FC = () => {
       render: (text, record) => {
         return (
           <Space>
+            <Switch
+              checkedChildren="参加"
+              unCheckedChildren="不参加"
+              checked={record.participate}
+              onChange={(checked: boolean) =>
+                handleChangeParticipateStatus(record, checked)
+              }
+            />
             <Button
               type="primary"
               onClick={() => handleClickUpdateIntroTextLink(record)}

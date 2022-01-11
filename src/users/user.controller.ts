@@ -20,6 +20,7 @@ import { LoginRequestDto, LoginResponseDto } from './dto/login.dto';
 import { UpdateUserGroupDto } from './dto/update-user-group.dto';
 import { UpdateUserIntroTextLinkDto } from './dto/update-user-intro-text-link.dto';
 import { UpdateUserIntroVideoLinkDto } from './dto/update-user-intro-video-link.dto';
+import { UpdateUserParticipateStatusDto } from './dto/update-user-participate-status.dto';
 import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { updatePreferCultureThemesDto } from './dto/updatePreferCultureThemes.dto';
@@ -126,6 +127,15 @@ export class UsersController {
     @Body() body: UpdateUserIntroVideoLinkDto,
   ) {
     return this.userService.setUserIntroductionVideoLink(id, body.link);
+  }
+
+  @UseGuards(AdminAuthGuard)
+  @Put('/:id/participate-status')
+  async setUserParticipateStatus(
+    @Param('id') id: string,
+    @Body() body: UpdateUserParticipateStatusDto,
+  ) {
+    return this.userService.setUserParticipateStatus(id, body.status);
   }
 
   @UseGuards(AdminAuthGuard)

@@ -42,6 +42,9 @@ export class User {
   @Prop({ type: [mongooseSchema.Types.ObjectId], ref: CultureTheme.name })
   preferCultureThemes: CultureTheme[];
 
+  @Prop({ default: false })
+  participate: boolean;
+
   @Prop({ default: Date.now })
   createdTime: Date;
 }

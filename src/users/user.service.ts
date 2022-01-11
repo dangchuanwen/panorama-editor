@@ -46,6 +46,14 @@ export class UsersService {
     );
   }
 
+  async setUserParticipateStatus(userId: string, participate: boolean) {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      { participate },
+      { useFindAndModify: false },
+    );
+  }
+
   async updateUserGroup(id: string, group: string) {
     return this.userModel.findByIdAndUpdate(id, { group });
   }
@@ -148,6 +156,9 @@ export class UsersService {
     const usersWithPreferCultureThemes: User[] = await this.userModel
       .find()
       .populate('preferCultureThemes');
+    usersWithPreferCultureThemes.sort((prev, next) => {
+      return Number(next.participate) - Number(prev.participate);
+    });
     return usersWithPreferCultureThemes;
   }
 

@@ -188,11 +188,13 @@ export class PublishedWorkService {
   async getPublishedWorksOfGroupMembersByUserName(
     userName: string,
   ): Promise<PublishedWorkDocument[]> {
+    const user = await this.usersService.getUserByUsername(userName);
     let groupMembers: UserDocument[];
     let groupMembersObjectIDs: mongoose.Types.ObjectId[];
     groupMembers = await this.usersService.getGroupMembersByUserName(userName);
     groupMembers = groupMembers.filter(
-      (member) => member.userName !== userName,
+      (member) =>
+        member.userName !== userName && member.country !== user.country,
     );
     groupMembersObjectIDs = groupMembers.map((groupMember) =>
       mongoose.Types.ObjectId(groupMember._id),

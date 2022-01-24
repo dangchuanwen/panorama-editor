@@ -17,6 +17,10 @@ export class UsersService {
     private readonly cultureThemesService: CultureThemesService,
   ) {}
 
+  async getUserByUsername(username: string) {
+    return this.userModel.findOne({ userName: username });
+  }
+
   async updateUserPassword(id: string, password: string) {
     const hash = await bcrypt.hash(password, saltOrRounds);
     return this.userModel.findByIdAndUpdate(
@@ -88,6 +92,7 @@ export class UsersService {
     let members: User[] = [];
     if (group) {
       members = await this.userModel.find({ group }).lean();
+      members = members.filter((member) => member.country !== user.country);
     }
     return members.filter((member) => member.userName !== userName);
   }

@@ -194,7 +194,7 @@ export class PublishedWorkService {
     groupMembers = await this.usersService.getGroupMembersByUserName(userName);
     groupMembers = groupMembers.filter(
       (member) =>
-        member.userName !== userName && member.country !== user.country,
+        member.userName === userName || member.country !== user.country,
     );
     groupMembersObjectIDs = groupMembers.map((groupMember) =>
       mongoose.Types.ObjectId(groupMember._id),

@@ -84,15 +84,15 @@ export const useStudioState: () => IStudioState = () => {
   const uploadPanoramaTourConfig = async () => {
     return updateWork(workID, exportPanoramaTourConfig(images));
   };
-  const startTimedUpload = () => {
-    setTimeout(() => {
-      uploadPanoramaTourConfig();
-      startTimedUpload();
-    }, Math.ceil(15 + Math.random() * 15) * 1000);
-  };
-  useEffect(() => {
-    startTimedUpload();
-  }, []);
+  // const startTimedUpload = () => {
+  //   setTimeout(() => {
+  //     uploadPanoramaTourConfig();
+  //     startTimedUpload();
+  //   }, Math.ceil(15 + Math.random() * 15) * 1000);
+  // };
+  // useEffect(() => {
+  //   startTimedUpload();
+  // }, []);
 
   const initPanoramaImages: IInitPanoramaImages = (panoramaImages: IPanoramaImage[]) => {
     for (const image of panoramaImages) {

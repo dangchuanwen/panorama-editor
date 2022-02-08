@@ -9,8 +9,8 @@ const PublishedWorkList: FC = () => {
   const { languagePackage } = useContext(LanguageContext);
   const { publishedWorks, showEmpty } = useContext(PublishedWorksContext);
   const renderPublishedWork = () => {
-    return publishedWorks.map((publishedWork, index) => {
-      return <PublishedWorkItem key={index} publishedWork={publishedWork} />;
+    return publishedWorks.map((publishedWork) => {
+      return <PublishedWorkItem key={publishedWork._id} publishedWork={publishedWork} />;
     });
   };
   return (

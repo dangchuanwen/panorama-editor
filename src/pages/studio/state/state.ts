@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { updateWork, Work } from 'requests/requests';
 import { IHotSpot } from 'types/pannellum/interface';
